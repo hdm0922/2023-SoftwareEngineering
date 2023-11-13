@@ -1,4 +1,6 @@
 import React from 'react';
+import { FaMicrophone } from "react-icons/fa6"
+
 
 const SpeechToTextButton = ({ onSpeechToText }) => {
   const convertSpeechToText = async () => {
@@ -34,7 +36,9 @@ const SpeechToTextButton = ({ onSpeechToText }) => {
   };
 
   return (
-    <button onClick={handleButtonClick}>음성 입력 시작</button>
+    <button onClick={handleButtonClick}>
+      <FaMicrophone></FaMicrophone>
+    </button>
   );
 };
 
