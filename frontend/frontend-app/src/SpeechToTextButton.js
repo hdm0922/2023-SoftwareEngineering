@@ -30,9 +30,11 @@ const SpeechToTextButton = ({ setInputText }) => {
   };
 
   return (
-    <button onClick={ handleButtonClick }>
+
+    <button className='SpeechToTextButton' onClick={ handleButtonClick }>
       <FaMicrophone size={35} color='white'></FaMicrophone>
     </button>
+    
   );
 };
 
