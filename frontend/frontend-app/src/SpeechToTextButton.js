@@ -1,4 +1,5 @@
 import React from 'react';
+import './SpeechToTextButton.css';
 import { FaMicrophone } from "react-icons/fa6"
 
 
@@ -30,7 +31,7 @@ const SpeechToTextButton = ({ setInputText }) => {
 
   return (
     <button onClick={ handleButtonClick }>
-      <FaMicrophone></FaMicrophone>
+      <FaMicrophone size={35} color='white'></FaMicrophone>
     </button>
   );
 };

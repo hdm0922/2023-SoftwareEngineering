@@ -9,8 +9,8 @@ const App = () => {
     return (
 
         <div>
-            <SpeechToTextButton setInputText={setInputText} />
             <ResultTextBox text={inputText} />
+            <SpeechToTextButton setInputText={setInputText} />
         </div>
 
     );

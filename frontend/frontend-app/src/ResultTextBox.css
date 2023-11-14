@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@600&display=swap');
+
+textarea {
+    position: absolute;
+    top: 700px;
+    left : 760px;
+
+    resize: none;
+    line-height: 35px;
+    padding-left: 10px;
+
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 20px;
+
+    color: black;
+    background: white;
+
+    border: solid 3px black;
+    border-radius: 10px;
+
+    width: 400px;
+    height: 40px;
+};
