@@ -6,14 +6,10 @@ const App = () => {
 
     const [inputText, setInputText] = useState('');
 
-    const handleSpeechToText = (text) => {
-        setInputText(text);
-    };
-
     return (
 
         <div>
-            <SpeechToTextButton onSpeechToText={handleSpeechToText} />
+            <SpeechToTextButton setInputText={setInputText} />
             <ResultTextBox text={inputText} />
         </div>
 
