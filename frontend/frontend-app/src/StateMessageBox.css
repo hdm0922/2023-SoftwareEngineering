@@ -21,7 +21,7 @@
 
 .icon {
     font-size: 20px;
-    
+
     margin-left: 5px;
 }
 
@@ -31,28 +31,3 @@
 
     margin-left: 5px;
 }
-
-
-
-/* textarea.StateMessageBox {
-    position: absolute;
-    top: 750px;
-    left : 760px;
-
-    resize: none;
-    line-height: 15px;
-
-    color: black;
-    background: cyan;
-
-    font-weight: bold;
-    border-radius: 5px;
-    border: solid 2px cyan;
-
-    
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 12px;
-
-    width: 410px;
-    height: 15px;
-}; */

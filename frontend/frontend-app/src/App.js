@@ -8,18 +8,21 @@ const App = () => {
 
     const [inputText, setInputText] = useState('');
     const [speechButtonActivated, setSpeechButtonActivated] = useState(false);
-
-    const stateMessages = ["비활성화", "마이크 인식 중 ..."];
+    const [stateMessage, setStateMessage] = useState('비활성화')
 
     return (
 
         <div>
-            <GenerateAreaButton toggleFunction={setSpeechButtonActivated}/>
-            <StateMessageBox message={stateMessages[0]}/>
+            <GenerateAreaButton speechButtonActivated={speechButtonActivated}
+                                setSpeechButtonActivated={setSpeechButtonActivated}
+                                setStateMessage={setStateMessage} />
+
+            <StateMessageBox message={stateMessage}/>
 
             <ResultTextBox text={inputText} />
             <SpeechToTextButton setInputText={setInputText}
-                                buttonActivated={speechButtonActivated}/>
+                                buttonActivated={speechButtonActivated}
+                                setStateMessage={setStateMessage}/>
         </div>
 
     );

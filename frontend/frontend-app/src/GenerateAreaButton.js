@@ -1,7 +1,8 @@
 import React from "react";
+import SpeechToTextButton from "./SpeechToTextButton";
 import './GenerateAreaButton.css';
 
-const GenerateAreaButton = ( { toggleFunction } ) => {
+const GenerateAreaButton = ( { speechButtonActivated, setSpeechButtonActivated, setStateMessage } ) => {
 
     // const handleButtonClick = () => {
 
@@ -28,7 +29,12 @@ const GenerateAreaButton = ( { toggleFunction } ) => {
     // };
 
 
-    const toggleSpeechButton = () => { toggleFunction(prevState => !prevState); };
+    const toggleSpeechButton = () => {
+
+        if (speechButtonActivated) { SpeechToTextButton.Deactivate(speechButtonActivated, setSpeechButtonActivated, setStateMessage); }
+        else { SpeechToTextButton.Activate(speechButtonActivated, setSpeechButtonActivated, setStateMessage); }
+
+    };
 
 
     return (
