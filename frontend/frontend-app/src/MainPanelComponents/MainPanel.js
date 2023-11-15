@@ -11,7 +11,7 @@ MainPanel.ReactElement = () => {
 
         <div className="MainPanel">
             <UserInputPanel.ReactElement />
-            <BottomPanel.ReactElement />
+            <BottomPanel />
         </div>
 
     );

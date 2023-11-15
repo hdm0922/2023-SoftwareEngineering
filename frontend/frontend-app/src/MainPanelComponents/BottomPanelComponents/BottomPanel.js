@@ -1,29 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import './BottomPanel.css'
 import GenerateAreaButton from "./GenerateAreaButton";
 
-const BottomPanel = {
 
-    RenderButton: GenerateAreaButton.ReactElement,
+const BottomPanel = () => {
 
-};
+    const [renderButton, setRenderButton] = useState(GenerateAreaButton.ReactElement);
 
-BottomPanel.ReactElement = () => {
+    GenerateAreaButton.setRenderButton = setRenderButton;
 
     return (
 
         <div className="BottomPanel">
-            <BottomPanel.RenderButton />
+            {renderButton}
         </div>
 
     );
 
 };
-
-
-BottomPanel.SetRenderButton = function(RenderButton) {
-    BottomPanel.RenderButton = RenderButton;
-}
 
 
 export default BottomPanel;
