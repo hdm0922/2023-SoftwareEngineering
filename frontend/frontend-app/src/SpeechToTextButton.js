@@ -17,7 +17,7 @@ const convertSpeechToText = async (recognition) => {
 };
 
 
-const SpeechToTextButton = ({ setInputText }) => {
+const SpeechToTextButton = ({ setInputText, buttonActivated }) => {
 
   const handleButtonClick = async () => {
 
@@ -31,8 +31,10 @@ const SpeechToTextButton = ({ setInputText }) => {
 
   return (
 
-    <button className='SpeechToTextButton' onClick={ handleButtonClick }>
-      <FaMicrophone size={35} color='white'></FaMicrophone>
+    <button className='SpeechToTextButton'
+            onClick={handleButtonClick}
+            disabled={!buttonActivated}>
+      <FaMicrophone size={35} color='white' />
     </button>
     
   );

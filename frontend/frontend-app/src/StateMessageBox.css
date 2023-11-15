@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@600&display=swap');
+
+.messageBox {
+
+    display: flex;
+    align-items: center;
+
+    position: absolute;
+    top: 750px;
+    left : 765px;
+
+    border: 1px solid cyan;
+    border-radius: 5px;
+    background-color: cyan;
+
+    width: 400px;
+    height: 20px;
+
+    line-height: 5px;
+}
+
+.icon {
+    font-size: 20px;
+    
+    margin-left: 5px;
+}
+
+.message {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13px;
+
+    margin-left: 5px;
+}
+
+
+
+/* textarea.StateMessageBox {
+    position: absolute;
+    top: 750px;
+    left : 760px;
+
+    resize: none;
+    line-height: 15px;
+
+    color: black;
+    background: cyan;
+
+    font-weight: bold;
+    border-radius: 5px;
+    border: solid 2px cyan;
+
+    
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12px;
+
+    width: 410px;
+    height: 15px;
+}; */
