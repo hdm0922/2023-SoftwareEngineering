@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
-import MainPanel from './MainPanel';
-import STTButton from './STTButton';
-import ResultTextBox from './ResultTextBox';
-import GenerateAreaButton from './GenerateAreaButton';
-import StateMessageBox from './StateMessageBox';
+import MainPanel from './MainPanelComponents/MainPanel';
+import STTButton from './SpeechHandleComponents/STTButton';
+import ResultTextBox from './SpeechHandleComponents/ResultTextBox';
+import ToggleSTTButton from './ToggleSTTButton';
+import StateMessageBox from './SpeechHandleComponents/StateMessageBox';
 
 
 
 const App = () => {
 
     const [inputText, setInputText] = useState('');
-    const [stateMessage, setStateMessage] = useState('음성 입력이 비활성화 돼있습니다.')
+    const [stateMessage, setStateMessage] = useState('음성 입력이 비활성화 돼있습니다.');
 
 
     return (
 
         <div>
-            <GenerateAreaButton speechButton={STTButton}
-                                setStateMessage={setStateMessage} />
+            <ToggleSTTButton speechButton={STTButton}
+                             setStateMessage={setStateMessage} />
 
 
             <MainPanel.ReactElement />

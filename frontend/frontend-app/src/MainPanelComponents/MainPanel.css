@@ -1,0 +1,19 @@
+
+.MainPanel {
+
+    display: flex;
+    justify-content: center;
+
+    position: absolute;
+    top: 50px;
+    left : 600px;
+
+    background-color: gray;
+
+    border: 3px solid black;
+    border-radius: 10px;
+
+    width: 800px;
+    height: 600px;
+
+};

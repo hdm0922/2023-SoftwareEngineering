@@ -1,5 +1,5 @@
 import React from "react";
-import './GenerateAreaButton.css';
+import './ToggleSTTButton.css';
 
 const GenerateAreaButton = ( { speechButton, setStateMessage } ) => {
 

@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@600&display=swap');
+
+.UserInputPanel {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+    top: 30px;
+
+    background-color: white;
+
+    border: 2px solid black;
+
+    width: 600px;
+    height: 400px;
+}
+
+
+.InputComponent {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 200px;
+    height: 90px;
+}
+
+
+.componentName {
+
+    position: relative;
+
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+
+
+}
+
+
+.componentInputBox {
+
+    display: flex;
+    justify-content: center;
+
+    position: relative;
+
+    resize: none;
+    border: 3px solid black;
+
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 20px;
+
+    width: 150px;
+    height: 30px;
+}
