@@ -1,0 +1,15 @@
+
+
+.BottomPanel {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+    top: 35px;
+
+    width: 600px;
+    height: 100px;
+
+}

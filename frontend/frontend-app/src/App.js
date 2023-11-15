@@ -10,7 +10,7 @@ import StateMessageBox from './SpeechHandleComponents/StateMessageBox';
 const App = () => {
 
     const [inputText, setInputText] = useState('');
-    const [stateMessage, setStateMessage] = useState('음성 입력이 비활성화 돼있습니다.');
+    const [stateMessage, setStateMessage] = useState('음성 입력이 비활성화 되었습니다.');
 
 
     return (

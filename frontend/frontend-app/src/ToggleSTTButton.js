@@ -1,7 +1,7 @@
 import React from "react";
 import './ToggleSTTButton.css';
 
-const GenerateAreaButton = ( { speechButton, setStateMessage } ) => {
+const ToggleSTTButton = ( { speechButton, setStateMessage } ) => {
 
     // const handleButtonClick = () => {
 
@@ -37,7 +37,7 @@ const GenerateAreaButton = ( { speechButton, setStateMessage } ) => {
 
 
     return (
-        <button className="GenerateAreaButton"
+        <button className="ToggleSTTButton"
                 onClick={toggleSpeechButton}>
             Toggle
         </button>
@@ -45,4 +45,4 @@ const GenerateAreaButton = ( { speechButton, setStateMessage } ) => {
 
 };
 
-export default GenerateAreaButton;
+export default ToggleSTTButton;

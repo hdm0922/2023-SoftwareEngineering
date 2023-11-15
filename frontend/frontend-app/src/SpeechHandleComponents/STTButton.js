@@ -49,7 +49,7 @@ STTButton.Deactivate = function(setStateMessage) {
   if (!this.activated) return;
 
   this.activated = false;
-  setStateMessage("음성 입력이 비활성화 돼있습니다.")
+  setStateMessage("음성 입력이 비활성화 되었습니다.")
   return;
 };
 
