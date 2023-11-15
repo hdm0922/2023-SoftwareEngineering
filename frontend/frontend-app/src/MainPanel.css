@@ -1,0 +1,16 @@
+
+.MainPanel {
+
+    position: absolute;
+    top: 50px;
+    left : 600px;
+
+
+    background-color: purple;
+
+    border: 1px solid;
+
+    width: 800px;
+    height: 600px;
+
+};
