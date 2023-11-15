@@ -1,6 +1,7 @@
 import React from "react";
 import "./GenerateAreaButton.css"
-import UserInputPanel from "../UserInputPanelComponents/UserInputPanel";
+import BottomPanel from "./BottomPanel";
+import ResumeButton from "./ResumeButton";
 
 const GenerateAreaButton = {
 
@@ -22,7 +23,7 @@ GenerateAreaButton.ReactElement = () => {
 
 GenerateAreaButton.handleButtonClick = function() {
 
-    console.log( UserInputPanel.inputData );
+    BottomPanel.RenderButton = ResumeButton;
 
 };
 

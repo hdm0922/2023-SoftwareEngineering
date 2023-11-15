@@ -1,0 +1,16 @@
+
+.ResumeButton {
+
+    display: flex;
+
+    width: 100px;
+    height: 100px;
+
+}
+
+
+.playIcon {
+
+    font-size: 20px;
+
+}

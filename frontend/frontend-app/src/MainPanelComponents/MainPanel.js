@@ -3,9 +3,7 @@ import './MainPanel.css'
 import UserInputPanel from "./UserInputPanelComponents/UserInputPanel";
 import BottomPanel from "./BottomPanelComponents/BottomPanel";
 
-const MainPanel = {
-
-};
+const MainPanel = {};
 
 MainPanel.ReactElement = () => {
 
@@ -13,7 +11,7 @@ MainPanel.ReactElement = () => {
 
         <div className="MainPanel">
             <UserInputPanel.ReactElement />
-            <BottomPanel />
+            <BottomPanel.ReactElement />
         </div>
 
     );
