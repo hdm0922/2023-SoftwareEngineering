@@ -4,8 +4,7 @@ import './ResultTextBox.css';
 const ResultTextBox = ({ text }) => {
   return <textarea className='ResultTextBox'
                    value={text}
-                   readOnly
-          />;
+                   readOnly />;
 };
 
 export default ResultTextBox;

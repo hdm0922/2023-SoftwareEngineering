@@ -1,10 +1,13 @@
 import React from 'react';
-import './SpeechToTextButton.css';
+import './STTButton.css';
 import { FaMicrophone } from "react-icons/fa6"
 
 
-const SpeechToTextButton = ({ setInputText, setStateMessage,
-                              buttonActivated }) => {
+const STTButton = {
+  activated: false,
+};
+
+STTButton.ReactElement = ({ setInputText, setStateMessage }) => {
 
   const handleButtonClick = async () => {
 
@@ -13,7 +16,7 @@ const SpeechToTextButton = ({ setInputText, setStateMessage,
     const recognition = new window.webkitSpeechRecognition();
     recognition.lang = 'ko-KR';
 
-    const convertedText = await SpeechToTextButton.GetText(recognition);
+    const convertedText = await STTButton.GetText(recognition);
 
     setStateMessage("마이크를 눌러 음성으로 명령을 입력하세요.");
     setInputText(convertedText);
@@ -22,35 +25,36 @@ const SpeechToTextButton = ({ setInputText, setStateMessage,
 
   return (
 
-    <button className='SpeechToTextButton'
+    <button className='STTButton'
             onClick={handleButtonClick}
-            disabled={!buttonActivated}>
-      <FaMicrophone size={35} color='white' />
+            disabled={!STTButton.activated}>
+      <FaMicrophone className='STTButton_icon' />
     </button>
-    
+
   );
 };
 
 
-SpeechToTextButton.Activate = function(buttonActivated, setButtonActivated, setStateMessage) {
-  if (buttonActivated) return;
 
-  setButtonActivated(true);
+STTButton.Activate = function(setStateMessage) {
+  if (this.activated) return;
+
+  this.activated = true;
   setStateMessage("마이크를 눌러 음성으로 명령을 입력하세요.")
   return;
 };
 
 
-SpeechToTextButton.Deactivate = function(buttonActivated, setButtonActivated, setStateMessage) {
-  if (!buttonActivated) return;
+STTButton.Deactivate = function(setStateMessage) {
+  if (!this.activated) return;
 
-  setButtonActivated(false);
+  this.activated = false;
   setStateMessage("비활성화")
   return;
 };
 
 
-SpeechToTextButton.GetText = function(recognition) {
+STTButton.GetText = function(recognition) {
   return new Promise((resolve, reject) => {
 
     recognition.onresult     = (event) => { resolve(event.results[0][0].transcript); };
@@ -62,4 +66,4 @@ SpeechToTextButton.GetText = function(recognition) {
 };
 
 
-export default SpeechToTextButton;
+export default STTButton;

@@ -1,0 +1,27 @@
+
+.STTButton_icon {
+    font-size: 30px;
+    color: white;
+}
+
+.STTButton {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+    background-color: black;
+
+    position: absolute;
+    top: 700px;
+    left: 1200px;
+
+    width: 60px;
+    height: 80px;
+}
+
+.STTButton:disabled {
+    background-color: gray;
+}
+
