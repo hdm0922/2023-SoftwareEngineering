@@ -20,7 +20,7 @@ const App = () => {
                              setStateMessage={setStateMessage} />
 
 
-            <MainPanel.ReactElement />
+            <MainPanel />
 
 
             <StateMessageBox message={stateMessage}/>

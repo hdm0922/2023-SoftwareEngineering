@@ -1,12 +1,9 @@
 import React from "react";
 import "./GenerateAreaButton.css"
 import ResumeButton from "./ResumeButton";
+import RuntimePanel from "../RuntimePanelComponents/RuntimePanel";
 
-const GenerateAreaButton = {
-
-    
-
-};
+const GenerateAreaButton = {};
 
 GenerateAreaButton.ReactElement = () => {
 
@@ -24,6 +21,9 @@ GenerateAreaButton.ReactElement = () => {
 
 GenerateAreaButton.handleButtonClick = function() {
 
+    // send data to server
+
+    GenerateAreaButton.setRenderPanel(RuntimePanel.ReactElement);
     GenerateAreaButton.setRenderButton(ResumeButton);
 
 };
