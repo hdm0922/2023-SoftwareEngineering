@@ -9,7 +9,7 @@ const StateMessageBox = ({ message }) => {
 
         <div className="messageBox">
             <PiWarningBold className="icon" />
-            <span className="message">{message}</span>
+            <span className="message">{message} 안녕? </span>
         </div>
 
     );
