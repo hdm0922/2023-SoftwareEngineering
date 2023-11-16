@@ -2,12 +2,13 @@
 
 .messageBox {
 
+    position: relative;
+    top: 10px;
+    left: 155px;
+
     display: flex;
     align-items: center;
 
-    position: absolute;
-    top: 750px;
-    left : 765px;
 
     border: 1px solid cyan;
     border-radius: 5px;

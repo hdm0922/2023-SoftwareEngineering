@@ -1,33 +1,41 @@
 import React, { useState } from 'react';
 import MainPanel from './MainPanelComponents/MainPanel';
-import STTButton from './SpeechHandleComponents/STTButton';
-import ResultTextBox from './SpeechHandleComponents/ResultTextBox';
-import ToggleSTTButton from './ToggleSTTButton';
-import StateMessageBox from './SpeechHandleComponents/StateMessageBox';
-
+import BottomPanel from './BottomPanel';
 
 
 const App = () => {
 
-    const [inputText, setInputText] = useState('');
-    const [stateMessage, setStateMessage] = useState('음성 입력이 비활성화 되었습니다.');
+    const [stateMessage, setStateMessage] = useState("음성 입력이 비활성화 되었습니다.");
+    const [enableSTTButton, setEnableSTTButton] = useState(true);
+
+    const setState = function(newState) {
+
+        switch (newState) {
+
+            case "Disabled":
+                setStateMessage("음성 입력이 비활성화 되었습니다.");
+                break;
+
+            case "Running":
+                setStateMessage("마이크를 눌러 음성으로 명령을 입력하세요.");
+                break;
+
+            case "RecognizingSpeech":
+                setStateMessage("음성 인식 중 ...");
+                break;
+        }
+
+    };
 
 
     return (
 
         <div>
-            <ToggleSTTButton speechButton={STTButton}
-                             setStateMessage={setStateMessage} />
-
 
             <MainPanel />
+            <BottomPanel setState={setState} stateMessage={stateMessage}
+                         buttonDisabled={!enableSTTButton}/>
 
-
-            <StateMessageBox message={stateMessage}/>
-
-            <ResultTextBox text={inputText} />
-            <STTButton.ReactElement setInputText={setInputText}
-                                    setStateMessage={setStateMessage}/>
         </div>
 
     );
