@@ -1,30 +1,32 @@
 import React, { useState } from 'react';
-import MainPanel from './MainPanelComponents/MainPanel';
-import BottomPanel from './BottomPanel';
+import MainPanel from './mainpanel/MainPanel';
+import BottomPanel from './bottompanel/BottomPanel';
 
 
 const App = () => {
 
     const [stateMessage, setStateMessage] = useState("음성 입력이 비활성화 되었습니다.");
-    const [enableSTTButton, setEnableSTTButton] = useState(true);
+    const [enableSTTButton, setEnableSTTButton] = useState(false);
 
-    const setState = function(newState) {
-
+    const setSTTButtonState = function(newState) {
+        
         switch (newState) {
 
-            case "Disabled":
+            case "Disabled": {
                 setStateMessage("음성 입력이 비활성화 되었습니다.");
-                break;
+                setEnableSTTButton(false);
+            }   break;
 
-            case "Running":
+            case "Running": {
                 setStateMessage("마이크를 눌러 음성으로 명령을 입력하세요.");
-                break;
+                setEnableSTTButton(true);
+            }   break;
 
-            case "RecognizingSpeech":
+            case "RecognizingSpeech": {
                 setStateMessage("음성 인식 중 ...");
-                break;
-        }
+            }   break;
 
+        }
     };
 
 
@@ -32,8 +34,8 @@ const App = () => {
 
         <div>
 
-            <MainPanel />
-            <BottomPanel setState={setState} stateMessage={stateMessage}
+            <MainPanel setSTTButtonState={setSTTButtonState} />
+            <BottomPanel setSTTButtonState={setSTTButtonState} stateMessage={stateMessage}
                          buttonDisabled={!enableSTTButton}/>
 
         </div>

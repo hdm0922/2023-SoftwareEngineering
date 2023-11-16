@@ -2,11 +2,11 @@ import React from 'react';
 import './STTButton.css';
 import { FaMicrophone } from "react-icons/fa6"
 
-// props = { setSTTResult, setState, buttonDisabled };
+// props = { setSTTResult, setSTTButtonState, buttonDisabled };
 const STTButton = function(props) {
 
   const OnEventButtonClicked = async function() {
-    props.setState("RecognizingSpeech");
+    props.setSTTButtonState("RecognizingSpeech");
 
     const recognition = new window.webkitSpeechRecognition();
     recognition.lang  = 'ko-KR';
@@ -15,8 +15,9 @@ const STTButton = function(props) {
     props.setSTTResult(convertedText);
 
     // 서버로 convertedText 전송하기
+    console.log(convertedText);
 
-    props.setState("Running");
+    props.setSTTButtonState("Running");
   }
 
 
