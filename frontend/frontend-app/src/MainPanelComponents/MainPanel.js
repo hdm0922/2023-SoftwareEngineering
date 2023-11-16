@@ -1,20 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import './MainPanel.css'
 import UserInputPanel from "./UserInputPanelComponents/UserInputPanel";
 import BottomPanel from "./BottomPanelComponents/BottomPanel";
-import GenerateAreaButton from "./BottomPanelComponents/GenerateAreaButton";
 
+const MainPanel = {};
 
-const MainPanel = () => {
-
-    const [renderPanel, setRenderPanel] = useState(UserInputPanel.ReactElement);
-
-    GenerateAreaButton.setRenderPanel = setRenderPanel;
+MainPanel.ReactElement = () => {
 
     return (
 
         <div className="MainPanel">
-            {renderPanel}
+            <UserInputPanel.ReactElement />
             <BottomPanel />
         </div>
 
