@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import './BottomPanel.css'
+import './TempBottomPanel.css'
 import GenerateAreaButton from "./GenerateAreaButton";
 
 
-const BottomPanel = () => {
+const TempBottomPanel = () => {
 
     const [renderButton, setRenderButton] = useState(GenerateAreaButton.ReactElement);
 
@@ -11,7 +11,7 @@ const BottomPanel = () => {
 
     return (
 
-        <div className="BottomPanel">
+        <div className="Bo1ttomPanel">
             {renderButton}
         </div>
 
@@ -20,4 +20,4 @@ const BottomPanel = () => {
 };
 
 
-export default BottomPanel;
+export default TempBottomPanel;

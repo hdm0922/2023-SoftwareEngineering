@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import './MainPanel.css'
 import UserInputPanel from "./UserInputPanelComponents/UserInputPanel";
-import BottomPanel from "./BottomPanelComponents/BottomPanel";
+import TempBottomPanel from "./BottomPanelComponents/TempBottomPanel";
 import GenerateAreaButton from "./BottomPanelComponents/GenerateAreaButton";
 
 
@@ -15,7 +15,7 @@ const MainPanel = () => {
 
         <div className="MainPanel">
             {renderPanel}
-            <BottomPanel />
+            <TempBottomPanel />
         </div>
 
     );

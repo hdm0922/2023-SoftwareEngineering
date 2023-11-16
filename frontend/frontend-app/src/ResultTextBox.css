@@ -1,9 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@600&display=swap');
 
 textarea.ResultTextBox {
-    position: absolute;
-    top: 700px;
-    left : 760px;
+
+    position: relative;
+    top: 10px;
+    left: 150px;
+
 
     resize: none;
     line-height: 35px;
