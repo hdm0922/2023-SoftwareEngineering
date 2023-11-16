@@ -5,7 +5,7 @@ import StateMessageBox from './StateMessageBox';
 import STTButton from './STTButton';
 
 
-// props = { stateMessage, setState, buttonDisabled };
+// props = { stateMessage, setSTTButtonState, buttonDisabled };
 const BottomPanel = function(props) {
 
     const [STTResult, setSTTResult] = useState("");
@@ -16,8 +16,9 @@ const BottomPanel = function(props) {
 
             <StateMessageBox stateMessage={props.stateMessage}/>
 
-            <STTButton setSTTResult={setSTTResult} setState={props.setState}
-                        buttonDisabled={props.buttonDisabled}/>
+            <STTButton setSTTResult={setSTTResult}
+                       setSTTButtonState={props.setSTTButtonState}
+                       buttonDisabled={props.buttonDisabled}/>
         </div>
     );
 

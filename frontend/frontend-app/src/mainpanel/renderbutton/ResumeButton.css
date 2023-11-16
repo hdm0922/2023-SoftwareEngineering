@@ -1,0 +1,28 @@
+
+
+.ResumeButton {
+
+    /* position: relative;
+    top: 10px;
+    left: 10px; */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100px;
+    height: 60px;
+
+    background-color: black;
+
+    border: 3px solid black;
+    border-radius: 10px;
+}
+
+
+.playIcon {
+
+    font-size: 30px;
+
+    color: white;
+}

@@ -1,0 +1,24 @@
+
+
+.PauseButton {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100px;
+    height: 60px;
+
+    background-color: black;
+
+    border: 3px solid black;
+    border-radius: 10px;
+
+}
+
+.pauseIcon {
+    
+    font-size: 30px;
+
+    color: white;
+}
