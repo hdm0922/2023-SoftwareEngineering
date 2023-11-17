@@ -1,19 +1,17 @@
 import React from "react";
 import './GenerateAreaButton.css'
 import APIRequestHandler from "../../APIRequestHandler";
-import Parser from "../../Parser";
 
-// props = { setRenderPanelState: Function, setRenderButtonState: Function, userInputData: Object };
+// props = { setRenderPanelState, setRenderButtonState, userInputData };
 const GenerateAreaButton = function(props) {
 
     const onEventButtonClicked = function() {
 
 
-        // 서버에 user Input을 주고, robotPathData를 수신한다.
-        const robotPathData = APIRequestHandler.generatePath(props.userInputData);
-        const destinationsArray = Parser.parseRobotPath(robotPathData.path);
+        // send data to server
+        const pathObject = APIRequestHandler.generatePath(props.userInputData);
+        // console.log(pathObject);        
 
-        
 
         props.setRenderPanelState("SimulatePanel");
         props.setRenderButtonState("ResumeButton");

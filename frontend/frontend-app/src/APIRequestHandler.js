@@ -3,32 +3,31 @@
 class APIRequestHandler {
 
     // temp use
-    static async notifyUserSTT(userSTT) {
+    static async sendDataToServer(dataToSend) {
 
-        return {};
-        // try {
-        //     const response = await fetch('/fake-backend-endpoint', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(dataToSend)
-        //     });
+        try {
+            const response = await fetch('/fake-backend-endpoint', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataToSend)
+            });
     
-        //     if (!response.ok) { throw new Error("Server Response Error"); }
+            if (!response.ok) { throw new Error("Server Response Error"); }
     
-        //     const responseData = await response.json();
-        //     console.log(responseData);
-        // }   catch (error) {
-        //     console.error(error);
-        // }
+            const responseData = await response.json();
+            console.log(responseData);
+        }   catch (error) {
+            console.error(error);
+        }
 
 
     }
 
 
-    static generatePath(userInputData) {
-        return { path: "2223" }
+    // temp use
+    static async generatePath(userInputData) {
 
         // try {
         //     const response = await fetch('/get_fake_path', {
@@ -48,6 +47,7 @@ class APIRequestHandler {
         // }
 
 
+        return { path: "2223" }
 
     }
 
