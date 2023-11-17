@@ -1,22 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@600&display=swap');
 
 .SimulatePanel {
-    /* display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    gap: 8px;
-    padding: 10px;
 
-    align-items: center;
-    justify-content: center;
-
-    position: relative;
-    top: 30px; */
-
-    background-color: lightblue;
+    background-color: lightcoral;
 
     border: 2px solid black;
 
-    width: 600px;
-    height: 400px;
 }

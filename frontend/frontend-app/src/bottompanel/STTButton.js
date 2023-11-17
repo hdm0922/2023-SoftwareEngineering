@@ -5,7 +5,7 @@ import STTHandler from '../STTHandler';
 import APIRequestHandler from '../APIRequestHandler';
 import Parser from '../Parser';
 
-// props = { setSTTResult, setSTTButtonState, buttonDisabled };
+// props = { setSTTResult: Function, setSTTButtonState: Function, buttonDisabled: Boolean };
 const STTButton = function(props) {
 
   const OnEventButtonClicked = async function() {

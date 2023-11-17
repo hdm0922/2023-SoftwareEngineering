@@ -27,7 +27,7 @@ class APIRequestHandler {
     }
 
 
-    static async generatePath(userInputData) {
+    static generatePath(userInputData) {
         return { path: "2223" }
 
         // try {

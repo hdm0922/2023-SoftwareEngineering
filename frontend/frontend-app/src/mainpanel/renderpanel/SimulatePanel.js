@@ -10,12 +10,11 @@ const Line = ({ startPosition, endPosition }) => {
     );
 };
 
-
+// props = { areaSize, itemsToRender: Array2D }
 const SimulatePanel = function(props) {
     
     const panelWidth = 600;
     const panelHeight = 400;
-
 
     const getPixelPosition = function(_x, _y) {
         return { x: ( panelWidth *  (    _x/props.areaSize.x) ),
@@ -41,9 +40,15 @@ const SimulatePanel = function(props) {
         );
     }
 
+
+
+
+
+
+
     return (
 
-        <div className="SimulatePanel">
+        <div className="SimulatePanel" style={{ width: panelWidth, height: panelHeight }}>
             <svg width={panelWidth} height={panelHeight}>{border}</svg>
         </div>
 
