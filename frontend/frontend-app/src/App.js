@@ -12,20 +12,22 @@ const App = () => {
         
         switch (newState) {
 
-            case "Disabled": {
+            case "Disabled":
                 setStateMessage("음성 입력이 비활성화 되었습니다.");
                 setEnableSTTButton(false);
-            }   break;
+                break;
 
-            case "Running": {
+            case "Running":
                 setStateMessage("마이크를 눌러 음성으로 명령을 입력하세요.");
                 setEnableSTTButton(true);
-            }   break;
+                break;
 
-            case "RecognizingSpeech": {
+            case "RecognizingSpeech":
                 setStateMessage("음성 인식 중 ...");
-            }   break;
+                break;
 
+            default :
+                break;
         }
     };
 
