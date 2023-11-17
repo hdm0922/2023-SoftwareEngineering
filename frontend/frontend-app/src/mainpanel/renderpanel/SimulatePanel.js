@@ -28,14 +28,16 @@ const SimulatePanel = function(props) {
     for (let iter=0; iter<=props.areaSize.x; iter++) {
         border.push(
             <Line startPosition={ getPixelPosition(iter, 0) }
-                    endPosition={ getPixelPosition(iter, props.areaSize.y) }/>
+                    endPosition={ getPixelPosition(iter, props.areaSize.y) }
+                    key={`line-${border.length}`}/>
         );
     }
 
     for (let iter=0; iter<=props.areaSize.y; iter++) {
         border.push(
             <Line startPosition={ getPixelPosition(0, iter) }
-                    endPosition={ getPixelPosition(props.areaSize.x, iter) }/>
+                    endPosition={ getPixelPosition(props.areaSize.x, iter) }
+                    key={`line-${border.length}`}/>
         );
     }
 

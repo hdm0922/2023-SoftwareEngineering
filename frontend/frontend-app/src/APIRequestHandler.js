@@ -26,6 +26,27 @@ class APIRequestHandler {
     }
 
 
+    // temp use
+    static async generatePath(userInputData) {
+
+        try {
+            const response = await fetch('/get_fake_path', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userInputData)
+            });
+    
+            if (!response.ok) { throw new Error("Server Response Error"); }
+    
+            const responseData = await response.json();
+            return responseData;
+        }   catch (error) {
+            console.error(error);
+        }
+
+    }
 
 
 }

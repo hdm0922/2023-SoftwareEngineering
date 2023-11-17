@@ -21,16 +21,18 @@ app.post('/fake-backend-endpoint', (req, res) => {
 });
 
 
-// GET 요청에 대한 가짜 응답을 처리하는 핸들러
-// app.get('/fake-backend-endpoint', (req, res) => {
-//     // 가짜 GET 응답 데이터 생성
-//     const fakeGetResponseData = {
-//         message: '가짜 GET 응답이 성공적으로 도착했습니다!'
-//     };
+app.post('/get_fake_path', (req, res) => {
 
-//     // 200 상태 코드와 함께 가짜 GET 응답 데이터를 클라이언트에 전송
-//     res.status(200).json(fakeGetResponseData);
-// });
+    const requestData = req.body;
+
+    const fakeResponseData = {
+        receivedData: requestData,
+        message: 'Good!',
+        path: "((1 2)(2 3)(2 2))"
+    };
+
+    res.status(200).json(fakeResponseData);
+});
 
 
 
