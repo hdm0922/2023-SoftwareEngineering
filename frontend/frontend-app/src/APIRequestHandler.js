@@ -3,28 +3,28 @@
 class APIRequestHandler {
 
     // temp use
-    static requestData() {
-        
+    static async sendDataToServer(dataToSend) {
+
+        try {
+            const response = await fetch('/fake-backend-endpoint', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataToSend)
+            });
+    
+            if (!response.ok) { throw new Error("Server Response Error"); }
+    
+            const responseData = await response.json();
+            console.log(responseData);
+        }   catch (error) {
+            console.error(error);
+        }
+
+
     }
 
-
-    static requestPath() {
-
-    }
-
-    // static #handler;
-
-    // constructor() {
-    //     if (APIRequestHandler.#handler) return;
-    //     APIRequestHandler.#handler = this;
-    // }
-
-    // static handler() {
-    //     if (!APIRequestHandler.#handler) {
-    //         APIRequestHandler.#handler = new APIRequestHandler();
-    //     }
-    //     return APIRequestHandler.#handler;
-    // }
 
 
 
