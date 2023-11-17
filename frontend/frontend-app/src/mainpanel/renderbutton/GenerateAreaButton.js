@@ -1,13 +1,17 @@
 import React from "react";
 import './GenerateAreaButton.css'
+import APIRequestHandler from "../../APIRequestHandler";
 
 // props = { setRenderPanelState, setRenderButtonState, userInputData };
 const GenerateAreaButton = function(props) {
 
     const onEventButtonClicked = function() {
 
+
         // send data to server
-        console.log(props.userInputData);
+        const pathObject = APIRequestHandler.generatePath(props.userInputData);
+        // console.log(pathObject);        
+
 
         props.setRenderPanelState("SimulatePanel");
         props.setRenderButtonState("ResumeButton");
