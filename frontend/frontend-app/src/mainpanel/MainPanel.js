@@ -35,14 +35,16 @@ const MainPanel = function(props) {
 
         switch (newButton) {
 
-            case "ResumeButton": {
+            case "ResumeButton":
                 props.setSTTButtonState("Running");
-            }   break;
+                break;
 
-            case "PauseButton": {
+            case "PauseButton":
                 props.setSTTButtonState("Disabled");
-            }   break;
+                break;
 
+            default :
+                break;
         }
     };
 
@@ -56,7 +58,7 @@ const MainPanel = function(props) {
                                                     setImportantPositions, setHazardPositions}}/>}
 
             {(renderPanel === "SimulatePanel") &&
-             <SimulatePanel />}
+             <SimulatePanel areaSize={{x:6, y:8}}/>}
 
 
             <div className="Bottom">
