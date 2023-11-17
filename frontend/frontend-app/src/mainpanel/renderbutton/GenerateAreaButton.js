@@ -9,8 +9,7 @@ const GenerateAreaButton = function(props) {
 
 
         // send data to server
-        const pathObject = APIRequestHandler.generatePath(props.userInputData);
-        // console.log(pathObject);        
+        const { path } = APIRequestHandler.generatePath(props.userInputData);
 
 
         props.setRenderPanelState("SimulatePanel");
