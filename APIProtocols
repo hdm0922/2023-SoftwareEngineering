@@ -27,7 +27,7 @@ props : Type || null 은 props가 Type을 갖지만, 특정 조건에서 null이
 
 
     Fetch: {
-        itemID  :   Number  || null,    // 2
+        itemID  :   String  || null,    // "Hazard"
         path    :   String  || null     // "22232425"
     }
 
@@ -68,37 +68,18 @@ props : Type || null 은 props가 Type을 갖지만, 특정 조건에서 null이
 
 
 
-3. 로봇의 경로 진행 처리
+3. 로봇의 이동 알림
+
+    로봇은 웹서버에 자신의 이동을 알립니다.
+
+    웹서버는 로봇의 행동을 결정하고, 로봇이 수행할 행동을 반환합니다.
+
+    Give: {
+
+    }
 
 
-    3.1 로봇의 이동 알림
-
-        로봇은 웹서버에 자신의 이동을 알립니다.
-
-        웹서버는 로봇의 행동을 결정하고, 로봇이 수행할 행동을 반환합니다.
-
-        Give: {
-
-        }
-
-
-        Fetch: {
-            robotMovement   :   String      // "Rotate"
-        }
-
-
-    3.2 로봇의 이동 결과
-    
-        3.1 의 요청 결과가 robotMovement = "Move" 인 경우에만 발생하는 통신 이벤트입니다.
-
-        로봇은 웹서버에게 자신의 현재 위치를 알립니다.
-
-        Give: {
-            x   :  Number      // 2
-            y   :  Number      // 3
-        }
-
-
-        Fetch: {
-
-        }
+    Fetch: {
+        robotMovement   :   String      // "Rotate"
+        moveDistance    :   Number      // 0
+    }
