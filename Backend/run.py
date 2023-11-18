@@ -33,6 +33,9 @@ def convert_to_2d_set(positions):
 def getPosition(inputStr):
     return (int(inputStr[1]), int(inputStr[3]))
 
+def getPosition2(inputStr):
+    return ([(int(inputStr[1]), int(inputStr[3]))])
+
 def getPositions(inputStr):
     Positions = []
     N = int( (len(inputStr) - 2)/5 )
@@ -45,9 +48,17 @@ def getPositions(inputStr):
 def getPositionData(inputStr):
     
     if ( len(inputStr) == 5 ) :
-        return getPosition(inputStr)
+        return getPosition2(inputStr)
     else :
         return getPositions(inputStr)
+
+def tts(tuple_value):
+    string_result = ''.join(map(str, tuple_value))
+    return string_result
+
+def tlts(tuple_list):
+    string_result = ''.join(''.join(map(str, t)) for t in tuple_list)
+    return string_result
 
 
 @app.route('/')
@@ -66,36 +77,38 @@ def home():
 def process_data():
     if request.method == 'POST':
         data = request.get_json()
-#        print(data.get('areaSize'))
-#        print(data.get('mustGoPositions'))
-#        print(data.get('hazardPositions'))
-        area_size = getPositionData(data.get('areaSize', "0,0"))
-        mustGoPositions = getPositionData(data.get('mustGoPositions', []))
+        area_size = getPosition(data.get('areaSize', "0,0"))
+        importantPositions = getPositionData(data.get('importantPositions', []))
         hazardPositions = getPositionData(data.get('hazardPositions', []))
-        robot_position = getPositionData(data.get('start', []))
-        # areaSize는 그대로 사용
-#        area_size = ast.literal_eval(data.get('areaSize', "(0,0)"))
-        # mustGoPositions 및 hazardPositions를 문자열에서 튜플로 변환하고 2D 벡터의 세트로 변환
-#        must_go_positions = convert_to_2d_set(ast.literal_eval(data.get('mustGoPositions', [])))
-#        hazard_positions = convert_to_2d_set(ast.literal_eval(data.get('hazardPositions', [])))
-        #robot_position = ast.literal_eval(data.get('robot_position', [0, 0]))  # Add this line
-        print("////")
-        print(robot_position)
-        print("////")
+        robot_position = getPosition(data.get('robotPosition', []))
+#        print(tts(area_size))
+#        print(tlts(importantPositions))
+#        print(tlts(hazardPositions))
+#        print(tts(robot_position))
+
         areaInterface.initialize_area_size(area_size)
-        areaInterface.initialize_must_go_positions(mustGoPositions)
+        areaInterface.initialize_important_positions(importantPositions)
         areaInterface.initialize_hazard_positions(hazardPositions)
         robotMovementInterface._sim_instance._position_sensor._RobotPosition=robot_position
+        
+
         # 변환된 데이터 출력
         print("Area Size:", areaInterface.get_area_size())
-        print("Must Go Positions:", areaInterface.get_must_go_positions())
+        print("Must Go Positions:", areaInterface.get_important_positions())
         print("Hazard Positions:", areaInterface.get_hazard_positions())
-        print("///")
-        print(areaInterface.path_generator_instance.RequestRobotPosition())
-        print("///")
+        print("robot start positions:", areaInterface.path_generator_instance.RequestRobotPosition())
         # 여기에서 데이터를 처리하고 응답을 생성할 수 있습니다.
         #areaInterface.RequestToGenerate()
-        response = {"message": "Data received and processed successfully"}
+        
+        rearea_size = tts(area_size)
+        reimportant = tlts(importantPositions)
+        rehazard = tlts(hazardPositions)
+        rerobotp = tts(robot_position)
+        
+        response = {"areaSize": rearea_size,
+            "importantPositions": reimportant,
+            "hazardPositions": rehazard,
+            "robotPosition": rerobotp}
         return jsonify(response)
 
 if __name__ == '__main__':

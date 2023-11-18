@@ -87,18 +87,4 @@ props : Type || null 은 props가 Type을 갖지만, 특정 조건에서 null이
         }
 
 
-    3.2 로봇의 이동 결과
     
-        3.1 의 요청 결과가 robotMovement = "Move" 인 경우에만 발생하는 통신 이벤트입니다.
-
-        로봇은 웹서버에게 자신의 현재 위치를 알립니다.
-
-        Give: {
-            x   :  Number      // 2
-            y   :  Number      // 3
-        }
-
-
-        Fetch: {
-
-        }
