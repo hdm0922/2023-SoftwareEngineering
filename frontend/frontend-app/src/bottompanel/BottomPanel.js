@@ -4,8 +4,10 @@ import ResultTextBox from './ResultTextBox';
 import StateMessageBox from './StateMessageBox';
 import STTButton from './STTButton';
 
-
-// props = { stateMessage, setSTTButtonState, buttonDisabled };
+/*
+props = { stateMessage: String, setSTTButtonState: Function,
+          buttonDisabled: Boolean, updateSystemData: Function };
+*/
 const BottomPanel = function(props) {
 
     const [STTResult, setSTTResult] = useState("");
@@ -16,9 +18,10 @@ const BottomPanel = function(props) {
 
             <StateMessageBox stateMessage={props.stateMessage}/>
 
-            <STTButton setSTTResult={setSTTResult}
-                       setSTTButtonState={props.setSTTButtonState}
-                       buttonDisabled={props.buttonDisabled}/>
+            <STTButton setSTTResult         = {setSTTResult}
+                       setSTTButtonState    = {props.setSTTButtonState}
+                       buttonDisabled       = {props.buttonDisabled}
+                       updateSystemData     = {props.updateSystemData}/>
         </div>
     );
 
