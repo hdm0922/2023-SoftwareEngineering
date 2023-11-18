@@ -21,7 +21,7 @@ const STTButton = function(props) {
 
     const userOrder = Parser.parseUserSTT(convertedText);
 
-    const newSystemData = APIRequestHandler.getUpdateData(userOrder);
+    const newSystemData = APIRequestHandler.fetchUpdateData(userOrder);
     if ( newSystemData ) { props.updateSystemData(newSystemData); }
 
     props.setSTTButtonState("Running");

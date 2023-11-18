@@ -1,0 +1,104 @@
+
+본 문서는 통신 이벤트에서 발생할 송수신 데이터를 정의합니다.
+
+Give: Frontend -> Backend   의 JSON 객체
+Fetch: Backend -> Frontend  의 JSON 객체
+
+props : Type || null 은 props가 Type을 갖지만, 특정 조건에서 null이 전달될 수 있음을 표현합니다.
+
+
+
+
+
+1. 사용자의 음성 명령 처리
+
+    사용자의 음성 명령은 지도에 특정 요소를 추가하는 것만이 가능합니다.
+    사용자의 음성 명령은, 특정 요소에 해당하는 target과 target의 좌표로 구성됩니다.
+
+    웹서버는 변경된 정보에 따라 새로 그려야 할 target의 ID, 로봇의 경로를 반환합니다.
+    만약 서버가 사용자의 입력이 유효하지 않다고 판단할 경우, null로 채울 수 있습니다.
+
+
+    Give: {
+        target  :   String,         // "위험지역"
+        x       :   Number,         // 4
+        y       :   Number          // 5
+    }
+
+
+    Fetch: {
+        itemID  :   Number  || null,    // 2
+        path    :   String  || null     // "22232425"
+    }
+
+
+
+
+
+
+
+2. 사용자의 초기 입력 처리
+
+    사용자는 처음 경로를 구성할 때, 네 가지 정보
+        areaSize, robotPosition, importantPositions, hazardPositions
+    를 입력합니다.
+
+    웹서버는 입력을 파싱하여 올바른 데이터를 구성하고, 그 결과와 함께 로봇의 경로를 반환합니다.
+
+
+    Give: {
+        areaSize            :   String,     // "(4 5)"
+        robotPosition       :   String,     // "(1 2)"
+        importantPositions  :   String,     // "((4 2)(1 5))"
+        hazardPositions     :   String      // "((1 0)(3 2))"
+    }
+
+
+    Fetch: {
+        areaSize            :   String,     // "45"
+        robotPosition       :   String,     // "12"
+        importantPositions  :   String,     // "4215"
+        hazardPositions     :   String,     // "1032"
+        robotPath           :   String      // "22232425"
+    }
+
+
+
+
+
+
+
+3. 로봇의 경로 진행 처리
+
+
+    3.1 로봇의 이동 알림
+
+        로봇은 웹서버에 자신의 이동을 알립니다.
+
+        웹서버는 로봇의 행동을 결정하고, 로봇이 수행할 행동을 반환합니다.
+
+        Give: {
+
+        }
+
+
+        Fetch: {
+            robotMovement   :   String      // "Rotate"
+        }
+
+
+    3.2 로봇의 이동 결과
+    
+        3.1 의 요청 결과가 robotMovement = "Move" 인 경우에만 발생하는 통신 이벤트입니다.
+
+        로봇은 웹서버에게 자신의 현재 위치를 알립니다.
+
+        Give: {
+            x   :  Number      // 2
+            y   :  Number      // 3
+        }
+
+
+        Fetch: {
+
+        }
