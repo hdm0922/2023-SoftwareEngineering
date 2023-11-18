@@ -20,9 +20,16 @@ const STTButton = function(props) {
     props.setSTTResult(convertedText);
 
     const userOrder = Parser.parseUserSTT(convertedText);
+    const updateData = APIRequestHandler.fetchUpdateData(userOrder);
 
-    const newSystemData = APIRequestHandler.fetchUpdateData(userOrder);
-    if ( newSystemData ) { props.updateSystemData(newSystemData); }
+    if (updateData.itemID) {
+      const item = {
+        renderType: updateData.itemID,
+        x: userOrder.x,
+        y: userOrder.y
+      }
+      props.updateSystemData( {item, robotPath: updateData.robotPath} );
+    }
 
     props.setSTTButtonState("Running");
   }

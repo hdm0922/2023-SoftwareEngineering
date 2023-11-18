@@ -8,11 +8,23 @@ class APIRequestHandler {
     
     // 서버측에 사용자의 명령을 전달한 후, 응답으로 새로운 입력 데이터(items, path)를 받는다.
     static fetchUpdateData(userOrder) {
-        return null;
+        return {
+            itemID: null,
+            robotPath: null
+        };
     }
 
     // temp use
-    static async generatePath(userInputData) {
+    static getInitialData(userInputData) {
+
+        return {
+            areaSize: "45",
+            robotPosition: "12",
+            importantPositions: "4215",
+            hazardPositions: "1032",
+
+            robotPath: "22232425"
+        };
 
         // try {
         //     const response = await fetch('/get_fake_path', {
@@ -30,9 +42,6 @@ class APIRequestHandler {
         // }   catch (error) {
         //     console.error(error);
         // }
-
-
-        return { path: "2223" }
 
     }
 
