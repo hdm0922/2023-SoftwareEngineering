@@ -10,8 +10,10 @@ from Backend.ADD_ON.RobotMovementInterface import RobotMovementInterface
 from Backend.Robot.SIM import SIM
 import ast  # ast 모듈 추가
 
+import json # build 자동화를 위한 json 라이브러리
+
 # app = Flask(__name__)
-app = Flask(__name__, static_url_path='', static_folder='../frontend/frontend-app/build/static')
+app = Flask(__name__, static_url_path='', static_folder='../frontend/frontend-app/build')
 areaInterface = OperationAreaInterface()
 robotMovementInterface = RobotMovementInterface()
 colorBlobSensor = ColorBlobSensor()
@@ -49,8 +51,16 @@ def getPositionData(inputStr):
 
 
 @app.route('/')
-def home():
-    return render_template('index.html')
+def home():    
+    
+    with open('./frontend/frontend-app/build/asset-manifest.json', 'r') as asset_manifest_file:
+            asset_manifest_json = json.load(asset_manifest_file)
+
+    main_js_file_name = asset_manifest_json["files"]["main.js"]
+    main_css_file_name = asset_manifest_json["files"]["main.css"]
+    
+    return render_template('index.html', main_js_file_name=main_js_file_name,
+                                         main_css_file_name=main_css_file_name)
 
 @app.route('/temp', methods=['POST'])
 def process_data():
