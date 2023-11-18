@@ -22,7 +22,6 @@ class APIRequestHandler {
             console.error(error);
         }
 
-        console.log("Hi");
     }
 
 

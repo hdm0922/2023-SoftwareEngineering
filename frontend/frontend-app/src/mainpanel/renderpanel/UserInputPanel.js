@@ -2,8 +2,9 @@ import React from "react";
 import './UserInputPanel.css'
 
 /* 
-props = { userInputDataSetters: { setAreaSize, setStartPosition,
-                                  setImportantPositions, setHazardPositions } };
+props = { userInputDataSetters: Object };
+userInputDataSetters =  { setAreaSize: Function, setStartPosition: Function,
+                          setImportantPositions: Function, setHazardPositions:Function }
 */
 const UserInputPanel = function(props) {
 
