@@ -10,8 +10,8 @@ from Backend.ADD_ON.RobotMovementInterface import RobotMovementInterface
 from Backend.Robot.SIM import SIM
 import ast  # ast 모듈 추가
 
-
-app = Flask(__name__)
+# app = Flask(__name__)
+app = Flask(__name__, static_url_path='', static_folder='../frontend/frontend-app/build/static')
 areaInterface = OperationAreaInterface()
 robotMovementInterface = RobotMovementInterface()
 colorBlobSensor = ColorBlobSensor()
@@ -50,7 +50,7 @@ def getPositionData(inputStr):
 
 @app.route('/')
 def home():
-    return render_template('index.html');
+    return render_template('index.html')
 
 @app.route('/temp', methods=['POST'])
 def process_data():
