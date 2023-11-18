@@ -1,20 +1,25 @@
+import sys
+sys.path.append('.')
+
+
 from Backend.Robot.ColorBlobSensor import ColorBlobSensor
 from Backend.Robot.HazardSensor import HazardSensor
 from Backend.Robot.PostionSensor import PositionSensor
 
 class SIM:
-    def __init__(self):
-        # ColorBlobSensor 클래스의 인스턴스 생성
-        self._color_blob_sensor = ColorBlobSensor()
+    def __init__(self, _hazard_sensor =HazardSensor() , _color_blob_sensor = ColorBlobSensor(), _position_sensor =PositionSensor([1,1])):
+        self._color_blob_sensor = _color_blob_sensor
 
-        # HazardSensor 클래스의 인스턴스 생성
-        self._hazard_sensor = HazardSensor()
+        self._hazard_sensor = _hazard_sensor
 
-        # PositionSensor 클래스의 인스턴스 생성
-        self._position_sensor = PositionSensor([1,1])
+        self._position_sensor = _position_sensor
         
 #    def NotifyUpdate(self):
  #       self._position_sensor.DetectPosition()
-    
-#temp = SIM()
-#print(temp.position_sensor.get_position())
+
+#temp1 = HazardSensor()
+#temp2 = ColorBlobSensor()
+
+
+#temp = SIM(temp1, temp2)
+#print(temp._position_sensor.get_position())

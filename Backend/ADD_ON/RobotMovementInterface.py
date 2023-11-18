@@ -1,8 +1,10 @@
+import sys
+sys.path.append('.')
 from Backend.Robot.SIM import SIM
 
 class RobotMovementInterface:
-    def __init__(self,_expected_destination = [0,0]):
-        self._sim_instance = SIM()
+    def __init__(self,_sim_instance =SIM(),_expected_destination = [0,0]):
+        self._sim_instance = _sim_instance
         self._expected_destination = _expected_destination
 
     def RequestRobotPosition(self):
@@ -13,8 +15,3 @@ class RobotMovementInterface:
 
 #    def move(self):
 #        self._sim_instance.notify()
-
-
-
-#temp = RobotMovementInterface()
-#print(temp.RequestRobotPosition())

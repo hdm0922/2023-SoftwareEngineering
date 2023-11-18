@@ -1,3 +1,6 @@
+import sys
+sys.path.append('.')
+
 class ColorBlobSensor:
     def __init__(self):
         self._colorBlobState = 0  # 초기값은 0으로 설정

@@ -7,6 +7,8 @@ from Backend.Robot.ColorBlobSensor import ColorBlobSensor
 from Backend.Robot.HazardSensor import HazardSensor
 from Backend.Robot.PostionSensor import PositionSensor
 from Backend.ADD_ON.RobotMovementInterface import RobotMovementInterface
+from Backend.ADD_ON.SensorInterface import SensorInterface
+from Backend.ADD_ON.PathGenerator import PathGenerator
 from Backend.Robot.SIM import SIM
 import ast  # ast 모듈 추가
 
@@ -15,16 +17,15 @@ import json # build 자동화를 위한 json 라이브러리
 # app = Flask(__name__)
 app = Flask(__name__, static_url_path='', static_folder='../frontend/frontend-app/build')
 areaInterface = OperationAreaInterface()
-robotMovementInterface = RobotMovementInterface()
 colorBlobSensor = ColorBlobSensor()
 hazardSensor = HazardSensor()
 positionSensor = PositionSensor()
-SIM_Instance = SIM()
-SIM_Instance._color_blob_sensor = colorBlobSensor
-SIM_Instance._hazard_sensor = hazardSensor
-SIM_Instance._position_sensor = positionSensor
-robotMovementInterface._sim_instance = SIM_Instance
-areaInterface.path_generator_instance._robotMovementInterface = robotMovementInterface
+SIM_Instance = SIM(hazardSensor, positionSensor,positionSensor)
+robotMovementInterface = RobotMovementInterface(SIM_Instance)
+pathGenrator_instace = PathGenerator(robotMovementInterface)
+areaInterface._path_generator_instance = pathGenrator_instace
+sensorInterpace = SensorInterface(hazardSensor,colorBlobSensor, positionSensor)
+
 
 
 def convert_to_2d_set(positions):
@@ -90,13 +91,13 @@ def process_data():
         areaInterface.initialize_important_positions(importantPositions)
         areaInterface.initialize_hazard_positions(hazardPositions)
         robotMovementInterface._sim_instance._position_sensor._RobotPosition=robot_position
-        
+        robotMovementInterface._expected_destination = robot_position
 
         # 변환된 데이터 출력
         print("Area Size:", areaInterface.get_area_size())
         print("Must Go Positions:", areaInterface.get_important_positions())
         print("Hazard Positions:", areaInterface.get_hazard_positions())
-        print("robot start positions:", areaInterface.path_generator_instance.RequestRobotPosition())
+        print("robot start positions:", areaInterface._path_generator_instance.RequestRobotPosition())
         # 여기에서 데이터를 처리하고 응답을 생성할 수 있습니다.
         #areaInterface.RequestToGenerate()
         

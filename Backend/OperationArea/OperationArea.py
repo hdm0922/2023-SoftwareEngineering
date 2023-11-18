@@ -1,3 +1,6 @@
+import sys
+sys.path.append('.')
+
 class OperationArea:
     def __init__(self, _area_size=(0, 0), _important_positions=None, _hazard_positions=None):
         self._area_size = _area_size

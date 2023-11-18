@@ -1,37 +1,32 @@
+import sys
+sys.path.append('.')
+
 from Backend.OperationArea.OperationArea import OperationArea
 from Backend.ADD_ON.PathGenerator import PathGenerator
 
 class OperationAreaInterface:
-    def __init__(self, _area_size=(0, 0), _important_positions=None, _hazard_positions=None):
+    def __init__(self, _area_size=(0, 0), _important_positions=None, _hazard_positions=None,
+                 _path_generator_instance = PathGenerator()):
         self._operation_area_instance = OperationArea(_area_size=_area_size, _important_positions=_important_positions, _hazard_positions=_hazard_positions)
-
-        # Adding PathGenerator as a field
-        # You may need to adjust the arguments based on your PathGenerator's constructor
-        self.path_generator_instance = PathGenerator(_operation_area_instance=self._operation_area_instance, _initial_robot_position=[0, 0])
+        self._path_generator_instance = _path_generator_instance
 
     def get_area_size(self):
         return self._operation_area_instance.get_area_size()
-
     def get_important_positions(self):
         return self._operation_area_instance.get_important_positions()
-
     def get_hazard_positions(self):
         return self._operation_area_instance.get_hazard_positions()
-
     def initialize_area_size(self, area_size):
         self._operation_area_instance.initialize_area_size(area_size)
-
     def initialize_important_positions(self, important_positions):
         self._operation_area_instance.initialize_important_positions(important_positions)
-
     def initialize_hazard_positions(self, hazard_positions):
         self._operation_area_instance.initialize_hazard_positions(hazard_positions)
-
     def add_to_important_positions(self, new_position):
         self._operation_area_instance.add_to_important_positions(new_position)
-
     def add_to_hazard_positions(self, new_position):
         self._operation_area_instance.add_to_hazard_positions(new_position)
+        
         
     def RequestToGenerate(self):
         # Update the operation_area_instance field of path_generator_instance
@@ -41,10 +36,9 @@ class OperationAreaInterface:
         print("request 실행후")
 
 
-temp = OperationAreaInterface()
 
-print(temp.path_generator_instance._robot_position)
-temp.RequestToGenerate()
+#print(temp.path_generator_instance._robot_position)
+#temp.RequestToGenerate()
 
 
 
