@@ -7,9 +7,22 @@ import SimulatePanel from "./renderpanel/SimulatePanel";
 import ResumeButton from "./renderbutton/ResumeButton";
 import PauseButton from "./renderbutton/PauseButton";
 import GenerateAreaButton from "./renderbutton/GenerateAreaButton";
+import Parser from "../Parser";
 
 
-// props = { setSTTButtonState }
+const Array2D = function(x, y, value) {
+    const arr = [];
+
+    for (let iter=0; iter<y; iter++) {
+        const row = [];
+    for (let iter=0; iter<x; iter++) { row.push(value); }
+        arr.push(row);
+    }
+
+    return arr;
+}
+
+// props = { setSTTButtonState: Function, areaSize: Object }
 const MainPanel = function(props) {
 
     const [renderPanel, setRenderPanel] = useState("UserInputPanel");
@@ -21,11 +34,24 @@ const MainPanel = function(props) {
     const [importantPositions, setImportantPositions] = useState("");
     const [hazardPositions, setHazardPositions] = useState("");
 
+    const [areaSizeX, setAreaSizeX] = useState(0);
+    const [areaSizeY, setAreaSizeY] = useState(0);
+    const [robotPath, setRobotPath] = useState([]);
+    const [itemsToRender, setItemsToRender] = useState(Array2D(areaSizeX, areaSizeY, null));
 
     const setRenderPanelState = function(newPanel) {
 
         setRenderPanel(newPanel);
 
+        switch (newPanel) {
+
+            case "SimulatePanel" :
+
+                break;
+
+            default :
+                break;
+        }
     };
 
 
@@ -48,6 +74,34 @@ const MainPanel = function(props) {
         }
     };
 
+    const setInitialData = function(initialData) {
+
+        const inputAreaSize             = Parser.stringToPairsArray(initialData.areaSize);
+        const initRobotPosition         = Parser.stringToPairsArray(initialData.robotPosition);
+        const initRobotPath             = Parser.stringToPairsArray(initialData.robotPath);
+        const initHazardPositions       = Parser.stringToPairsArray(initialData.hazardPositions);
+        const initImportantPositions    = Parser.stringToPairsArray(initialData.importantPositions);
+
+        setAreaSizeX( inputAreaSize[0].x + 1 );
+        setAreaSizeY( inputAreaSize[0].y + 1 );
+        setRobotPath( initRobotPath );
+
+        const initItemsToRender = Array2D(inputAreaSize[0].x + 1, inputAreaSize[0].y + 1, '');
+
+        const initializeRenderItems = (dataArray, renderType) => {
+            for (let iter=0; iter<dataArray.length; iter++) {
+                initItemsToRender[dataArray[iter].y]
+                                 [dataArray[iter].x] = renderType;
+            }
+        }
+
+        initializeRenderItems(initHazardPositions, "Hazard");
+        initializeRenderItems(initImportantPositions, "Important");
+        initializeRenderItems(initRobotPosition, "Robot");
+
+        setItemsToRender( initItemsToRender );
+    };
+
 
     return (
 
@@ -58,7 +112,7 @@ const MainPanel = function(props) {
                                                     setImportantPositions, setHazardPositions}}/>}
 
             {(renderPanel === "SimulatePanel") &&
-             <SimulatePanel areaSize={{x:6, y:8}}/>}
+             <SimulatePanel areaSize={{x: areaSizeX, y: areaSizeY}}/>}
 
 
             <div className="Bottom">
@@ -66,6 +120,7 @@ const MainPanel = function(props) {
                 {(renderButton === "GenerateAreaButton") &&
                     <GenerateAreaButton setRenderPanelState={setRenderPanelState}
                                         setRenderButtonState={setRenderButtonState}
+                                        setInitialData={setInitialData}
                                         userInputData = {{areaSize, startPosition,
                                                         importantPositions, hazardPositions}}/>}
 

@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MainPanel from './mainpanel/MainPanel';
 import BottomPanel from './bottompanel/BottomPanel';
+import Parser from './Parser';
+
+
+
 
 
 const App = () => {
@@ -8,8 +12,8 @@ const App = () => {
     const [stateMessage, setStateMessage] = useState("음성 입력이 비활성화 되었습니다.");
     const [enableSTTButton, setEnableSTTButton] = useState(false);
 
-    // const itemsToRender = Array.prototype({length:})
 
+    
     const setSTTButtonState = function(newState) {
         
         switch (newState) {
@@ -33,20 +37,20 @@ const App = () => {
         }
     };
 
-    const updateSystemData = function(newSystemData) {
 
-        if (newSystemData.items) {
 
-        }
 
-    };
+
+    const updateSystemData = function(updateData) {
+
+    }
 
 
     return (
 
         <div>
 
-            <MainPanel setSTTButtonState    = {setSTTButtonState} />
+            <MainPanel setSTTButtonState    = {setSTTButtonState}/>
 
             <BottomPanel setSTTButtonState  = {setSTTButtonState}
                          stateMessage       = {stateMessage}
