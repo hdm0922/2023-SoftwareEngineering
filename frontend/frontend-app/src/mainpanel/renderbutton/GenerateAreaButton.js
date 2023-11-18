@@ -10,6 +10,7 @@ const GenerateAreaButton = function(props) {
 
         // 서버측에 userInputData 전송, 경로 수신함
         const pathObject = APIRequestHandler.generatePath(props.userInputData);
+        
         // console.log(pathObject);        
 
 
