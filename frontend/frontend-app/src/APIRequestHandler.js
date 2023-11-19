@@ -23,7 +23,7 @@ class APIRequestHandler {
             importantPositions: "4215",
             hazardPositions: "1032",
 
-            robotPath: "22232425"
+            robotPath: "122223242515"
         };
 
         // try {

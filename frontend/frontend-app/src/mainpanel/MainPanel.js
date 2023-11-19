@@ -14,9 +14,8 @@ const Array2D = function(x, y, value) {
     const arr = [];
 
     for (let iter=0; iter<y; iter++) {
-        const row = [];
-    for (let iter=0; iter<x; iter++) { row.push(value); }
-        arr.push(row);
+        arr.push( [] );
+        for (let jter=0; jter<x; jter++) { arr[iter].push(value); }
     }
 
     return arr;
@@ -27,17 +26,22 @@ const MainPanel = function(props) {
 
     const [renderPanel, setRenderPanel] = useState("UserInputPanel");
     const [renderButton, setRenderButton] = useState("GenerateAreaButton");
+    // const [simulationRunning, setSimulationRunning] = useState(false);
 
 
-    const [areaSize, setAreaSize] = useState("");
-    const [startPosition, setStartPosition] = useState("");
-    const [importantPositions, setImportantPositions] = useState("");
-    const [hazardPositions, setHazardPositions] = useState("");
+
+    const [areaSizeUserInput, setAreaSizeUserInput] = useState("");
+    const [startPositionUserInput, setStartPositionUserInput] = useState("");
+    const [importantPositionsUserInput, setImportantPositionsUserInput] = useState("");
+    const [hazardPositionsUserInput, setHazardPositionsUserInput] = useState("");
+
+
 
     const [areaSizeX, setAreaSizeX] = useState(0);
     const [areaSizeY, setAreaSizeY] = useState(0);
     const [robotPath, setRobotPath] = useState([]);
     const [itemsToRender, setItemsToRender] = useState(Array2D(areaSizeX, areaSizeY, null));
+
 
     const setRenderPanelState = function(newPanel) {
 
@@ -53,7 +57,6 @@ const MainPanel = function(props) {
                 break;
         }
     };
-
 
     const setRenderButtonState = function(newButton) {
 
@@ -82,11 +85,11 @@ const MainPanel = function(props) {
         const initHazardPositions       = Parser.stringToPairsArray(initialData.hazardPositions);
         const initImportantPositions    = Parser.stringToPairsArray(initialData.importantPositions);
 
-        setAreaSizeX( inputAreaSize[0].x + 1 );
-        setAreaSizeY( inputAreaSize[0].y + 1 );
+        setAreaSizeX( inputAreaSize[0].x+1 );
+        setAreaSizeY( inputAreaSize[0].y+1 );
         setRobotPath( initRobotPath );
 
-        const initItemsToRender = Array2D(inputAreaSize[0].x + 1, inputAreaSize[0].y + 1, '');
+        const initItemsToRender = Array2D(inputAreaSize[0].x+1, inputAreaSize[0].y+1, '');
 
         const initializeRenderItems = (dataArray, renderType) => {
             for (let iter=0; iter<dataArray.length; iter++) {
@@ -108,11 +111,13 @@ const MainPanel = function(props) {
         <div className="MainPanel">
 
             {(renderPanel === "UserInputPanel") &&
-             <UserInputPanel userInputDataSetters={{setAreaSize, setStartPosition,
-                                                    setImportantPositions, setHazardPositions}}/>}
+             <UserInputPanel userInputDataSetters={{setAreaSizeUserInput, setStartPositionUserInput,
+                                                    setImportantPositionsUserInput, setHazardPositionsUserInput}}/>}
 
             {(renderPanel === "SimulatePanel") &&
-             <SimulatePanel areaSize={{x: areaSizeX, y: areaSizeY}}/>}
+             <SimulatePanel areaSize={{x: areaSizeX, y: areaSizeY}}
+                            robotPath={robotPath}
+                            itemsToRender={itemsToRender}/> }
 
 
             <div className="Bottom">
@@ -121,8 +126,8 @@ const MainPanel = function(props) {
                     <GenerateAreaButton setRenderPanelState={setRenderPanelState}
                                         setRenderButtonState={setRenderButtonState}
                                         setInitialData={setInitialData}
-                                        userInputData = {{areaSize, startPosition,
-                                                        importantPositions, hazardPositions}}/>}
+                                        userInputData = {{areaSizeUserInput, startPositionUserInput,
+                                                        importantPositionsUserInput, hazardPositionsUserInput}}/>}
 
 
                 {(renderButton === "ResumeButton") &&
