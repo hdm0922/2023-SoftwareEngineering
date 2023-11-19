@@ -2,19 +2,26 @@
 
 class Parser {
 
-    static parseUserSTT({ userSTT }) {
+    static parseUserSTT(userSTT) {
 
         let inputString = "";
-        for (let iter=0; iter<userSTT.length(); iter++) {
+        for (let iter=0; iter<userSTT.length; iter++) {
             if ( userSTT[iter] === '' ) continue;
             inputString += userSTT[iter];
         }
 
-        return {
-            order: inputString.slice(0, -2),
-            x: Number( inputString[inputString.length - 1] ),
-            y: Number( inputString[inputString.length - 2] )
-        };
+        const x = Number( inputString[inputString.length - 2] );
+        const y = Number( inputString[inputString.length - 1] );
+
+        const  isValidSTT = (!isNaN(x)) && (!isNaN(y));
+        
+        return isValidSTT ?
+        {
+            order   :   inputString.slice(0, -2),
+            x       :   x,
+            y       :   y
+        }           :   null
+
     }
 
 

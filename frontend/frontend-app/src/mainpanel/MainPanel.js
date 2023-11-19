@@ -8,22 +8,21 @@ import ResumeButton from "./renderbutton/ResumeButton";
 import PauseButton from "./renderbutton/PauseButton";
 import GenerateAreaButton from "./renderbutton/GenerateAreaButton";
 
-import Parser from "../Parser";
 import APIRequestHandler from "../APIRequestHandler";
 
 
-const Array2D = function(x, y, value) {
-    const arr = [];
 
-    for (let iter=0; iter<y; iter++) {
-        arr.push( [] );
-        for (let jter=0; jter<x; jter++) { arr[iter].push(value); }
-    }
 
-    return arr;
-}
 
-// props = { setSTTButtonState: Function, areaSize: Object }
+/*
+props = { setSTTButtonState: Function, simulationData: Object }
+
+simulationData = { areaSize: Object, robot: Object, itemsToRender: Array2D<Object>,
+                    updateFunctions: Object }
+                    
+updateFunctions = { setInitialData: Function, updateItemsToRender: Function,
+                    setrobotRotationDegree: Function, setRobotPosition: Function }
+*/
 const MainPanel = function(props) {
 
     const [renderPanel, setRenderPanel] = useState("UserInputPanel");
@@ -39,12 +38,6 @@ const MainPanel = function(props) {
 
 
 
-    const [areaSizeX, setAreaSizeX] = useState(0);
-    const [areaSizeY, setAreaSizeY] = useState(0);
-    const [robotPath, setRobotPath] = useState([]);
-    const [itemsToRender, setItemsToRender] = useState(Array2D(areaSizeX, areaSizeY, null));
-    const [robotPosition, setRobotPosition] = useState({});
-    const [robotRotationDegree, setrobotRotationDegree] = useState(0);
 
     const setRenderPanelState = function(newPanel) {
 
@@ -80,40 +73,8 @@ const MainPanel = function(props) {
         }
     };
 
-    const setInitialData = function(initialData) {
 
-        const inputAreaSize             = Parser.stringToPairsArray(initialData.areaSize);
-        const initRobotPosition         = Parser.stringToPairsArray(initialData.robotPosition);
-        const initRobotPath             = Parser.stringToPairsArray(initialData.robotPath);
-        const initHazardPositions       = Parser.stringToPairsArray(initialData.hazardPositions);
-        const initImportantPositions    = Parser.stringToPairsArray(initialData.importantPositions);
 
-        setAreaSizeX( inputAreaSize[0].x+1 );
-        setAreaSizeY( inputAreaSize[0].y+1 );
-        setRobotPosition( initRobotPosition[0] );
-        setRobotPath( initRobotPath );
-
-        const initItemsToRender = Array2D(inputAreaSize[0].x+1, inputAreaSize[0].y+1, '');
-
-        const initializeRenderItems = (dataArray, renderType) => {
-            for (let iter=0; iter<dataArray.length; iter++) {
-                initItemsToRender[dataArray[iter].y]
-                                 [dataArray[iter].x] = renderType;
-            }
-        }
-
-        initializeRenderItems(initHazardPositions, "Hazard");
-        initializeRenderItems(initImportantPositions, "Important");
-        initializeRenderItems(initRobotPosition, "Robot");
-
-        setItemsToRender( initItemsToRender );
-    };
-
-    const updateItemsToRender = function(itemType, x, y) {
-        const newItemsToRender = [...itemsToRender];
-        newItemsToRender[y][x] = itemType;
-        setItemsToRender(newItemsToRender);
-    }
 
     const MoveRobot = function() {
 
@@ -125,15 +86,21 @@ const MainPanel = function(props) {
                 break;
 
             case "Rotate" :
-                setrobotRotationDegree( (robotRotationDegree + 90) % 360 );
+                props.simulationData.updateFunctions.setrobotRotationDegree(
+                    (props.simulationData.robot.robotRotationDegree + 90) % 360
+                );
                 break;
 
             case "Move" :
                 
-                updateItemsToRender("", robotPosition.x, robotPosition.y);
-                const newRobotPosition = {x: robotPosition.x, y: robotPosition.y};
+                props.simulationData.updateFunctions.updateItemsToRender("",
+                    props.simulationData.robot.robotPosition.x,
+                    props.simulationData.robot.robotPosition.y
+                );
 
-                switch (robotRotationDegree) {
+                const newRobotPosition = {x: props.simulationData.robot.robotPosition.x,
+                                          y: props.simulationData.robot.robotPosition.y};
+                switch (props.simulationData.robot.robotRotationDegree) {
                     case 0      : newRobotPosition.y++; break;
                     case 90     : newRobotPosition.x++; break;
                     case 180    : newRobotPosition.y--; break;
@@ -141,8 +108,11 @@ const MainPanel = function(props) {
                     default     :                       break;
                 }
 
-                updateItemsToRender("Robot", newRobotPosition.x, newRobotPosition.y);
-                setRobotPosition(newRobotPosition);
+                props.simulationData.updateFunctions.updateItemsToRender(
+                    "Robot", newRobotPosition.x, newRobotPosition.y
+                );
+
+                props.simulationData.updateFunctions.setRobotPosition(newRobotPosition);
                 break;
 
             default :
@@ -161,10 +131,10 @@ const MainPanel = function(props) {
                                                     setImportantPositionsUserInput, setHazardPositionsUserInput}}/>}
 
             {(renderPanel === "SimulatePanel") &&
-             <SimulatePanel areaSize={{x: areaSizeX, y: areaSizeY}}
-                            robotPath={robotPath}
-                            robotRotationDegree={robotRotationDegree}
-                            itemsToRender={itemsToRender}/> }
+             <SimulatePanel areaSize            ={props.simulationData.areaSize}
+                            robotPath           ={props.simulationData.robot.robotPath}
+                            robotRotationDegree ={props.simulationData.robot.robotRotationDegree}
+                            itemsToRender       ={props.simulationData.itemsToRender}/> }
 
             <button onClick={MoveRobot} style={{position:"absolute"}}/>
 
@@ -173,7 +143,7 @@ const MainPanel = function(props) {
                 {(renderButton === "GenerateAreaButton") &&
                     <GenerateAreaButton setRenderPanelState={setRenderPanelState}
                                         setRenderButtonState={setRenderButtonState}
-                                        setInitialData={setInitialData}
+                                        setInitialData={props.simulationData.updateFunctions.setInitialData}
                                         userInputData = {{areaSizeUserInput, startPositionUserInput,
                                                         importantPositionsUserInput, hazardPositionsUserInput}}/>}
 
