@@ -4,7 +4,6 @@ import './SimulatePanel.css'
 import { RiRobot2Line } from "react-icons/ri";
 import { MdOutlineDangerous } from "react-icons/md";
 import { FaStar  } from "react-icons/fa";
-
 import { FaArrowUp  } from "react-icons/fa6";
 
 
@@ -19,7 +18,8 @@ const Line = ({ startPosition, endPosition, style }) => {
 };
 
 /*
-props = { areaSize: Object, robotPath: Array<Object>, itemsToRender: Array2D<String> }
+props = { areaSize: Object, robotPath: Array<Object>, itemsToRender: Array2D<String>,
+          robotRotationDegree: Number }
 */
 const SimulatePanel = function(props) {
 
@@ -105,8 +105,6 @@ const SimulatePanel = function(props) {
 
     const renderPath = function(robotPath) {
 
-        console.log (robotPath);
-
         const getDirectionDegree = function(source, destination) {
             const difference = "" + (destination.x - source.x) + (destination.y - source.y);
 
@@ -142,8 +140,6 @@ const SimulatePanel = function(props) {
 
         for (let iter=0; iter<robotPath.length-1; iter++) {
 
-            console.log("=========");
-
             const source        = robotPath[iter];
             const destination   = robotPath[iter+1];
 
@@ -159,10 +155,6 @@ const SimulatePanel = function(props) {
                 width: 50,
                 height: 50,
             };
-
-            console.log(getPixelPosition(source.x, source.y));
-            console.log(getPixelPosition(destination.x,destination.y));
-            console.log(arrowStyle);
             
             reactElements.push(
                 renderArrow( arrowStyle, reactElements.length,
@@ -185,9 +177,7 @@ const SimulatePanel = function(props) {
             </svg>
 
             {renderPath(props.robotPath)}
-            {renderItems(props.itemsToRender, 90)}
-
-            <FaArrowUp  fontSize={30} style={{transform: "rotate(" + 90 + "deg)"}}/>
+            {renderItems(props.itemsToRender, props.robotRotationDegree)}
         </div>
 
     );
