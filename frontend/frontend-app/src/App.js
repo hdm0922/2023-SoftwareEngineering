@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import MainPanel from './mainpanel/MainPanel';
 import BottomPanel from './bottompanel/BottomPanel';
-import Parser from './Parser';
-
 
 
 

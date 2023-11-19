@@ -3,10 +3,9 @@ import './SimulatePanel.css'
 
 import { RiRobot2Line } from "react-icons/ri";
 import { MdOutlineDangerous } from "react-icons/md";
-import { FaRegStar } from "react-icons/fa";
+import { FaStar  } from "react-icons/fa";
 
-
-
+import { FaArrowUp  } from "react-icons/fa6";
 
 
 
@@ -34,8 +33,10 @@ const SimulatePanel = function(props) {
     };
 
 
-    const border = [];
-    {
+    const renderBorder = function() {
+
+        const border = [];
+
         for (let iter=0; iter<=props.areaSize.x; iter++) {
             border.push(
                 <Line startPosition={ getPixelPosition(iter, 0) }
@@ -53,17 +54,20 @@ const SimulatePanel = function(props) {
                         style={{stroke: "white"}}/>
             );
         }
+
+        return border;
     }
 
-    const renderItems = function(itemsToRender) {
+
+    const renderItems = function(itemsToRender, robotRotationDegree) {
 
         const renderIcon = function(itemString) {
 
             switch (itemString) {
-                case "Robot"        : return <RiRobot2Line />;
+                case "Robot"        : return <RiRobot2Line style={{transform: "rotate(" + robotRotationDegree + "deg)"}} />;
                 case "Hazard"       : return <MdOutlineDangerous />;
-                case "Important"    : return <FaRegStar />;
-                default             : return "";
+                case "Important"    : return <FaStar color="yellow" />;
+                default             : return null;
             }
 
         };
@@ -75,8 +79,6 @@ const SimulatePanel = function(props) {
 
         iconStyle.top  = - (iconStyle.width  >> 1);
         iconStyle.left = - (iconStyle.height >> 1);
-
-        console.log(iconStyle);
 
         const reactElements = [];
 
@@ -98,15 +100,80 @@ const SimulatePanel = function(props) {
             }
         }
 
-        console.log( "Input :", itemsToRender );
-        console.log( "Rendered :", reactElements );
-
         return reactElements;
     }
 
     const renderPath = function(robotPath) {
 
+        console.log (robotPath);
+
+        const getDirectionDegree = function(source, destination) {
+            const difference = "" + (destination.x - source.x) + (destination.y - source.y);
+
+            let directionDegree = 0;
+            switch (difference) {
+                case "01"   : directionDegree = 0;      break;
+                case "10"   : directionDegree = 90;     break;
+                case "0-1"  : directionDegree = 180;    break;
+                case "-10"  : directionDegree = 270;    break;
+                default     : directionDegree = 0;
+            }
+
+            return directionDegree;
+        }
+
+        const renderArrow = function(arrowStyle, index, directionDegree) {
+            return (
+                <div key={index} className="renderArrow"
+                     style={{
+                        top     : (arrowStyle.top  - (arrowStyle.width  >> 1)),
+                        left    : (arrowStyle.left - (arrowStyle.height >> 1)),
+                        width   :  arrowStyle.width,
+                        height  :  arrowStyle.height
+                     }}> <FaArrowUp fontSize={30} color="purple"
+                                    style={{transform: "rotate(" + directionDegree + "deg)"}}/> </div>
+            );
+
+        }
+
+
+        const reactElements = [];
+
+
+        for (let iter=0; iter<robotPath.length-1; iter++) {
+
+            console.log("=========");
+
+            const source        = robotPath[iter];
+            const destination   = robotPath[iter+1];
+
+            const arrowStyle = {
+                top: (0.5 * ( getPixelPosition(source.x, source.y).y +
+                              getPixelPosition(destination.x,destination.y).y )
+                ),
+
+                left: (0.5 * ( getPixelPosition(source.x, source.y).x +
+                               getPixelPosition(destination.x, destination.y).x )
+                ),
+
+                width: 50,
+                height: 50,
+            };
+
+            console.log(getPixelPosition(source.x, source.y));
+            console.log(getPixelPosition(destination.x,destination.y));
+            console.log(arrowStyle);
+            
+            reactElements.push(
+                renderArrow( arrowStyle, reactElements.length,
+                    getDirectionDegree(source, destination) )
+            );
+
+        }
+
+        return reactElements;
     }
+
 
 
     return (
@@ -114,11 +181,13 @@ const SimulatePanel = function(props) {
         <div className="SimulatePanel">
 
             <svg width={panelWidth} height={panelHeight}>
-                {border}
-                {renderPath(props.robotPath)}
+                {renderBorder()}
             </svg>
 
-            {renderItems(props.itemsToRender)}
+            {renderPath(props.robotPath)}
+            {renderItems(props.itemsToRender, 90)}
+
+            <FaArrowUp  fontSize={30} style={{transform: "rotate(" + 90 + "deg)"}}/>
         </div>
 
     );

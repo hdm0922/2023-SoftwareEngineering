@@ -26,7 +26,7 @@ const MainPanel = function(props) {
 
     const [renderPanel, setRenderPanel] = useState("UserInputPanel");
     const [renderButton, setRenderButton] = useState("GenerateAreaButton");
-    const [simulationRunning, setSimulationRunning] = useState(false);
+    // const [simulationRunning, setSimulationRunning] = useState(false);
 
 
 
