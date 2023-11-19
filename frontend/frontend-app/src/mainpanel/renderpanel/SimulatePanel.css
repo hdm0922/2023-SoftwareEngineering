@@ -1,22 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@600&display=swap');
 
 .SimulatePanel {
-    /* display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    gap: 8px;
-    padding: 10px;
-
-    align-items: center;
-    justify-content: center;
 
     position: relative;
-    top: 30px; */
 
     background-color: lightblue;
 
-    border: 2px solid black;
+    /* border: 5px solid purple; */
 
     width: 600px;
     height: 400px;
+}
+
+
+.renderItem {
+
+    position: absolute;
+    /* border: 2px solid purple; */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 40px;
 }
