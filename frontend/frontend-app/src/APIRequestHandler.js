@@ -3,7 +3,10 @@
 class APIRequestHandler {
 
     static notifyUserSTT(userOrder) {
-        return null;
+        return {
+            itemID: "Hazard",
+            robotPath: "22232425"
+        };
     }
     
 
@@ -15,10 +18,14 @@ class APIRequestHandler {
     }
 
     // 서버측에 사용자의 명령을 전달한 후, 응답으로 새로운 입력 데이터(items, path)를 받는다.
-    static fetchUpdateData(userOrder) {
+    static fetchUpdateDataViaSTT(userOrder) {
+
+        const itemID = userOrder ? "Hazard" : null;
+        const robotPath = userOrder ? "22232425" : null;
+
         return {
-            itemID: null,
-            robotPath: null
+            itemID: itemID,
+            robotPath: robotPath
         };
     }
 
