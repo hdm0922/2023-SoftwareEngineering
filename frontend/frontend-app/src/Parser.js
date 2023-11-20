@@ -2,34 +2,41 @@
 
 class Parser {
 
-    static parseUserSTT({ userSTT }) {
+    static parseUserSTT(userSTT) {
 
         let inputString = "";
-        for (let iter=0; iter<userSTT.length(); iter++) {
+        for (let iter=0; iter<userSTT.length; iter++) {
             if ( userSTT[iter] === '' ) continue;
             inputString += userSTT[iter];
         }
 
-        return {
-            order: inputString.slice(0, -2),
-            positionX: Number( inputString[inputString.length - 1] ),
-            positionY: Number( inputString[inputString.length - 2] )
-        };
+        const x = Number( inputString[inputString.length - 2] );
+        const y = Number( inputString[inputString.length - 1] );
+
+        const  isValidSTT = (!isNaN(x)) && (!isNaN(y));
+        
+        return isValidSTT ?
+        {
+            order   :   inputString.slice(0, -2),
+            x       :   x,
+            y       :   y
+        }           :   null
+
     }
 
 
-    static parseRobotPath(robotPathString) {
-        
-        const pathCounts = robotPathString.length >> 1;
+    static stringToPairsArray(dataString) {
 
-        const destinationsArray = [];
-        for (let iter=0; iter<pathCounts; iter++) {
-            const destinationX = Number( robotPathString[ (iter << 1) ] );
-            const destinationY = Number( robotPathString[ (iter << 1) + 1 ] );
-            destinationsArray.push({x: destinationX, y: destinationY});
+
+        const SIZE = dataString.length >> 1;
+
+        const pairsArray = [];
+        for (let iter=0; iter<SIZE; iter++) {
+            const destinationX = Number( dataString[ (iter << 1) ] );
+            const destinationY = Number( dataString[ (iter << 1) + 1] );
+            pairsArray.push({x: destinationX, y: destinationY});
         }
-
-        return destinationsArray;
+        return pairsArray;
     }
 
 }

@@ -1,18 +1,21 @@
 import React from "react";
 import './GenerateAreaButton.css'
+import { FaPlay } from "react-icons/fa";
+
 import APIRequestHandler from "../../APIRequestHandler";
 
-// props = { setRenderPanelState, setRenderButtonState, userInputData };
+/*
+props = { setRenderPanelState: Function, setRenderButtonState: Function
+            userInputData: Object, setInitialData: Function }
+*/
 const GenerateAreaButton = function(props) {
 
     const onEventButtonClicked = function() {
 
 
-        // 서버측에 userInputData 전송, 경로 수신함
-        const pathObject = APIRequestHandler.generatePath(props.userInputData);
-        
-        // console.log(pathObject);        
-
+        // 서버측에 userInputData 전송, 초기 데이터 수신함
+        const initialData = APIRequestHandler.fetchInitialData(props.userInputData);
+        props.setInitialData(initialData);
 
         props.setRenderPanelState("SimulatePanel");
         props.setRenderButtonState("ResumeButton");
@@ -20,10 +23,8 @@ const GenerateAreaButton = function(props) {
 
     return (
 
-        <button className="GenerateAreaButton"
-                onClick={onEventButtonClicked}>
-            <span>Generate</span>
-        </button>
+        <button className="generateAreaButton"
+                onClick={onEventButtonClicked}>GO</button>
 
     );
 

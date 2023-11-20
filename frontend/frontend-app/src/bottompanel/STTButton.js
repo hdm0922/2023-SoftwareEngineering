@@ -7,7 +7,7 @@ import Parser from '../Parser';
 
 /*
 props = { setSTTResult: Function, setSTTButtonState: Function,
-          buttonDisabled: Boolean, updateSystemData: Function };
+          buttonDisabled: Boolean, updateSimulationDataViaSTT: Function };
 */
 const STTButton = function(props) {
 
@@ -19,11 +19,24 @@ const STTButton = function(props) {
     const convertedText = await SpeechHandler.GetConvertedText();
     props.setSTTResult(convertedText);
 
-    const userOrder = Parser.parseUserSTT(convertedText);
+    const userOrder  = Parser.parseUserSTT(convertedText);
+    const fetchedUpdateData = APIRequestHandler.fetchUpdateDataViaSTT(userOrder);
+    const updateData = {
 
-    const newSystemData = APIRequestHandler.fetchUpdateData(userOrder);
-    if ( newSystemData ) { props.updateSystemData(newSystemData); }
+      item: (
+        fetchedUpdateData.itemID ?
+        {
+          itemType  : fetchedUpdateData.itemID,
+          x         : userOrder.x,
+          y         : userOrder.y
+        }           : null
+      ),
 
+      robotPath: fetchedUpdateData.robotPath
+
+    };
+
+    props.updateSimulationDataViaSTT(updateData);
     props.setSTTButtonState("Running");
   }
 

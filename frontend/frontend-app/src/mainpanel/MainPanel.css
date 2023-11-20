@@ -7,11 +7,10 @@
     align-items: center;
     flex-direction: column;
 
-    position: absolute;
-    top: 50px;
-    left : 600px;
+    position: relative;
+    top: 100px;
 
-    background-color: gray;
+    background-color: rgb(131, 129, 129);
 
     border: 3px solid black;
     border-radius: 10px;

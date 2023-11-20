@@ -3,8 +3,8 @@ import './UserInputPanel.css'
 
 /* 
 props = { userInputDataSetters: Object };
-userInputDataSetters =  { setAreaSize: Function, setStartPosition: Function,
-                          setImportantPositions: Function, setHazardPositions:Function }
+userInputDataSetters =  { setAreaSizeUserInput: Function, setStartPositionUserInput: Function,
+                          setImportantPositionsUserInput: Function, setHazardPositionsUserInput:Function }
 */
 const UserInputPanel = function(props) {
 
@@ -13,16 +13,16 @@ const UserInputPanel = function(props) {
         <div className="UserInputPanel">
 
             <InputComponent componentName={"Area Size"}
-                            updateFunction={props.userInputDataSetters.setAreaSize}/>
+                            updateFunction={props.userInputDataSetters.setAreaSizeUserInput}/>
 
             <InputComponent componentName={"Start Position"}
-                            updateFunction={props.userInputDataSetters.setStartPosition}/>
+                            updateFunction={props.userInputDataSetters.setStartPositionUserInput}/>
 
             <InputComponent componentName={"Important Positions"}
-                            updateFunction={props.userInputDataSetters.setImportantPositions}/>
+                            updateFunction={props.userInputDataSetters.setImportantPositionsUserInput}/>
 
             <InputComponent componentName={"Hazard Positions"}
-                            updateFunction={props.userInputDataSetters.setHazardPositions}/>
+                            updateFunction={props.userInputDataSetters.setHazardPositionsUserInput}/>
 
         </div>
 
