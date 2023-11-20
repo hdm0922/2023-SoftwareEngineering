@@ -24,7 +24,7 @@ class PathGenerator:
         opsize = self._operation_area_instance.get_area_size()
         targetPos = importPos.union(colorPos)
         self._movement_queue = mer(opsize,ltt,hazardPos,targetPos)
-        self._robotMovementInterface._route_list = self._movement_queue
+        self._robotMovementInterface._route_list = deque(self._movement_queue)
         return self._movement_queue
         
     def RequestRobotPosition(self):
@@ -37,15 +37,15 @@ class PathGenerator:
 
 
 
-#oparea = OperationArea((9,9), [(3,3),(4,4),(5,5)], [(2,2),(7,7)], [(1,6),(2,1)])
-#rbInterface = RobotMovementInterface()
-#rbInterface._Sensor_Interface_Instance._positionSensor._RobotPosition = [3,4]
-#print("///")
-#print(rbInterface.RequestRobotPosition())
-#print("///")
-#temp = PathGenerator(rbInterface,[0,1] , oparea)
-#print(temp.RequestRobotPosition())
-#print(temp.GeneratePath())
+oparea = OperationArea((9,9), set([(3,3),(4,4),(5,5)]), set([(2,2),(7,7)]), set([(1,6),(2,1)]))
+rbInterface = RobotMovementInterface()
+temp = PathGenerator(rbInterface, [0,0], oparea)
+print(temp.GeneratePath())
+print(type(temp._robotMovementInterface._route_list))
+print((temp._robotMovementInterface._route_list))
+
+
+
 
 
 

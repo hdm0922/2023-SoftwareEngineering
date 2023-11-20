@@ -95,7 +95,9 @@ def process_data():
         areaInterface.initialize_colorblob_positions(colorblob_positions)
         robotMovementInterface._sim_instance._position_sensor._RobotPosition=robot_position
         robotMovementInterface._expected_destination = robot_position
-
+        print("테스트 할 부분")
+        print(sensorInterpace._positionSensor.get_position())
+        print("테스트 할 부분")
         # 변환된 데이터 출력
         print("Area Size:", areaInterface.get_area_size())
         print("Must Go Positions:", areaInterface.get_important_positions())
