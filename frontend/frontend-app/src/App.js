@@ -3,6 +3,8 @@ import './App.css';
 
 import MainPanel from './mainpanel/MainPanel';
 import BottomPanel from './bottompanel/BottomPanel';
+
+import Helper from './Helper';
 import Parser from './Parser';
 
 import { BiSolidJoystickButton } from "react-icons/bi";
@@ -10,29 +12,24 @@ import { TbCircleLetterA } from "react-icons/tb";
 import { TbCircleLetterB } from "react-icons/tb";
 import { FaCircle } from "react-icons/fa";
 
-const Array2D = function(x, y, value) {
-    const arr = [];
-
-    for (let iter=0; iter<y; iter++) {
-        arr.push( [] );
-        for (let jter=0; jter<x; jter++) { arr[iter].push(value); }
-    }
-
-    return arr;
-}
 
 const App = () => {
 
     const [stateMessage, setStateMessage] = useState("음성 입력이 비활성화 되었습니다.");
     const [enableSTTButton, setEnableSTTButton] = useState(false);
 
-    const [areaSize, setAreaSize] = useState({});
-    const [robotPath, setRobotPath] = useState([]);
-    const [robotPosition, setRobotPosition] = useState({});
+    const [areaSize,            setAreaSize] = useState({});
+    const [robotPath,           setRobotPath] = useState([]);
+    const [robotPosition,       setRobotPosition] = useState({});
     const [robotRotationDegree, setrobotRotationDegree] = useState(0);
-    const [robotGoingCorrect, setRobotGoingCorrect] = useState(true);
-    const [itemsToRender, setItemsToRender] = useState(Array2D(0, 0, null));
- 
+    const [robotGoingCorrect,   setRobotGoingCorrect] = useState(true);
+    const [itemsToRender,       setItemsToRender] = useState(Helper.Array2D(0, 0, null));
+
+    const [hazardSensorNorth,       setHazardSensorNorth]       = useState(false);
+    const [colorBlobSensorNorth,    setColorBlobSensorNorth]    = useState(false);
+    const [colorBlobSensorEast,     setColorBlobSensorEast]     = useState(false);
+    const [colorBlobSensorWest,     setColorBlobSensorWest]     = useState(false);
+
     const setSTTButtonState = function(newState) {
         
         switch (newState) {
@@ -67,7 +64,7 @@ const App = () => {
         const initColorBlobPositions    = Parser.parseStringToPairsArray(initialData.colorBlobPositions);
 
         const initializedAreaSize       = { x: (inputAreaSize[0].x + 1), y: (inputAreaSize[0].y + 1) };
-        const initItemsToRender         = Array2D(initializedAreaSize.x, initializedAreaSize.y, '');
+        const initItemsToRender         = Helper.Array2D(initializedAreaSize.x, initializedAreaSize.y, '');
 
         const initializeRenderItems = (dataArray, renderType) => {
             for (let iter=0; iter<dataArray.length; iter++) {
@@ -109,16 +106,29 @@ const App = () => {
                                 robotPosition: robotPosition,
                                 robotRotationDegree: robotRotationDegree,
                                 robotPath: robotPath,
-                                robotGoingCorrect: robotGoingCorrect
+                                robotGoingCorrect: robotGoingCorrect,
+
+                                sensors: {
+                                    hazardSensorNorth: hazardSensorNorth,
+                                    colorBlobSensorNorth: colorBlobSensorNorth,
+                                    colorBlobSensorEast: colorBlobSensorEast,
+                                    colorBlobSensorWest: colorBlobSensorWest
+                                }
                             },
 
                             updateFunctions: {
                                 setInitialData: setInitialData,
                                 updateItemsToRender: updateItemsToRender,
+
                                 setrobotRotationDegree: setrobotRotationDegree,
                                 setRobotPosition: setRobotPosition,
                                 setRobotPath: setRobotPath,
-                                setRobotGoingCorrect: setRobotGoingCorrect
+                                setRobotGoingCorrect: setRobotGoingCorrect,
+
+                                setHazardSensorNorth: setHazardSensorNorth,
+                                setColorBlobSensorNorth: setColorBlobSensorNorth,
+                                setColorBlobSensorEast: setColorBlobSensorEast,
+                                setColorBlobSensorWest: setColorBlobSensorWest
                             }
 
                        }}

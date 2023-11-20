@@ -9,7 +9,7 @@ class APIRequestHandler {
             robotAction_moveDistance: 1,
             robotAction_isCorrectMove: true,
 
-            unknownObjects: "H33",
+            unknownObjects: "H33I00",
             robotPath: "1112222324"
         };
     }
@@ -27,8 +27,8 @@ class APIRequestHandler {
         return {
             areaSize: "45",
             robotPosition: "12",
-            importantPositions: "4215",
-            hazardPositions: "1032",
+            importantPositions: "42",
+            hazardPositions: "103215",
             colorBlobPositions: "2244",
 
             robotPath: "122223242515"

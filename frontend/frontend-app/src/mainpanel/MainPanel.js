@@ -4,13 +4,14 @@ import './MainPanel.css'
 import UserInputPanel from "./renderpanel/UserInputPanel";
 import SimulatePanel from "./renderpanel/SimulatePanel";
 
+import GenerateAreaButton from "./renderbutton/GenerateAreaButton";
 import ResumeButton from "./renderbutton/ResumeButton";
 import PauseButton from "./renderbutton/PauseButton";
-import GenerateAreaButton from "./renderbutton/GenerateAreaButton";
+import RetryButton from "./renderbutton/RetryButton";
 
 import APIRequestHandler from "../APIRequestHandler";
 import Parser from "../Parser";
-import RetryButton from "./renderbutton/RetryButton";
+import Helper from "../Helper";
 
 
 
@@ -19,8 +20,12 @@ import RetryButton from "./renderbutton/RetryButton";
 props = { setSTTButtonState: Function, simulationData: Object }
 
 simulationData = { areaSize: Object, robot: Object, itemsToRender: Array2D<Object>,
-                    updateFunctions: Object, robotGoingCorrect: Boolean }
-                    
+                    updateFunctions: Object }
+
+robot = { robotPosition: Object, robotRotationDegree: Number,
+          robotPath: Array<Object>, robotGoingCorrect: Boolean,
+          sensors: Object }
+
 updateFunctions = { setInitialData: Function, updateItemsToRender: Function,
                     setrobotRotationDegree: Function, setRobotPosition: Function,
                     setRobotPath : Function, setRobotGoingCorrect: Function }
@@ -83,7 +88,7 @@ const MainPanel = function(props) {
             props.simulationData.updateFunctions.setrobotRotationDegree(
                 prevRotationDeg => ((prevRotationDeg + 90) % 360)
             );
-        }
+        };
 
         const moveRobot = function(moveDistance) {
 
@@ -108,7 +113,23 @@ const MainPanel = function(props) {
 
             props.simulationData.updateFunctions.setRobotPosition(newRobotPosition);
 
-        }
+        };
+
+        const handleUnknownObjects = function(unknownObjects) {
+
+            for (let iter=0; iter<unknownObjects.length; iter++) {
+
+                const itemType = unknownObjects[iter].item === 'H' ? "Hazard"    :
+                                 unknownObjects[iter].item === 'C' ? "Color"     :
+                                 unknownObjects[iter].item === 'I' ? "Important" : null;
+
+                props.simulationData.updateFunctions.updateItemsToRender(
+                    itemType, unknownObjects[iter].x, unknownObjects[iter].y
+                );
+            }
+
+            return;
+        };
 
         const robotAction = APIRequestHandler.fetchRobotAction();
 
@@ -127,22 +148,15 @@ const MainPanel = function(props) {
         if (robotAction.unknownObjects) {
 
             const unknownObjects = Parser.parseUnknownObjects(robotAction.unknownObjects);
+            handleUnknownObjects(unknownObjects);
 
-            for (let iter=0; iter<unknownObjects.length; iter++) {
-
-                const itemType = unknownObjects[iter].item === "H" ? "Hazard"    :
-                                 unknownObjects[iter].item === "C" ? "Color"     :
-                                 unknownObjects[iter].item === "I" ? "Important" : null;
-
-                props.simulationData.updateFunctions.updateItemsToRender(
-                    itemType, unknownObjects[iter].x, unknownObjects[iter].y
-                );
-            }
         }
 
         if (robotAction.robotPath) {
+
             const parsedRobotPath = Parser.parseStringToPairsArray( robotAction.robotPath );
             props.simulationData.updateFunctions.setRobotPath( parsedRobotPath );
+
         }   else { setRenderButtonState( "RetryButton" ); }
 
     };
@@ -169,14 +183,16 @@ const MainPanel = function(props) {
 
             {(renderPanel === "UserInputPanel") &&
              <UserInputPanel userInputDataSetters={{setAreaSizeUserInput, setStartPositionUserInput,
-                                                    setImportantPositionsUserInput, setHazardPositionsUserInput}}/>}
+                                                    setImportantPositionsUserInput, setHazardPositionsUserInput}}
+            />}
 
             {(renderPanel === "SimulatePanel") &&
-             <SimulatePanel areaSize            ={props.simulationData.areaSize}
-                            robotPath           ={props.simulationData.robot.robotPath}
-                            robotRotationDegree ={props.simulationData.robot.robotRotationDegree}
-                            robotGoingCorrect   ={props.simulationData.robot.robotGoingCorrect}
-                            itemsToRender       ={props.simulationData.itemsToRender}/> }
+             <SimulatePanel areaSize={props.simulationData.areaSize}
+                            itemsToRender={props.simulationData.itemsToRender}
+                            robot={props.simulationData.robot}
+                            updateFunctions={props.simulationData.updateFunctions}
+
+            /> }
 
 
             <div className="Bottom">
