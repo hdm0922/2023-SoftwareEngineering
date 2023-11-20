@@ -10,8 +10,10 @@ class RobotMovementInterface:
     def RequestRobotPosition(self):
         return self._sim_instance._position_sensor.get_position()
     
-    def RequestNextPostion(self):
-        return
+    def RequestRobotDirection(self):
+        return self._sim_instance._direction_sensor
+    
+    
 
 #    def move(self):
 #        self._sim_instance.notify()

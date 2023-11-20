@@ -82,14 +82,16 @@ def process_data():
         importantPositions = getPositionData(data.get('importantPositions', []))
         hazardPositions = getPositionData(data.get('hazardPositions', []))
         robot_position = getPosition(data.get('robotPosition', []))
+        colorblob_positions = getPositionData(data.get('colorBlobPositions', []))
 #        print(tts(area_size))
 #        print(tlts(importantPositions))
 #        print(tlts(hazardPositions))
 #        print(tts(robot_position))
-
+#        print(colorblob_positions)
         areaInterface.initialize_area_size(area_size)
         areaInterface.initialize_important_positions(importantPositions)
         areaInterface.initialize_hazard_positions(hazardPositions)
+        areaInterface.initialize_colorblob_positions(colorblob_positions)
         robotMovementInterface._sim_instance._position_sensor._RobotPosition=robot_position
         robotMovementInterface._expected_destination = robot_position
 
@@ -97,6 +99,7 @@ def process_data():
         print("Area Size:", areaInterface.get_area_size())
         print("Must Go Positions:", areaInterface.get_important_positions())
         print("Hazard Positions:", areaInterface.get_hazard_positions())
+        print("color_blob posiotn:", areaInterface.get_colorblob_positions())
         print("robot start positions:", areaInterface._path_generator_instance.RequestRobotPosition())
         # 여기에서 데이터를 처리하고 응답을 생성할 수 있습니다.
         #areaInterface.RequestToGenerate()
@@ -105,12 +108,24 @@ def process_data():
         reimportant = tlts(importantPositions)
         rehazard = tlts(hazardPositions)
         rerobotp = tts(robot_position)
-        
+     #   recolor = tlts(colorblob_positions)
         response = {"areaSize": rearea_size,
             "importantPositions": reimportant,
             "hazardPositions": rehazard,
+ #           "colorBlobPositions" :recolor,
             "robotPosition": rerobotp}
         return jsonify(response)
+    
+@app.route('/temp2', methods=['POST'])
+def updatedata():
+    if request.method == 'POST':
+        data = request.get_json()
+        postype = data.get('target', "string type")
+        x = data.get('x', 0)
+        y = data.get('y', 0)
+        print(x , y, postype)
+    
+    return jsonify({'success': True}), 200
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

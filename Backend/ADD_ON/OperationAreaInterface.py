@@ -5,9 +5,10 @@ from Backend.OperationArea.OperationArea import OperationArea
 from Backend.ADD_ON.PathGenerator import PathGenerator
 
 class OperationAreaInterface:
-    def __init__(self, _area_size=(0, 0), _important_positions=None, _hazard_positions=None,
+    def __init__(self, _area_size=(0, 0), _important_positions=None, _hazard_positions=None, _colorblob_positions = None,
                  _path_generator_instance = PathGenerator()):
-        self._operation_area_instance = OperationArea(_area_size=_area_size, _important_positions=_important_positions, _hazard_positions=_hazard_positions)
+        self._operation_area_instance = OperationArea(_area_size=_area_size, _important_positions=_important_positions, _hazard_positions=_hazard_positions, 
+                                                      _colorblob_positions= _colorblob_positions)
         self._path_generator_instance = _path_generator_instance
 
     def get_area_size(self):
@@ -16,17 +17,22 @@ class OperationAreaInterface:
         return self._operation_area_instance.get_important_positions()
     def get_hazard_positions(self):
         return self._operation_area_instance.get_hazard_positions()
+    def get_colorblob_positions(self):
+        return self._operation_area_instance.get_colorblob_positions()
     def initialize_area_size(self, area_size):
         self._operation_area_instance.initialize_area_size(area_size)
     def initialize_important_positions(self, important_positions):
         self._operation_area_instance.initialize_important_positions(important_positions)
     def initialize_hazard_positions(self, hazard_positions):
         self._operation_area_instance.initialize_hazard_positions(hazard_positions)
+    def initialize_colorblob_positions(self, _colorblob_positions):
+        self._operation_area_instance.initialize_colorblob_positions(_colorblob_positions)
     def add_to_important_positions(self, new_position):
         self._operation_area_instance.add_to_important_positions(new_position)
     def add_to_hazard_positions(self, new_position):
         self._operation_area_instance.add_to_hazard_positions(new_position)
-        
+    def add_to_colorblob_positions(self, new_colorblob_positions):
+        self._operation_area_instance.add_to_colorblob_positions(new_colorblob_positions)    
         
     def RequestToGenerate(self):
         # Update the operation_area_instance field of path_generator_instance

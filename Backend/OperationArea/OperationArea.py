@@ -2,11 +2,12 @@ import sys
 sys.path.append('.')
 
 class OperationArea:
-    def __init__(self, _area_size=(0, 0), _important_positions=None, _hazard_positions=None):
+    def __init__(self, _area_size=(0, 0), _important_positions=None, _hazard_positions=None, _colorblob_positions = None):
         self._area_size = _area_size
         self._important_positions = _important_positions or set()
         self._hazard_positions = _hazard_positions or set()
-
+        self._colorblob_positions= _colorblob_positions or set()
+        
     def get_area_size(self):
         return self._area_size
 
@@ -15,6 +16,9 @@ class OperationArea:
 
     def get_hazard_positions(self):
         return self._hazard_positions
+    
+    def get_colorblob_positions(self):
+        return self._colorblob_positions
 
     def initialize_area_size(self, _area_size):
         self._area_size = _area_size
@@ -24,6 +28,9 @@ class OperationArea:
 
     def initialize_hazard_positions(self, _hazard_positions):
         self._hazard_positions = set(_hazard_positions)
+        
+    def initialize_colorblob_positions(self, _colorblob_positions):
+        self._colorblob_positions = set(_colorblob_positions)
 
     def add_to_important_positions(self, _new_position):
         self._important_positions.add(_new_position)
@@ -31,3 +38,5 @@ class OperationArea:
     def add_to_hazard_positions(self, _new_position):
         self._hazard_positions.add(_new_position)
 
+    def add_to_colorblob_positions(self,new_colorblob_positions):
+        self._colorblob_positions.add(new_colorblob_positions)
