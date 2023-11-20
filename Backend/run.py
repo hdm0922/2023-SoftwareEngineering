@@ -141,5 +141,12 @@ def updatedata():
     
     return jsonify({'success': True}), 200
 
+@app.route('/temp3', methods=['POST'])
+def requestmove():
+    if request.method == 'POST':
+        print("나 움직여요!")
+    
+    return jsonify({'success' : "예 움직이세요"})
+
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
