@@ -6,7 +6,7 @@ import STTButton from './STTButton';
 
 /*
 props = { stateMessage: String, setSTTButtonState: Function,
-          buttonDisabled: Boolean, updateSimulationDataViaSTT: Function };
+          buttonDisabled: Boolean, XupdateSimulationDataViaSTT: Function };
 */
 const BottomPanel = function(props) {
 
@@ -20,8 +20,7 @@ const BottomPanel = function(props) {
 
             <STTButton setSTTResult                 =   {setSTTResult}
                        setSTTButtonState            =   {props.setSTTButtonState}
-                       buttonDisabled               =   {props.buttonDisabled}
-                       updateSimulationDataViaSTT   =   {props.updateSimulationDataViaSTT}/>
+                       buttonDisabled               =   {props.buttonDisabled}/>
         </div>
     );
 

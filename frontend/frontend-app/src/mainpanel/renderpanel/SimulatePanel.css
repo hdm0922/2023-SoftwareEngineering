@@ -38,6 +38,10 @@
     color: black;
 }
 
+.colorBlobIcon {
+    color: rgb(182, 93, 108);
+}
+
 
 .importantIcon {
     color: rgb(224, 224, 52);

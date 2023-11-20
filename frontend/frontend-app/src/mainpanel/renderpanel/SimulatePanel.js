@@ -3,9 +3,9 @@ import './SimulatePanel.css'
 
 import { RiRobot2Line } from "react-icons/ri";
 import { MdOutlineDangerous } from "react-icons/md";
+import { GiBurstBlob } from "react-icons/gi";
 import { FaStar  } from "react-icons/fa";
 import { FaArrowUp  } from "react-icons/fa6";
-import { FaRegStar } from "react-icons/fa";
 
 
 
@@ -19,7 +19,7 @@ const Line = ({ startPosition, endPosition, style }) => {
 
 /*
 props = { areaSize: Object, robotPath: Array<Object>, itemsToRender: Array2D<String>,
-          robotRotationDegree: Number }
+          robotRotationDegree: Number, robotGoingCorrect: Boolean }
 */
 const SimulatePanel = function(props) {
 
@@ -59,13 +59,19 @@ const SimulatePanel = function(props) {
     }
 
 
-    const renderItems = function(itemsToRender, robotRotationDegree) {
+    const renderItems = function(itemsToRender, robotRotationDegree, robotGoingCorrect) {
 
         const renderIcon = function(itemString) {
 
             switch (itemString) {
-                case "Robot"        : return <RiRobot2Line style={{transform: "rotate(" + robotRotationDegree + "deg)"}} />;
+
+                case "Robot"        : return <RiRobot2Line style={{
+                                                                transform: "rotate(" + robotRotationDegree + "deg)",
+                                                                color: (robotGoingCorrect ? "black" : "purple")
+                                                            }} />;
+
                 case "Hazard"       : return <MdOutlineDangerous className="hazardIcon"/>;
+                case "Color"        : return <GiBurstBlob className="colorBlobIcon"/>
                 case "Important"    : return <FaStar className="importantIcon" />;
                 default             : return null;
             }
@@ -177,7 +183,8 @@ const SimulatePanel = function(props) {
             </svg>
 
             {renderPath(props.robotPath)}
-            {renderItems(props.itemsToRender, props.robotRotationDegree)}
+            {renderItems(props.itemsToRender, props.robotRotationDegree,
+                         props.robotGoingCorrect)}
         </div>
 
     );

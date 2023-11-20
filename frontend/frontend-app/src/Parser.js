@@ -25,8 +25,7 @@ class Parser {
     }
 
 
-    static stringToPairsArray(dataString) {
-
+    static parseStringToPairsArray(dataString) {
 
         const SIZE = dataString.length >> 1;
 
@@ -36,8 +35,26 @@ class Parser {
             const destinationY = Number( dataString[ (iter << 1) + 1] );
             pairsArray.push({x: destinationX, y: destinationY});
         }
+
         return pairsArray;
     }
+
+
+    static parseUnknownObjects(dataString) {
+
+        const SIZE = Number( dataString.length/3 );
+
+        const pairsArray = [];
+        for (let iter=0; iter<SIZE; iter++) {
+            const itemType      = String( dataString[ (iter * 3)    ] );
+            const destinationX  = Number( dataString[ (iter * 3) + 1] );
+            const destinationY  = Number( dataString[ (iter * 3) + 2] );
+            pairsArray.push({ item: itemType, x: destinationX, y: destinationY});
+        }
+
+        return pairsArray;
+    }
+
 
 }
 
