@@ -3,6 +3,8 @@ import MainPanel from './mainpanel/MainPanel';
 import BottomPanel from './bottompanel/BottomPanel';
 import Parser from './Parser';
 
+import { ImCross } from "react-icons/im";
+
 
 const Array2D = function(x, y, value) {
     const arr = [];
@@ -92,8 +94,6 @@ const App = () => {
             setRobotPath( Parser.stringToPairsArray(updateData.robotPath) );
         }
 
-        
-
         if (updateData.item) {
             console.log( updateData.item );
             updateItemsToRender(updateData.item.itemType,
@@ -105,7 +105,7 @@ const App = () => {
 
     return (
 
-        <div>
+        <div className='gameboy'>
 
             <MainPanel setSTTButtonState        =   {setSTTButtonState}
                        simulationData           =   {{
@@ -136,6 +136,9 @@ const App = () => {
                          buttonDisabled                 =   {!enableSTTButton}
                          updateSimulationDataViaSTT     =   {updateSimulationDataViaSTT}
             />
+
+            {/* <div className='border'> <ImCross className='crossIcon'/> </div> */}
+            
 
         </div>
 

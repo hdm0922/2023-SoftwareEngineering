@@ -12,7 +12,7 @@ const GenerateAreaButton = function(props) {
 
 
         // 서버측에 userInputData 전송, 초기 데이터 수신함
-        const initialData = APIRequestHandler.getInitialData(props.userInputData);
+        const initialData = APIRequestHandler.fetchInitialData(props.userInputData);
         props.setInitialData(initialData);
 
         props.setRenderPanelState("SimulatePanel");

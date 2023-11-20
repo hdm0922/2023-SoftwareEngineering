@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './MainPanel.css'
 
 import UserInputPanel from "./renderpanel/UserInputPanel";
@@ -9,7 +9,6 @@ import PauseButton from "./renderbutton/PauseButton";
 import GenerateAreaButton from "./renderbutton/GenerateAreaButton";
 
 import APIRequestHandler from "../APIRequestHandler";
-
 
 
 
@@ -27,7 +26,10 @@ const MainPanel = function(props) {
 
     const [renderPanel, setRenderPanel] = useState("UserInputPanel");
     const [renderButton, setRenderButton] = useState("GenerateAreaButton");
-    // const [simulationRunning, setSimulationRunning] = useState(false);
+
+
+
+    const [simulationRunning, setSimulationRunning] = useState(null);
 
 
 
@@ -61,11 +63,14 @@ const MainPanel = function(props) {
         switch (newButton) {
 
             case "ResumeButton":
+                pauseSimulation();
                 props.setSTTButtonState("Running");
                 break;
 
             case "PauseButton":
+                resumeSimulation();
                 props.setSTTButtonState("Disabled");
+
                 break;
 
             default :
@@ -74,9 +79,7 @@ const MainPanel = function(props) {
     };
 
 
-
-
-    const MoveRobot = function() {
+    const moveRobot = function() {
 
         const nextMovement = APIRequestHandler.fetchRobotMovement();
         
@@ -87,7 +90,7 @@ const MainPanel = function(props) {
 
             case "Rotate" :
                 props.simulationData.updateFunctions.setrobotRotationDegree(
-                    (props.simulationData.robot.robotRotationDegree + 90) % 360
+                    prevRotationDeg => ((prevRotationDeg + 90) % 360)
                 );
                 break;
 
@@ -98,8 +101,8 @@ const MainPanel = function(props) {
                     props.simulationData.robot.robotPosition.y
                 );
 
-                const newRobotPosition = {x: props.simulationData.robot.robotPosition.x,
-                                          y: props.simulationData.robot.robotPosition.y};
+                const newRobotPosition = props.simulationData.robot.robotPosition;
+
                 switch (props.simulationData.robot.robotRotationDegree) {
                     case 0      : newRobotPosition.y++; break;
                     case 90     : newRobotPosition.x++; break;
@@ -121,6 +124,21 @@ const MainPanel = function(props) {
     };
 
 
+    const resumeSimulation = function() {
+        const running = setInterval(() => { moveRobot(); }, 1000);
+        setSimulationRunning(running);
+    }
+
+    const pauseSimulation = function() {
+        clearInterval(simulationRunning);
+        setSimulationRunning(null);
+    }
+
+
+    useEffect(  () => { if (simulationRunning) {
+        return  () => { clearInterval(simulationRunning); };
+        }}, [simulationRunning]);
+
 
     return (
 
@@ -136,7 +154,7 @@ const MainPanel = function(props) {
                             robotRotationDegree ={props.simulationData.robot.robotRotationDegree}
                             itemsToRender       ={props.simulationData.itemsToRender}/> }
 
-            <button onClick={MoveRobot} style={{position:"absolute"}}/>
+            {/* <button onClick={MoveRobot} style={{position:"absolute"}}/> */}
 
             <div className="Bottom">
 
@@ -145,14 +163,15 @@ const MainPanel = function(props) {
                                         setRenderButtonState={setRenderButtonState}
                                         setInitialData={props.simulationData.updateFunctions.setInitialData}
                                         userInputData = {{areaSizeUserInput, startPositionUserInput,
-                                                        importantPositionsUserInput, hazardPositionsUserInput}}/>}
+                                                        importantPositionsUserInput, hazardPositionsUserInput}}
+                    />}
 
 
                 {(renderButton === "ResumeButton") &&
-                    <ResumeButton setRenderButtonState={setRenderButtonState}/>}
+                    <ResumeButton setRenderButtonState={setRenderButtonState} />}
 
                 {(renderButton === "PauseButton" ) &&
-                    <PauseButton setRenderButtonState={setRenderButtonState}/>}
+                    <PauseButton setRenderButtonState={setRenderButtonState} />}
 
             </div>
 

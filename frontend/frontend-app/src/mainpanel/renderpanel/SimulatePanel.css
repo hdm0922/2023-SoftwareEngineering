@@ -1,12 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@600&display=swap');
 
 .SimulatePanel {
 
     position: relative;
 
-    background-color: lightblue;
-
-    /* border: 5px solid purple; */
+    background-color: rgb(141, 202, 80);
 
     width: 600px;
     height: 400px;
@@ -16,24 +13,33 @@
 .renderItem {
 
     position: absolute;
-    /* border: 2px solid purple; */
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    font-size: 40px;
+    font-size: 60px;
 }
 
 
 
 .renderArrow {
     position: absolute;
-    /* border: 2px solid purple; */
 
     display: flex;
     align-items: center;
     justify-content: center; 
 
+
+}
+
+
+.hazardIcon {
+    color: black;
+}
+
+
+.importantIcon {
+    color: rgb(224, 224, 52);
 
 }

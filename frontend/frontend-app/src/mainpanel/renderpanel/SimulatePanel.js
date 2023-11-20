@@ -5,7 +5,7 @@ import { RiRobot2Line } from "react-icons/ri";
 import { MdOutlineDangerous } from "react-icons/md";
 import { FaStar  } from "react-icons/fa";
 import { FaArrowUp  } from "react-icons/fa6";
-
+import { FaRegStar } from "react-icons/fa";
 
 
 
@@ -65,8 +65,8 @@ const SimulatePanel = function(props) {
 
             switch (itemString) {
                 case "Robot"        : return <RiRobot2Line style={{transform: "rotate(" + robotRotationDegree + "deg)"}} />;
-                case "Hazard"       : return <MdOutlineDangerous />;
-                case "Important"    : return <FaStar color="yellow" />;
+                case "Hazard"       : return <MdOutlineDangerous className="hazardIcon"/>;
+                case "Important"    : return <FaStar className="importantIcon" />;
                 default             : return null;
             }
 
@@ -128,7 +128,7 @@ const SimulatePanel = function(props) {
                         left    : (arrowStyle.left - (arrowStyle.height >> 1)),
                         width   :  arrowStyle.width,
                         height  :  arrowStyle.height
-                     }}> <FaArrowUp fontSize={30} color="purple"
+                     }}> <FaArrowUp fontSize={30} color="black"
                                     style={{transform: "rotate(" + directionDegree + "deg)"}}/> </div>
             );
 
