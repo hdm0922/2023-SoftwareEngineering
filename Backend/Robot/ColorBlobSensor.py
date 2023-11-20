@@ -3,9 +3,10 @@ sys.path.append('.')
 
 class ColorBlobSensor:
     def __init__(self):
-        self._colorBlobState = 0  # 초기값은 0으로 설정
+        self._colorBlobList = []
 
-    def detectColorBlob(self, color_value):
+
+    def detectColorBlob(self):
         print("detectColorBlob test")
         
         

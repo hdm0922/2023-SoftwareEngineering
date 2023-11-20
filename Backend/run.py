@@ -130,7 +130,14 @@ def updatedata():
         postype = data.get('target', "string type")
         x = data.get('x', 0)
         y = data.get('y', 0)
-        print(x , y, postype)
+        if postype == 'haz':
+            hazardSensor._hazardList.append((x,y))
+            print(hazardSensor._hazardList)
+        
+        elif postype == 'color':
+            colorBlobSensor._colorBlobList.append((x,y))
+            print(colorBlobSensor._colorBlobList)
+            
     
     return jsonify({'success': True}), 200
 
