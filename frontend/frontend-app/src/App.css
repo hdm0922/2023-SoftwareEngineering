@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kdam+Thmor+Pro&family=Noto+Sans+KR:wght@600&display=swap');
+
+
 
 .gameBoyPanel {
 
@@ -61,7 +63,7 @@
     left: 350px;
 
     font-size: 30px;
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Kdam Thmor Pro', sans-serif;
 
     transform: rotate(-30deg);
 }
@@ -81,7 +83,7 @@
     left: 500px;
 
     font-size: 30px;
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Kdam Thmor Pro', sans-serif;
 
     transform: rotate(-30deg);
 }
@@ -91,4 +93,17 @@
     font-size: 20px;
     color: rgb(68, 67, 67);
 
+}
+
+
+.logo {
+
+    font-size: 30px;
+    font-family: 'Kdam Thmor Pro', sans-serif;
+
+    position: absolute;
+    top: 700px;
+    left: 100px;
+
+    color: blue;
 }

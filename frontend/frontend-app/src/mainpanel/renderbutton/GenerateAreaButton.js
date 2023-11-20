@@ -1,5 +1,7 @@
 import React from "react";
 import './GenerateAreaButton.css'
+import { FaPlay } from "react-icons/fa";
+
 import APIRequestHandler from "../../APIRequestHandler";
 
 /*
@@ -21,10 +23,8 @@ const GenerateAreaButton = function(props) {
 
     return (
 
-        <button className="GenerateAreaButton"
-                onClick={onEventButtonClicked}>
-            <span>Generate</span>
-        </button>
+        <button className="generateAreaButton"
+                onClick={onEventButtonClicked}>GO</button>
 
     );
 
