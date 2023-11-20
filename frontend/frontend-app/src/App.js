@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import './App.css';
+
 import MainPanel from './mainpanel/MainPanel';
 import BottomPanel from './bottompanel/BottomPanel';
 import Parser from './Parser';
 
 import { ImCross } from "react-icons/im";
-
+import { TbCircleLetterA } from "react-icons/tb";
+import { TbCircleLetterB } from "react-icons/tb";
+import { FaCircle } from "react-icons/fa";
 
 const Array2D = function(x, y, value) {
     const arr = [];
@@ -105,7 +109,7 @@ const App = () => {
 
     return (
 
-        <div className='gameboy'>
+        <div className='gameBoyPanel'>
 
             <MainPanel setSTTButtonState        =   {setSTTButtonState}
                        simulationData           =   {{
@@ -137,13 +141,26 @@ const App = () => {
                          updateSimulationDataViaSTT     =   {updateSimulationDataViaSTT}
             />
 
+            <ImCross className='crossPad'/>
+            <TbCircleLetterA className='buttonA'/>
+            <TbCircleLetterB className='buttonB'/>
+
+            <div className='selectButtonPanel' >
+                <FaCircle className='buttonSelect'/>
+                {' select'}
+            </div>
+
+            <div className='startButtonPanel' >
+                <FaCircle className='buttonStart'/>
+                {' start'}
+            </div>
+
             {/* <div className='border'> <ImCross className='crossIcon'/> </div> */}
             
 
         </div>
 
     );
-
 };
 
 export default App;
