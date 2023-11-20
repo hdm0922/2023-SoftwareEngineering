@@ -2,10 +2,6 @@
 
 .ResumeButton {
 
-    /* position: relative;
-    top: 10px;
-    left: 10px; */
-
     display: flex;
     justify-content: center;
     align-items: center;

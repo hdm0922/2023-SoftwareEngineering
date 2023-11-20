@@ -141,6 +141,8 @@ const App = () => {
                          updateSimulationDataViaSTT     =   {updateSimulationDataViaSTT}
             />
 
+            <div className='logo'>Team OHDONGDONG</div>
+
             <ImCross className='crossPad'/>
             <TbCircleLetterA className='buttonA'/>
             <TbCircleLetterB className='buttonB'/>
