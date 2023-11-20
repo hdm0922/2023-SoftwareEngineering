@@ -12,8 +12,8 @@ class APIRequestHandler {
 
     static fetchRobotMovement() {
         return {
-            robotMovement: "Rotate",
-            moveDistance: 0
+            robotMovement: "Move",
+            moveDistance: 1
         };
     }
 

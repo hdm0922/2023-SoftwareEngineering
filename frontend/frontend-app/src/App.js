@@ -92,8 +92,6 @@ const App = () => {
             setRobotPath( Parser.stringToPairsArray(updateData.robotPath) );
         }
 
-        
-
         if (updateData.item) {
             console.log( updateData.item );
             updateItemsToRender(updateData.item.itemType,
