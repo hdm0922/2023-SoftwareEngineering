@@ -10,9 +10,8 @@
     align-items: center;
 
 
-    border: 1px solid cyan;
     border-radius: 5px;
-    background-color: cyan;
+    background-color: rgb(178, 178, 255);
 
     width: 400px;
     height: 20px;
