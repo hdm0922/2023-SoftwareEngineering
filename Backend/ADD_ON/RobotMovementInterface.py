@@ -8,12 +8,16 @@ class RobotMovementInterface:
         self._sim_instance = _sim_instance
         self._expected_destination = _expected_destination
         self._Sensor_Interface_Instance = _Sensor_Interface_Instance
+        self._route_list = []    
+    
         
     def RequestRobotPosition(self):
         return self._Sensor_Interface_Instance.detectPos()
     
     def RequestRobotDirection(self):
         return self._Sensor_Interface_Instance.detectDir()
+    
+    
     
     
 

@@ -24,6 +24,7 @@ class PathGenerator:
         opsize = self._operation_area_instance.get_area_size()
         targetPos = importPos.union(colorPos)
         self._movement_queue = mer(opsize,ltt,hazardPos,targetPos)
+        self._robotMovementInterface._route_list = self._movement_queue
         return self._movement_queue
         
     def RequestRobotPosition(self):
