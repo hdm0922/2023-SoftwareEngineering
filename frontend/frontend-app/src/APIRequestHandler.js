@@ -2,14 +2,6 @@
 
 class APIRequestHandler {
 
-    static notifyUserSTT(userOrder) {
-        return {
-            itemID: "Hazard",
-            robotPath: "22232425"
-        };
-    }
-    
-
     static fetchRobotMovement() {
         return {
             robotMovement: "Move",
@@ -30,7 +22,7 @@ class APIRequestHandler {
     }
 
     // temp use
-    static getInitialData(userInputData) {
+    static fetchInitialData(userInputData) {
 
         return {
             areaSize: "45",

@@ -13,7 +13,6 @@ import APIRequestHandler from "../APIRequestHandler";
 
 
 
-
 /*
 props = { setSTTButtonState: Function, simulationData: Object }
 
@@ -135,9 +134,6 @@ const MainPanel = function(props) {
         setSimulationRunning(null);
     }
 
-    // useEffect(() => {
-    //     if (simulationRunning) clearInterval(simulationRunning); },
-    //        [simulationRunning]);
 
     useEffect(  () => { if (simulationRunning) {
         return  () => { clearInterval(simulationRunning); };
