@@ -5,7 +5,7 @@ import MainPanel from './mainpanel/MainPanel';
 import BottomPanel from './bottompanel/BottomPanel';
 import Parser from './Parser';
 
-import { ImCross } from "react-icons/im";
+import { BiSolidJoystickButton } from "react-icons/bi";
 import { TbCircleLetterA } from "react-icons/tb";
 import { TbCircleLetterB } from "react-icons/tb";
 import { FaCircle } from "react-icons/fa";
@@ -30,6 +30,7 @@ const App = () => {
     const [robotPath, setRobotPath] = useState([]);
     const [robotPosition, setRobotPosition] = useState({});
     const [robotRotationDegree, setrobotRotationDegree] = useState(0);
+    const [robotGoingCorrect, setRobotGoingCorrect] = useState(true);
     const [itemsToRender, setItemsToRender] = useState(Array2D(0, 0, null));
  
     const setSTTButtonState = function(newState) {
@@ -58,14 +59,15 @@ const App = () => {
 
     const setInitialData = function(initialData) {
 
-        const inputAreaSize             = Parser.stringToPairsArray(initialData.areaSize);
-        const initRobotPosition         = Parser.stringToPairsArray(initialData.robotPosition);
-        const initRobotPath             = Parser.stringToPairsArray(initialData.robotPath);
-        const initHazardPositions       = Parser.stringToPairsArray(initialData.hazardPositions);
-        const initImportantPositions    = Parser.stringToPairsArray(initialData.importantPositions);
+        const inputAreaSize             = Parser.parseStringToPairsArray(initialData.areaSize);
+        const initRobotPosition         = Parser.parseStringToPairsArray(initialData.robotPosition);
+        const initRobotPath             = Parser.parseStringToPairsArray(initialData.robotPath);
+        const initHazardPositions       = Parser.parseStringToPairsArray(initialData.hazardPositions);
+        const initImportantPositions    = Parser.parseStringToPairsArray(initialData.importantPositions);
+        const initColorBlobPositions    = Parser.parseStringToPairsArray(initialData.colorBlobPositions);
 
-        const initializedAreaSize = { x: (inputAreaSize[0].x + 1), y: (inputAreaSize[0].y + 1) };
-        const initItemsToRender = Array2D(initializedAreaSize.x, initializedAreaSize.y, '');
+        const initializedAreaSize       = { x: (inputAreaSize[0].x + 1), y: (inputAreaSize[0].y + 1) };
+        const initItemsToRender         = Array2D(initializedAreaSize.x, initializedAreaSize.y, '');
 
         const initializeRenderItems = (dataArray, renderType) => {
             for (let iter=0; iter<dataArray.length; iter++) {
@@ -76,6 +78,7 @@ const App = () => {
 
         initializeRenderItems(initHazardPositions, "Hazard");
         initializeRenderItems(initImportantPositions, "Important");
+        initializeRenderItems(initColorBlobPositions, "Color");
         initializeRenderItems(initRobotPosition, "Robot");
 
 
@@ -92,21 +95,6 @@ const App = () => {
     }
 
 
-    const updateSimulationDataViaSTT = function(updateData) {
-
-        if (updateData.robotPath) {
-            setRobotPath( Parser.stringToPairsArray(updateData.robotPath) );
-        }
-
-        if (updateData.item) {
-            console.log( updateData.item );
-            updateItemsToRender(updateData.item.itemType,
-                                updateData.item.x, updateData.item.y);
-        }
-
-    }
-
-
     return (
 
         <div className='gameBoyPanel'>
@@ -120,14 +108,17 @@ const App = () => {
                             robot: {
                                 robotPosition: robotPosition,
                                 robotRotationDegree: robotRotationDegree,
-                                robotPath: robotPath
+                                robotPath: robotPath,
+                                robotGoingCorrect: robotGoingCorrect
                             },
 
                             updateFunctions: {
                                 setInitialData: setInitialData,
                                 updateItemsToRender: updateItemsToRender,
                                 setrobotRotationDegree: setrobotRotationDegree,
-                                setRobotPosition: setRobotPosition
+                                setRobotPosition: setRobotPosition,
+                                setRobotPath: setRobotPath,
+                                setRobotGoingCorrect: setRobotGoingCorrect
                             }
 
                        }}
@@ -138,12 +129,11 @@ const App = () => {
             <BottomPanel setSTTButtonState              =   {setSTTButtonState}
                          stateMessage                   =   {stateMessage}
                          buttonDisabled                 =   {!enableSTTButton}
-                         updateSimulationDataViaSTT     =   {updateSimulationDataViaSTT}
             />
 
             <div className='logo'>Team OHDONGDONG</div>
 
-            <ImCross className='crossPad'/>
+            <BiSolidJoystickButton className='crossPad'/>
             <TbCircleLetterA className='buttonA'/>
             <TbCircleLetterB className='buttonB'/>
 
@@ -155,10 +145,7 @@ const App = () => {
             <div className='startButtonPanel' >
                 <FaCircle className='buttonStart'/>
                 {' start'}
-            </div>
-
-            {/* <div className='border'> <ImCross className='crossIcon'/> </div> */}
-            
+            </div>            
 
         </div>
 

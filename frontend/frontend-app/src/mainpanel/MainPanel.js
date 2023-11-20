@@ -9,6 +9,8 @@ import PauseButton from "./renderbutton/PauseButton";
 import GenerateAreaButton from "./renderbutton/GenerateAreaButton";
 
 import APIRequestHandler from "../APIRequestHandler";
+import Parser from "../Parser";
+import RetryButton from "./renderbutton/RetryButton";
 
 
 
@@ -17,10 +19,11 @@ import APIRequestHandler from "../APIRequestHandler";
 props = { setSTTButtonState: Function, simulationData: Object }
 
 simulationData = { areaSize: Object, robot: Object, itemsToRender: Array2D<Object>,
-                    updateFunctions: Object }
+                    updateFunctions: Object, robotGoingCorrect: Boolean }
                     
 updateFunctions = { setInitialData: Function, updateItemsToRender: Function,
-                    setrobotRotationDegree: Function, setRobotPosition: Function }
+                    setrobotRotationDegree: Function, setRobotPosition: Function,
+                    setRobotPath : Function, setRobotGoingCorrect: Function }
 */
 const MainPanel = function(props) {
 
@@ -40,20 +43,11 @@ const MainPanel = function(props) {
 
 
 
+    
+
 
     const setRenderPanelState = function(newPanel) {
-
         setRenderPanel(newPanel);
-
-        switch (newPanel) {
-
-            case "SimulatePanel" :
-
-                break;
-
-            default :
-                break;
-        }
     };
 
     const setRenderButtonState = function(newButton) {
@@ -70,7 +64,11 @@ const MainPanel = function(props) {
             case "PauseButton":
                 resumeSimulation();
                 props.setSTTButtonState("Disabled");
+                break;
 
+            case "RetryButton":
+                pauseSimulation();
+                props.setSTTButtonState("Disabled");
                 break;
 
             default :
@@ -79,53 +77,79 @@ const MainPanel = function(props) {
     };
 
 
-    const moveRobot = function() {
+    const simulateRobotMovement = function() {
 
-        const nextMovement = APIRequestHandler.fetchRobotMovement();
-        
-        switch (nextMovement.robotMovement) {
+        const rotateRobot = function() {
+            props.simulationData.updateFunctions.setrobotRotationDegree(
+                prevRotationDeg => ((prevRotationDeg + 90) % 360)
+            );
+        }
 
-            case "Stop":
-                break;
+        const moveRobot = function(moveDistance) {
 
-            case "Rotate" :
-                props.simulationData.updateFunctions.setrobotRotationDegree(
-                    prevRotationDeg => ((prevRotationDeg + 90) % 360)
-                );
-                break;
+            props.simulationData.updateFunctions.updateItemsToRender("",
+                props.simulationData.robot.robotPosition.x,
+                props.simulationData.robot.robotPosition.y
+            );
 
-            case "Move" :
-                
-                props.simulationData.updateFunctions.updateItemsToRender("",
-                    props.simulationData.robot.robotPosition.x,
-                    props.simulationData.robot.robotPosition.y
-                );
+            const newRobotPosition = props.simulationData.robot.robotPosition;
 
-                const newRobotPosition = props.simulationData.robot.robotPosition;
+            switch (props.simulationData.robot.robotRotationDegree) {
+                case 0      : newRobotPosition.y += moveDistance; break;
+                case 90     : newRobotPosition.x += moveDistance; break;
+                case 180    : newRobotPosition.y -= moveDistance; break;
+                case 270    : newRobotPosition.x -= moveDistance; break;
+                default     :                                     break;
+            }
 
-                switch (props.simulationData.robot.robotRotationDegree) {
-                    case 0      : newRobotPosition.y++; break;
-                    case 90     : newRobotPosition.x++; break;
-                    case 180    : newRobotPosition.y--; break;
-                    case 270    : newRobotPosition.x--; break;
-                    default     :                       break;
-                }
+            props.simulationData.updateFunctions.updateItemsToRender(
+                "Robot", newRobotPosition.x, newRobotPosition.y
+            );
+
+            props.simulationData.updateFunctions.setRobotPosition(newRobotPosition);
+
+        }
+
+        const robotAction = APIRequestHandler.fetchRobotAction();
+
+        props.simulationData.updateFunctions.setRobotGoingCorrect(
+            robotAction.robotAction_isCorrectMove
+        );
+
+        switch (robotAction.robotAction_robotMovement) {
+            case "Stop"     :                                                      break;
+            case "Rotate"   : rotateRobot();                                       break;
+            case "Move"     : moveRobot(robotAction.robotAction_moveDistance);     break;
+            default         :                                                      break;
+        }
+
+
+        if (robotAction.unknownObjects) {
+
+            const unknownObjects = Parser.parseUnknownObjects(robotAction.unknownObjects);
+
+            for (let iter=0; iter<unknownObjects.length; iter++) {
+
+                const itemType = unknownObjects[iter].item === "H" ? "Hazard"    :
+                                 unknownObjects[iter].item === "C" ? "Color"     :
+                                 unknownObjects[iter].item === "I" ? "Important" : null;
 
                 props.simulationData.updateFunctions.updateItemsToRender(
-                    "Robot", newRobotPosition.x, newRobotPosition.y
+                    itemType, unknownObjects[iter].x, unknownObjects[iter].y
                 );
-
-                props.simulationData.updateFunctions.setRobotPosition(newRobotPosition);
-                break;
-
-            default :
-                break;
+            }
         }
+
+        if (robotAction.robotPath) {
+            const parsedRobotPath = Parser.parseStringToPairsArray( robotAction.robotPath );
+            props.simulationData.updateFunctions.setRobotPath( parsedRobotPath );
+        }   else { setRenderButtonState( "RetryButton" ); }
+
     };
 
 
     const resumeSimulation = function() {
-        const running = setInterval(() => { moveRobot(); }, 1000);
+        const running = setInterval(() => { simulateRobotMovement(); }, 1000);
         setSimulationRunning(running);
     }
 
@@ -139,7 +163,6 @@ const MainPanel = function(props) {
         return  () => { clearInterval(simulationRunning); };
         }}, [simulationRunning]);
 
-
     return (
 
         <div className="MainPanel">
@@ -152,9 +175,9 @@ const MainPanel = function(props) {
              <SimulatePanel areaSize            ={props.simulationData.areaSize}
                             robotPath           ={props.simulationData.robot.robotPath}
                             robotRotationDegree ={props.simulationData.robot.robotRotationDegree}
+                            robotGoingCorrect   ={props.simulationData.robot.robotGoingCorrect}
                             itemsToRender       ={props.simulationData.itemsToRender}/> }
 
-            {/* <button onClick={MoveRobot} style={{position:"absolute"}}/> */}
 
             <div className="Bottom">
 
@@ -170,8 +193,12 @@ const MainPanel = function(props) {
                 {(renderButton === "ResumeButton") &&
                     <ResumeButton setRenderButtonState={setRenderButtonState} />}
 
-                {(renderButton === "PauseButton" ) &&
+                {(renderButton === "PauseButton") &&
                     <PauseButton setRenderButtonState={setRenderButtonState} />}
+
+                {(renderButton === "RetryButton") &&
+                    <RetryButton setRenderPanelState={setRenderPanelState}
+                                 setRenderButtonState={setRenderButtonState} />}
 
             </div>
 

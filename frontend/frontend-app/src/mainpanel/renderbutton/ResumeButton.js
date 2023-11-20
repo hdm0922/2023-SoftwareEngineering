@@ -6,9 +6,7 @@ import { FaPlay } from "react-icons/fa";
 const ResumeButton = function(props) {
 
     const onEventButtonClicked = function() {
-
         props.setRenderButtonState("PauseButton");
-
     };
 
 

@@ -7,7 +7,7 @@ import Parser from '../Parser';
 
 /*
 props = { setSTTResult: Function, setSTTButtonState: Function,
-          buttonDisabled: Boolean, updateSimulationDataViaSTT: Function };
+          buttonDisabled: Boolean, XupdateSimulationDataViaSTT: Function };
 */
 const STTButton = function(props) {
 
@@ -20,23 +20,25 @@ const STTButton = function(props) {
     props.setSTTResult(convertedText);
 
     const userOrder  = Parser.parseUserSTT(convertedText);
-    const fetchedUpdateData = APIRequestHandler.fetchUpdateDataViaSTT(userOrder);
-    const updateData = {
+    APIRequestHandler.notifyUserUpdateViaSTT(userOrder);
 
-      item: (
-        fetchedUpdateData.itemID ?
-        {
-          itemType  : fetchedUpdateData.itemID,
-          x         : userOrder.x,
-          y         : userOrder.y
-        }           : null
-      ),
+    // const updateData = {
 
-      robotPath: fetchedUpdateData.robotPath
+    //   item: (
+    //     fetchedUpdateData.itemID ?
+    //     {
+    //       itemType  : fetchedUpdateData.itemID,
+    //       x         : userOrder.x,
+    //       y         : userOrder.y
+    //     }           : null
+    //   ),
 
-    };
+    //   robotPath: fetchedUpdateData.robotPath
 
-    props.updateSimulationDataViaSTT(updateData);
+    // };
+
+    // props.updateSimulationDataViaSTT(updateData);
+
     props.setSTTButtonState("Running");
   }
 

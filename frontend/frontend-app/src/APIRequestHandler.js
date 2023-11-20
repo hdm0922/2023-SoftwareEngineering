@@ -2,26 +2,26 @@
 
 class APIRequestHandler {
 
-    static fetchRobotMovement() {
+    // 로봇의 다음 동작을 수신한다.
+    static fetchRobotAction() {
         return {
-            robotMovement: "Move",
-            moveDistance: 1
+            robotAction_robotMovement: "Move",
+            robotAction_moveDistance: 1,
+            robotAction_isCorrectMove: true,
+
+            unknownObjects: "H33",
+            robotPath: "1112222324"
         };
     }
 
-    // 서버측에 사용자의 명령을 전달한 후, 응답으로 새로운 입력 데이터(items, path)를 받는다.
-    static fetchUpdateDataViaSTT(userOrder) {
+    // 웹서버에게 사용자의 STT명령을 전달한다.
+    static notifyUserUpdateViaSTT(userOrder) {
 
-        const itemID = userOrder ? "Hazard" : null;
-        const robotPath = userOrder ? "22232425" : null;
 
-        return {
-            itemID: itemID,
-            robotPath: robotPath
-        };
+        return;
     }
 
-    // temp use
+    // 웹서버에게 사용자의 입력을 전달하고, 시스템의 초기값을 수신한다.
     static fetchInitialData(userInputData) {
 
         return {
@@ -29,6 +29,7 @@ class APIRequestHandler {
             robotPosition: "12",
             importantPositions: "4215",
             hazardPositions: "1032",
+            colorBlobPositions: "2244",
 
             robotPath: "122223242515"
         };
