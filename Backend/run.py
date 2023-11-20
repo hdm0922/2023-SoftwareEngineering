@@ -20,11 +20,12 @@ areaInterface = OperationAreaInterface()
 colorBlobSensor = ColorBlobSensor()
 hazardSensor = HazardSensor()
 positionSensor = PositionSensor()
+sensorInterpace = SensorInterface(hazardSensor,colorBlobSensor, positionSensor)
 SIM_Instance = SIM(hazardSensor, positionSensor,positionSensor)
-robotMovementInterface = RobotMovementInterface(SIM_Instance)
+robotMovementInterface = RobotMovementInterface(SIM_Instance, sensorInterpace)
 pathGenrator_instace = PathGenerator(robotMovementInterface)
 areaInterface._path_generator_instance = pathGenrator_instace
-sensorInterpace = SensorInterface(hazardSensor,colorBlobSensor, positionSensor)
+
 
 
 
@@ -103,17 +104,23 @@ def process_data():
         print("robot start positions:", areaInterface._path_generator_instance.RequestRobotPosition())
         # 여기에서 데이터를 처리하고 응답을 생성할 수 있습니다.
         #areaInterface.RequestToGenerate()
+        pathGenrator_instace._operation_area_instance = areaInterface
+        route = pathGenrator_instace.GeneratePath()
+        print(route)
         
         rearea_size = tts(area_size)
         reimportant = tlts(importantPositions)
         rehazard = tlts(hazardPositions)
+        reroute = tlts(route)
         rerobotp = tts(robot_position)
-     #   recolor = tlts(colorblob_positions)
+        recolor = tlts(colorblob_positions)
         response = {"areaSize": rearea_size,
             "importantPositions": reimportant,
             "hazardPositions": rehazard,
- #           "colorBlobPositions" :recolor,
-            "robotPosition": rerobotp}
+            "colorBlobPositions" :recolor,
+            "robotPosition": rerobotp,
+            "robotPath" : reroute
+            }
         return jsonify(response)
     
 @app.route('/temp2', methods=['POST'])

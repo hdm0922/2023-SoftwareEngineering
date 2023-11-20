@@ -88,5 +88,5 @@ def mer(opsize, startPos, hazardPos, importPos):
     return result
 
     
-temp = mer(opsize, startPos, hazardPos, importPos)
-print(type(temp))
+#temp = mer(opsize, startPos, hazardPos, importPos)
+#print((temp))
