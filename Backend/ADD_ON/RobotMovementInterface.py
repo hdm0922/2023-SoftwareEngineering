@@ -31,7 +31,10 @@ class RobotMovementInterface:
         
             
         else:
-            self.compensate()
+            (is_correctMove, motion) = self.compensate()
+            route_list = list(self._route_list)
+            return (is_correctMove,motion, route_list)
+            
         
 
     def move(self):
@@ -46,11 +49,11 @@ class RobotMovementInterface:
             is_correctMove = self._sim_instance.nextmotion("move")
             if is_correctMove == 0:
                 self._route_list.popleft()
-            return (is_correctMove, "move")
+            return (is_correctMove, "Move")
         else:
             print("다음행동은 rotate 입니다.")
             self._sim_instance.nextmotion("rotate") 
-            return(0,"rotate")
+            return(0,"Rotate")
 
     def compensate(self):
         print("compensate 호출")
@@ -76,11 +79,11 @@ class RobotMovementInterface:
         print(realDirect)
         if realDirect != ddir:
             self._sim_instance.nextmotion("rotate")
-            return(3,"rotate")
+            return(3,"Rotate")
         
         else:
             self._sim_instance.nextmotion("compensate")
-            return(3,"compensate")
+            return(3,"Compensate")
         
 
 

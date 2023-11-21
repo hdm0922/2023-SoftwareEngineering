@@ -158,9 +158,47 @@ def updatedata():
 @app.route('/robot-action', methods=['POST'])
 def requestmove():
     if request.method == 'POST':
-        robotMovementInterface.decision_Move_of_Type()
         
-    return jsonify({'success' : "예 움직이세요"})
+        (is_correctMove,motion, route_list) =robotMovementInterface.decision_Move_of_Type()
+#        print(is_correctMove)
+#        print(motion)
+#        print(route_list)
+        rereoute_list = tlts(route_list)
+        rerobotAction_isCorrectMove = False
+        rerobotAction_moveDistance = 1
+        rerobotAction_robotMovement = motion
+        reunknownObjects = ""
+        if is_correctMove == 0: rerobotAction_isCorrectMove = True
+        
+        if is_correctMove == 2: rerobotAction_moveDistance=2
+        elif is_correctMove ==1: 
+            rerobotAction_moveDistance=0
+        
+        newPos = sensorInterpace.detectColor()
+        newHaz = sensorInterpace.detectHazrd()
+        if newHaz:
+            newPos.append(newHaz)
+        print(len(newPos))
+        if newPos:
+            for i in newPos:
+                reunknownObjects += i[0]
+                reunknownObjects += str(i[1][0])
+                reunknownObjects += str(i[1][1])
+                if i[0] == 'C':
+                    areaInterface.add_to_colorblob_positions(i[1])
+                elif i[1] == 'H':
+                    areaInterface.add_to_hazard_positions(i[i])
+                rereoute_list = tlts(areaInterface.RequestToGenerate())
+                
+                    
+                           
+        
+        
+    return jsonify({'robotAction_robotMovement' : rerobotAction_robotMovement,
+                    'robotAction_moveDistance' : rerobotAction_moveDistance,
+                    'robotAction_isCorrectMove' : rerobotAction_isCorrectMove,
+                    'robotPath' : rereoute_list,
+                    'unknownObjects' : reunknownObjects})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

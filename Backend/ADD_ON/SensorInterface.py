@@ -16,6 +16,48 @@ class SensorInterface:
     def detectDir(self):
         return self._positionSensor.get_direction()
     
-    #def DetectHazard(self):
+    def detectHazrd(self):
+        (realX, realY) = self.detectPos()
+        realDir = self.detectDir()
+        dPos = [(0,1), (1,0), (0,-1), (-1,0)]
+        (dx,dy) = dPos[realDir]
+        (DetectX, DetectY) = (realX+dx, realY+dy)
+        if (DetectX, DetectY) in self._hazardSensor._hazardList:
+            return tuple(("H", (DetectX, DetectY)))
+        else:
+            return
         
+    def detectColor(self):
+        (realX, realY) = self.detectPos()
+        dPos = [(0,1), (1,0), (0,-1), (-1,0)]
+        relist = []
+        for i in dPos:
+            (dx,dy) = i
+            (DetectX, DetectY) = (realX+dx, realY+dy)
+            if (DetectX, DetectY) in self._colorBlobSensor._colorBlobList:
+                relist.append(("C", (DetectX, DetectY)))               
+        return relist
+    
+    
 
+temp = SensorInterface()
+temp._hazardSensor._hazardList = set([])
+temp._colorBlobSensor._colorBlobList = set([])
+h = temp.detectHazrd()
+c =temp.detectColor()
+c.append(h)
+
+#if h:
+ #   print("asdf")
+ #   c.append(h)
+#if c:
+#    print("ddd")
+
+
+#reunknownObjects = ""   
+#c.append(h)
+#for i in c:
+#    reunknownObjects += i[0]
+#    reunknownObjects += str(i[1][0])
+#    reunknownObjects += str(i[1][1])
+#print(reunknownObjects)
