@@ -146,7 +146,7 @@ def updatedata():
 @app.route('/robot-action', methods=['POST'])
 def requestmove():
     if request.method == 'POST':
-        print("나 움직여요!")
+        robotMovementInterface.decision_Move_of_Type()
     
     return jsonify({'success' : "예 움직이세요"})
 

@@ -14,6 +14,15 @@ class SIM:
 
         self._position_sensor = _position_sensor
         
+        def nextmotion(self, _type):
+            if _type == "move":
+                print("move 요청")
+            
+            elif _type == "rotate":
+                print("rotate 요청")
+            
+        
+        
 #    def NotifyUpdate(self):
  #       self._position_sensor.DetectPosition()
 
