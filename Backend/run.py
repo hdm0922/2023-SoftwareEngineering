@@ -142,13 +142,16 @@ def updatedata():
         x = data.get('x', 0)
         y = data.get('y', 0)
         if postype == 'haz':
-            hazardSensor._hazardList.append((x,y))
+            hazardSensor._hazardList.add((x,y))
+            positionSensor.boundaryPos.add((x,y))
+            print(type(positionSensor.boundaryPos))
             print(hazardSensor._hazardList)
-        
+            print(positionSensor.boundaryPos)
         elif postype == 'color':
-            colorBlobSensor._colorBlobList.append((x,y))
+            colorBlobSensor._colorBlobList.add((x,y))
+            positionSensor.boundaryPos.add((x,y))
             print(colorBlobSensor._colorBlobList)
-            
+            print(positionSensor.boundaryPos)
     
     return jsonify({'success': True}), 200
 

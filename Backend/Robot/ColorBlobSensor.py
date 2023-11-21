@@ -3,7 +3,7 @@ sys.path.append('.')
 
 class ColorBlobSensor:
     def __init__(self):
-        self._colorBlobList = []
+        self._colorBlobList = set()
 
 
     def detectColorBlob(self):

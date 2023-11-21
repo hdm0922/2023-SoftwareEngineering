@@ -6,7 +6,7 @@ class PositionSensor:
     def __init__(self, _RobotPosition = [0,0],_direction = 0):
         self._RobotPosition = _RobotPosition
         self._direction = _direction # 0, 1, 2, 3  : up, right, down, left
-        self.boundarysize = (9,9)
+        self.boundarysize = [9,9]
         self.boundaryPos = set()
         
         
@@ -39,11 +39,12 @@ class PositionSensor:
             moving = dPos[self._direction]
             [realX, realY] = self._RobotPosition
             tempPos = [realX+moving[0], realY + moving[1]]
-            if tempPos in self.boundaryPos or not (0 <= tempPos[0] < self.boundarysize[0]) or not (0 <= tempPos[1] < self.boundarysize[1]):
+            tem = tuple(tempPos)
+            if tem in self.boundaryPos or not (0 <= tempPos[0] < self.boundarysize[0]) or not (0 <= tempPos[1] < self.boundarysize[1]):
                 print("pos sensor 2칸 이동하려햇으나 경계에 걸려 정지")
                 print(self.get_position())
                 return 1
-            
+            self._RobotPosition = tempPos
             
             print(self.get_position())
             return 2

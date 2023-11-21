@@ -58,6 +58,7 @@ temp._Sensor_Interface_Instance._positionSensor.boundaryPos ={(4,6)}
 temp._route_list = deque([(4,4),(4,5)])
 print("///")
 print("///")
+print(type(temp._Sensor_Interface_Instance._positionSensor.boundaryPos))
 print(temp.decision_Move_of_Type())
 #print(temp.decision_Move_of_Type())
 print(temp._route_list[0])
