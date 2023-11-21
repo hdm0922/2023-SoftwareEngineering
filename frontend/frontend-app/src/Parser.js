@@ -2,6 +2,22 @@
 
 class Parser {
 
+    static parseOnlyNumbers(dataString) {
+
+        const isNumber = function(inputCharacter) {
+            return /^\d$/.test(inputCharacter);
+        }
+
+        let resultString = "";
+
+        for (let iter=0; iter<dataString.length; iter++) {
+            if (!isNumber(dataString[iter])) continue;
+            resultString += dataString[iter];
+        }
+
+        return resultString;
+    }
+
     static parseUserSTT(userSTT) {
 
         let inputString = "";

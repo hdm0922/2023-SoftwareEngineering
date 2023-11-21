@@ -45,20 +45,15 @@ props : Type || null 은 props가 Type을 갖지만, 특정 조건에서 null이
 
 
     Give: {
-        areaSize            :   String,     // "(4 5)"
-        robotPosition       :   String,     // "(1 2)"
-        importantPositions  :   String,     // "((4 2)(1 5))"
-        hazardPositions     :   String,     // "((1 0)(3 2))"
-        colorBlobPositions  :   String      // "((2 2)(4 4))"
+        areaSize            :   String,     // "45"
+        robotPosition       :   String,     // "12"
+        importantPositions  :   String,     // "4215"
+        colorBlobPositions  :   String      // "2244"
+        hazardPositions     :   String,     // "1032"
     }
 
 
     Fetch: {
-        areaSize            :   String,     // "45"
-        robotPosition       :   String,     // "12"
-        importantPositions  :   String,     // "4215"
-        hazardPositions     :   String,     // "1032"
-        colorBlobPositions  :   String,     // "2244"
         robotPath           :   String      // "22232425"
     }
 
