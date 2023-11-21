@@ -22,7 +22,7 @@ class Parser {
 
         let inputString = "";
         for (let iter=0; iter<userSTT.length; iter++) {
-            if ( userSTT[iter] === '' ) continue;
+            if ( userSTT[iter] === ' ' ) continue;
             inputString += userSTT[iter];
         }
 
