@@ -22,23 +22,6 @@ const STTButton = function(props) {
     const userOrder  = Parser.parseUserSTT(convertedText);
     APIRequestHandler.notifyUserUpdateViaSTT(userOrder);
 
-    // const updateData = {
-
-    //   item: (
-    //     fetchedUpdateData.itemID ?
-    //     {
-    //       itemType  : fetchedUpdateData.itemID,
-    //       x         : userOrder.x,
-    //       y         : userOrder.y
-    //     }           : null
-    //   ),
-
-    //   robotPath: fetchedUpdateData.robotPath
-
-    // };
-
-    // props.updateSimulationDataViaSTT(updateData);
-
     props.setSTTButtonState("Running");
   }
 
