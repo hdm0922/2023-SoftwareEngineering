@@ -18,7 +18,19 @@ class APIRequestHandler {
 
 
     // 웹서버에게 사용자의 STT명령을 전달한다.
-    static notifyUserUpdateViaSTT(userOrder) {
+    static async notifyUserUpdateViaSTT(userOrder) {
+
+        const response = await fetch('/handle-stt', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userOrder)
+        });
+
+        if (!response.ok) {
+            throw new Error('Response was not ok.');
+        }   else { console.log("Data Received", userOrder); }
 
 
         return;
@@ -28,8 +40,6 @@ class APIRequestHandler {
 
     // 웹서버에게 사용자의 입력을 전달하고, 로봇의 경로를 수신한다.
     static async fetchRobotPathViaInitialization(userInputData) {
-
-        console.log(userInputData);
 
         const response = await fetch('/data-initialize', {
             method: 'POST',
