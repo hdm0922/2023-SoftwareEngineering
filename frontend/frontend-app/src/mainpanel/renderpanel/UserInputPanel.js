@@ -16,10 +16,13 @@ const UserInputPanel = function(props) {
                             updateFunction={props.userInputDataSetters.setAreaSizeUserInput}/>
 
             <InputComponent componentName={"Start Position"}
-                            updateFunction={props.userInputDataSetters.setStartPositionUserInput}/>
+                            updateFunction={props.userInputDataSetters.setRobotPositionUserInput}/>
 
             <InputComponent componentName={"Important Positions"}
                             updateFunction={props.userInputDataSetters.setImportantPositionsUserInput}/>
+
+            <InputComponent componentName={"Color Blob Positions"}
+                            updateFunction={props.userInputDataSetters.setColorBlobPositionsUserInput}/>
 
             <InputComponent componentName={"Hazard Positions"}
                             updateFunction={props.userInputDataSetters.setHazardPositionsUserInput}/>

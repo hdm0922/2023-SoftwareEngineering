@@ -11,9 +11,6 @@ import RetryButton from "./renderbutton/RetryButton";
 
 import APIRequestHandler from "../APIRequestHandler";
 import Parser from "../Parser";
-import Helper from "../Helper";
-
-
 
 
 /*
@@ -42,8 +39,9 @@ const MainPanel = function(props) {
 
 
     const [areaSizeUserInput, setAreaSizeUserInput] = useState("");
-    const [startPositionUserInput, setStartPositionUserInput] = useState("");
+    const [robotPositionUserInput, setRobotPositionUserInput] = useState("");
     const [importantPositionsUserInput, setImportantPositionsUserInput] = useState("");
+    const [colorBlobPositionsUserInput, setColorBlobPositionsUserInput] = useState("");
     const [hazardPositionsUserInput, setHazardPositionsUserInput] = useState("");
 
 
@@ -182,8 +180,11 @@ const MainPanel = function(props) {
         <div className="MainPanel">
 
             {(renderPanel === "UserInputPanel") &&
-             <UserInputPanel userInputDataSetters={{setAreaSizeUserInput, setStartPositionUserInput,
-                                                    setImportantPositionsUserInput, setHazardPositionsUserInput}}
+             <UserInputPanel userInputDataSetters={{setAreaSizeUserInput,
+                                                    setRobotPositionUserInput,
+                                                    setImportantPositionsUserInput,
+                                                    setColorBlobPositionsUserInput,
+                                                    setHazardPositionsUserInput}}
             />}
 
             {(renderPanel === "SimulatePanel") &&
@@ -201,8 +202,11 @@ const MainPanel = function(props) {
                     <GenerateAreaButton setRenderPanelState={setRenderPanelState}
                                         setRenderButtonState={setRenderButtonState}
                                         setInitialData={props.simulationData.updateFunctions.setInitialData}
-                                        userInputData = {{areaSizeUserInput, startPositionUserInput,
-                                                        importantPositionsUserInput, hazardPositionsUserInput}}
+                                        userInputData = {{areaSizeUserInput,
+                                                          robotPositionUserInput,
+                                                          importantPositionsUserInput,
+                                                          colorBlobPositionsUserInput,
+                                                          hazardPositionsUserInput}}
                     />}
 
 
