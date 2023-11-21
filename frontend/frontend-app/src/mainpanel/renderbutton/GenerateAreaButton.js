@@ -12,8 +12,6 @@ const GenerateAreaButton = function(props) {
 
     const onEventButtonClicked = function() {
 
-        console.log( props.userInputData );
-
         const initialData = {
             areaSize            : Parser.parseOnlyNumbers( "" + props.userInputData.areaSizeUserInput ),
             robotPosition       : Parser.parseOnlyNumbers( "" + props.userInputData.robotPositionUserInput ),
@@ -64,16 +62,15 @@ const GenerateAreaButton = function(props) {
         // initialData.robotPath = fetchedRobotPath.robotPath;
 
         fetchedRobotPath.then(fetchedData => {
+            console.log(fetchedData.robotPath);
             initialData.robotPath = fetchedData.robotPath;
+        }).then(() => {
+            props.setInitialData(initialData);
         });
 
-        console.log(initialData);
 
-        // console.log(fetchedRobotPath.then);
-        // props.setInitialData(initialData);
-
-        // props.setRenderPanelState("SimulatePanel");
-        // props.setRenderButtonState("ResumeButton");
+        props.setRenderPanelState("SimulatePanel");
+        props.setRenderButtonState("ResumeButton");
     };
 
     return (
