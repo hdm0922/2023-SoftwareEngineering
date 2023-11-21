@@ -14,18 +14,26 @@ class SIM:
 
         self._position_sensor = _position_sensor
         
-        def nextmotion(self, _type):
-            if _type == "move":
-                print("move 요청")
+        
+    def nextmotion(self, _type):
+        if _type == "move":
+            print("SIM : move 요청")
+            self._position_sensor.RequestMove()
             
-            elif _type == "rotate":
-                print("rotate 요청")
+            return 1
+        elif _type == "rotate":
+            print("rotate 요청")
             
         
         
+
+
+#temp = SIM()
+#temp.nextmotion("move")
+
+
 #    def NotifyUpdate(self):
  #       self._position_sensor.DetectPosition()
-
 #temp1 = HazardSensor()
 #temp2 = ColorBlobSensor()
 

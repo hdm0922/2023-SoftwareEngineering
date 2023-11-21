@@ -104,6 +104,14 @@ def process_data():
         print("Hazard Positions:", areaInterface.get_hazard_positions())
         print("color_blob posiotn:", areaInterface.get_colorblob_positions())
         print("robot start positions:", areaInterface._path_generator_instance.RequestRobotPosition())
+        positionSensor.boundarysize = areaInterface.get_area_size()
+        
+        areaInterface.get_hazard_positions().union(positionSensor.boundaryPos)
+        areaInterface.get_colorblob_positions().union(positionSensor.boundaryPos)
+        areaInterface.get_important_positions().union(positionSensor.boundaryPos)
+        print("boundary size:", positionSensor.boundarysize)
+        print("boundary pos: ", positionSensor.boundaryPos)
+        #print(type(areaInterface.get_hazard_positions()))
         # 여기에서 데이터를 처리하고 응답을 생성할 수 있습니다.
         #areaInterface.RequestToGenerate()
         pathGenrator_instace._operation_area_instance = areaInterface
@@ -116,11 +124,11 @@ def process_data():
         reroute = tlts(route)
         rerobotp = tts(robot_position)
         recolor = tlts(colorblob_positions)
-        response = {"areaSize": rearea_size,
-            "importantPositions": reimportant,
-            "hazardPositions": rehazard,
-            "colorBlobPositions" :recolor,
-            "robotPosition": rerobotp,
+        response = {#"areaSize": rearea_size,
+        #    "importantPositions": reimportant,
+        #    "hazardPositions": rehazard,
+        #    "colorBlobPositions" :recolor,
+        #    "robotPosition": rerobotp,
             "robotPath" : reroute
             }
         return jsonify(response)
