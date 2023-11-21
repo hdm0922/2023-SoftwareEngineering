@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@600&display=swap');
 
-textarea.ResultTextBox {
+.ResultTextBox {
 
     position: relative;
     top: 10px;
@@ -22,4 +22,4 @@ textarea.ResultTextBox {
 
     width: 400px;
     height: 40px;
-};
+}
