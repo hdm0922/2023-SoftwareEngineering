@@ -71,7 +71,16 @@ class Parser {
         return pairsArray;
     }
 
+    static parseInputToExpectedString(dataString) {
 
+        let expectedString = "";
+        for (let iter=0; iter<dataString.length-1; iter+=2) {
+            expectedString += ( "(" + dataString[iter] + " " + dataString[iter+1] + ")" );
+        }
+
+        return (dataString.length <= 2) ?
+                expectedString : ( "(" + expectedString + ")" )
+    }
 }
 
 export default Parser

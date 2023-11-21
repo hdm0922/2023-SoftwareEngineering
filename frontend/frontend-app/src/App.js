@@ -13,6 +13,11 @@ import { TbCircleLetterB } from "react-icons/tb";
 import { FaCircle } from "react-icons/fa";
 
 
+
+
+import APIRequestHandler from './APIRequestHandler';
+
+
 const App = () => {
 
     const [stateMessage, setStateMessage] = useState("음성 입력이 비활성화 되었습니다.");
@@ -92,9 +97,18 @@ const App = () => {
     }
 
 
+    const test = function() {
+        const testValue = APIRequestHandler.testWithWeb();
+        console.log(testValue);
+    }
+
+    console.log( Parser.parseInputToExpectedString("1234") );
+
     return (
 
         <div className='gameBoyPanel'>
+
+            <button onClick={test}/>
 
             <MainPanel setSTTButtonState        =   {setSTTButtonState}
                        simulationData           =   {{
