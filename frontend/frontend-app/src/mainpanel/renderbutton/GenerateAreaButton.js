@@ -1,6 +1,5 @@
 import React from "react";
 import './GenerateAreaButton.css'
-import { FaPlay } from "react-icons/fa";
 
 import APIRequestHandler from "../../APIRequestHandler";
 

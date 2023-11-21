@@ -1,11 +1,14 @@
 import React from "react";
 import './SimulatePanel.css'
 
+import Helper from "../../Helper";
+
 import { RiRobot2Line } from "react-icons/ri";
 import { MdOutlineDangerous } from "react-icons/md";
+import { GiBurstBlob } from "react-icons/gi";
 import { FaStar  } from "react-icons/fa";
 import { FaArrowUp  } from "react-icons/fa6";
-import { FaRegStar } from "react-icons/fa";
+import { FaCircle } from "react-icons/fa";
 
 
 
@@ -18,8 +21,16 @@ const Line = ({ startPosition, endPosition, style }) => {
 };
 
 /*
-props = { areaSize: Object, robotPath: Array<Object>, itemsToRender: Array2D<String>,
-          robotRotationDegree: Number }
+props = { areaSize: Object, itemsToRender: Array2D<String>,
+          robot: Object, updateFunctions: Object }
+
+robot = { robotPosition: Object, robotRotationDegree: Number,
+          robotPath: Array<Object>, robotGoingCorrect: Boolean,
+          sensors: Object }
+
+sensors = {  }
+
+updateFunctions = {  }
 */
 const SimulatePanel = function(props) {
 
@@ -56,16 +67,22 @@ const SimulatePanel = function(props) {
         }
 
         return border;
-    }
+    };
 
 
-    const renderItems = function(itemsToRender, robotRotationDegree) {
+    const renderItems = function(itemsToRender, robotRotationDegree, robotGoingCorrect) {
 
         const renderIcon = function(itemString) {
 
             switch (itemString) {
-                case "Robot"        : return <RiRobot2Line style={{transform: "rotate(" + robotRotationDegree + "deg)"}} />;
+
+                case "Robot"        : return <RiRobot2Line style={{
+                                                                transform: "rotate(" + robotRotationDegree + "deg)",
+                                                                color: (robotGoingCorrect ? "black" : "purple")
+                                                            }} />;
+
                 case "Hazard"       : return <MdOutlineDangerous className="hazardIcon"/>;
+                case "Color"        : return <GiBurstBlob className="colorBlobIcon"/>
                 case "Important"    : return <FaStar className="importantIcon" />;
                 default             : return null;
             }
@@ -101,24 +118,9 @@ const SimulatePanel = function(props) {
         }
 
         return reactElements;
-    }
+    };
 
     const renderPath = function(robotPath) {
-
-        const getDirectionDegree = function(source, destination) {
-            const difference = "" + (destination.x - source.x) + (destination.y - source.y);
-
-            let directionDegree = 0;
-            switch (difference) {
-                case "01"   : directionDegree = 0;      break;
-                case "10"   : directionDegree = 90;     break;
-                case "0-1"  : directionDegree = 180;    break;
-                case "-10"  : directionDegree = 270;    break;
-                default     : directionDegree = 0;
-            }
-
-            return directionDegree;
-        }
 
         const renderArrow = function(arrowStyle, index, directionDegree) {
             return (
@@ -133,7 +135,6 @@ const SimulatePanel = function(props) {
             );
 
         }
-
 
         const reactElements = [];
 
@@ -155,18 +156,76 @@ const SimulatePanel = function(props) {
                 width: 50,
                 height: 50,
             };
-            
+
             reactElements.push(
                 renderArrow( arrowStyle, reactElements.length,
-                    getDirectionDegree(source, destination) )
+                    Helper.getDirectionDegree(source, destination) )
             );
 
         }
 
         return reactElements;
-    }
+    };
+
+    const renderSensors = function(itemsToRender, robotPosition, robotRotationDegree) {
+
+        const isInBoundary = function(position, areaSize) {
+            return ((0 <= position.x) && (position.x < areaSize.x))
+                && ((0 <= position.y) && (position.y < areaSize.y));
+        }
+
+        const northVector   = Helper.getForwarVector( robotRotationDegree );
+        const eastVector    = Helper.getForwarVector( robotRotationDegree + 90 );
+        const westVector    = Helper.getForwarVector( robotRotationDegree - 90 );
+
+        const northPosition = {x: (robotPosition.x + northVector.x),    y: (robotPosition.y + northVector.y)};
+        const eastPosition  = {x: (robotPosition.x + eastVector.x),     y: (robotPosition.y + eastVector.y)};
+        const westPosition  = {x: (robotPosition.x + westVector.x),     y: (robotPosition.y + westVector.y)};
 
 
+        props.updateFunctions.setHazardSensorNorth(
+            isInBoundary(northPosition, props.areaSize) &&
+            (itemsToRender[ northPosition.y ][ northPosition.x ] === "Hazard")
+        );
+
+        props.updateFunctions.setColorBlobSensorNorth(
+            isInBoundary(northPosition, props.areaSize) &&
+            (itemsToRender[ northPosition.y ][ northPosition.x ] === "Color")            
+        );
+
+        props.updateFunctions.setColorBlobSensorEast(
+            isInBoundary(eastPosition, props.areaSize) &&
+            (itemsToRender[ eastPosition.y ][ eastPosition.x ] === "Color")               
+        );
+
+        props.updateFunctions.setColorBlobSensorWest(
+            isInBoundary(westPosition, props.areaSize) &&
+            (itemsToRender[ westPosition.y ][ westPosition.x ] === "Color")                 
+        );
+
+        return (
+            <div>
+
+                <RiRobot2Line className=""
+                                style={{position:"absolute", top: "450px", left: "480px",
+                                        fontSize: "60px"}}/>
+
+                <FaCircle className="sensor"
+                            style={{position:"absolute", top: "420px", left: "503px"}}
+                            color={(props.robot.sensors.hazardSensorNorth    ? "red"  :
+                                    props.robot.sensors.colorBlobSensorNorth ? "blue" : "white")}/>
+
+                <FaCircle className="sensor"
+                            style={{position:"absolute", top: "475px", left: "450px"}}
+                            color={(props.robot.sensors.colorBlobSensorWest  ? "blue" : "white")}/>
+
+                <FaCircle className="sensor"
+                            style={{position:"absolute", top: "475px", left: "555px"}}
+                            color={(props.robot.sensors.colorBlobSensorEast  ? "blue" : "white")}/>
+
+            </div>
+        );
+    };
 
     return (
 
@@ -176,8 +235,12 @@ const SimulatePanel = function(props) {
                 {renderBorder()}
             </svg>
 
-            {renderPath(props.robotPath)}
-            {renderItems(props.itemsToRender, props.robotRotationDegree)}
+            {renderPath(props.robot.robotPath)}
+            {renderItems(props.itemsToRender, props.robot.robotRotationDegree,
+                         props.robot.robotGoingCorrect)}
+
+            {renderSensors(props.itemsToRender, props.robot.robotPosition,
+                props.robot.robotRotationDegree)}
         </div>
 
     );

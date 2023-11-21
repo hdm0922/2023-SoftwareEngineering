@@ -2,13 +2,11 @@ import React from "react";
 import './PauseButton.css'
 import { FaPause } from "react-icons/fa6";
 
-// props = { setRenderButtonState };
+// props = { setRenderButtonState: Function };
 const PauseButton = function(props) {
 
     const onEventButtonClicked = function() {
-
         props.setRenderButtonState("ResumeButton");
-
     };
 
     return (
