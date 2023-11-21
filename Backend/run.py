@@ -80,6 +80,8 @@ def process_data():
     if request.method == 'POST':
         data = request.get_json()
         area_size = getPosition(data.get('areaSize', "0,0"))
+        [tx, ty] = area_size
+        area_size = [tx+1,ty+1]
         importantPositions = getPositionData(data.get('importantPositions', []))
         hazardPositions = getPositionData(data.get('hazardPositions', []))
         robot_position = getPosition(data.get('robotPosition', []))
@@ -105,10 +107,9 @@ def process_data():
         print("color_blob posiotn:", areaInterface.get_colorblob_positions())
         print("robot start positions:", areaInterface._path_generator_instance.RequestRobotPosition())
         positionSensor.boundarysize = areaInterface.get_area_size()
-        
-        areaInterface.get_hazard_positions().union(positionSensor.boundaryPos)
-        areaInterface.get_colorblob_positions().union(positionSensor.boundaryPos)
-        areaInterface.get_important_positions().union(positionSensor.boundaryPos)
+        positionSensor.boundaryPos=areaInterface.get_hazard_positions().union(positionSensor.boundaryPos)
+        positionSensor.boundaryPos=areaInterface.get_colorblob_positions().union(positionSensor.boundaryPos)
+        positionSensor.boundaryPos=areaInterface.get_important_positions().union(positionSensor.boundaryPos)
         print("boundary size:", positionSensor.boundarysize)
         print("boundary pos: ", positionSensor.boundaryPos)
         #print(type(areaInterface.get_hazard_positions()))

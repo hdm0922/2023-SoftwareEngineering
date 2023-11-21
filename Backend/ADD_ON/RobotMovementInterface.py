@@ -42,7 +42,7 @@ class RobotMovementInterface:
         if dPos[dir] == (dx,dy):
             print("다음행동은 move입니다")
             is_correctMove = self._sim_instance.nextmotion("move")
-            if is_correctMove:
+            if is_correctMove == 0:
                 self._route_list.popleft()
             return (is_correctMove, "move")
         else:
@@ -54,10 +54,10 @@ temp = RobotMovementInterface()
 temp._Sensor_Interface_Instance._positionSensor._RobotPosition = [4,4]
 temp._sim_instance._position_sensor = temp._Sensor_Interface_Instance._positionSensor
 temp._expected_destination = [4,4]
+temp._Sensor_Interface_Instance._positionSensor.boundaryPos ={(4,6)}
 temp._route_list = deque([(4,4),(4,5)])
 print("///")
-print(temp._route_list[1])
 print("///")
 print(temp.decision_Move_of_Type())
-print(temp.decision_Move_of_Type())
+#print(temp.decision_Move_of_Type())
 print(temp._route_list[0])
