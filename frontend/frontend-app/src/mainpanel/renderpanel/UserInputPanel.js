@@ -15,7 +15,7 @@ const UserInputPanel = function(props) {
             <InputComponent componentName={"Area Size"}
                             updateFunction={props.userInputDataSetters.setAreaSizeUserInput}/>
 
-            <InputComponent componentName={"Start Position"}
+            <InputComponent componentName={"Robot Position"}
                             updateFunction={props.userInputDataSetters.setRobotPositionUserInput}/>
 
             <InputComponent componentName={"Important Positions"}
