@@ -159,7 +159,7 @@ def updatedata():
 def requestmove():
     if request.method == 'POST':
         robotMovementInterface.decision_Move_of_Type()
-    
+        
     return jsonify({'success' : "예 움직이세요"})
 
 if __name__ == '__main__':

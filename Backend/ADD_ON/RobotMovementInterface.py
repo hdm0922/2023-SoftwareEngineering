@@ -25,11 +25,13 @@ class RobotMovementInterface:
         (ex_x, ex_y) = self._route_list[0]
         (re_x, re_y) = self.RequestRobotPosition()
         if ex_x == re_x and ex_y == re_y:
+            (is_correctMove, motion) = self.move()
+            route_list = list(self._route_list)
+            return (is_correctMove, motion, route_list)
+        
             
-            return self.move()
-            
-#        else:
-#            self.compensate()
+        else:
+            self.compensate()
         
 
     def move(self):
@@ -48,17 +50,53 @@ class RobotMovementInterface:
         else:
             print("다음행동은 rotate 입니다.")
             self._sim_instance.nextmotion("rotate") 
+            return(0,"rotate")
+
+    def compensate(self):
+        print("compensate 호출")
+        [next_x, next_y] = self._route_list[0]
+        print("가야할 곳 :", [next_x, next_y])
+        (re_x, re_y) = self.RequestRobotPosition()
+        print("현재 위치: ",(re_x, re_y))
+        dx = next_x - re_x
+        dy = next_y - re_y
+        print("dx, dy : ", dx, dy)
+        ddir = 0
+        if dx in {1, 2}:
+            ddir = 1
+        elif dx in {-1, -2}:
+            ddir = 3
+        elif dy in {1, 2}:
+            ddir = 0
+        elif dy in {-1, -2}:
+            ddir = 2
+        
+        print(ddir)
+        realDirect = self.RequestRobotDirection()
+        print(realDirect)
+        if realDirect != ddir:
+            self._sim_instance.nextmotion("rotate")
+            return(3,"rotate")
+        
+        else:
+            self._sim_instance.nextmotion("compensate")
+            return(3,"compensate")
+        
 
 
-temp = RobotMovementInterface()
-temp._Sensor_Interface_Instance._positionSensor._RobotPosition = [4,4]
-temp._sim_instance._position_sensor = temp._Sensor_Interface_Instance._positionSensor
-temp._expected_destination = [4,4]
-temp._Sensor_Interface_Instance._positionSensor.boundaryPos ={(4,6)}
-temp._route_list = deque([(4,4),(4,5)])
-print("///")
-print("///")
+
+#temp = RobotMovementInterface()
+#temp._Sensor_Interface_Instance._positionSensor._RobotPosition = [4,4]
+#temp._sim_instance._position_sensor = temp._Sensor_Interface_Instance._positionSensor
+#temp._expected_destination = [4,4]
+#temp._Sensor_Interface_Instance._positionSensor.boundaryPos ={(4,6)}
+#temp._route_list = deque([(4,4),(4,5),(5,5)])
+
+
+
+#print("///")
+#print("///")
 #print(type(temp._Sensor_Interface_Instance._positionSensor.boundaryPos))
-print(temp.decision_Move_of_Type()[1])
 #print(temp.decision_Move_of_Type())
-print(temp._route_list[0])
+#print(temp.decision_Move_of_Type())
+#print(temp._route_list[0])

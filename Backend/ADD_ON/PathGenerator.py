@@ -39,12 +39,12 @@ class PathGenerator:
 
 
 
-oparea = OperationArea((9,9), set([(3,3),(4,4),(5,5)]), set([(2,2),(7,7)]), set([(1,6),(2,1)]))
-rbInterface = RobotMovementInterface()
-temp = PathGenerator(rbInterface, [0,0], oparea)
-print(temp.GeneratePath())
-print(type(temp._robotMovementInterface._route_list))
-print((temp._robotMovementInterface._route_list))
+#oparea = OperationArea((9,9), set([(3,3),(4,4),(5,5)]), set([(2,2),(7,7)]), set([(1,6),(2,1)]))
+#rbInterface = RobotMovementInterface()
+#temp = PathGenerator(rbInterface, [0,0], oparea)
+#print(temp.GeneratePath())
+#print(type(temp._robotMovementInterface._route_list))
+#print((temp._robotMovementInterface._route_list))
 
 
 

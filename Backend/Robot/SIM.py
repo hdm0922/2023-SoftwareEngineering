@@ -18,12 +18,17 @@ class SIM:
     def nextmotion(self, _type):
         if _type == "move":
             print("SIM : move 요청")
-            is_Correct = self._position_sensor.RequestMove()
-            
+            is_Correct = self._position_sensor.RequestMove()    
             return is_Correct
         elif _type == "rotate":
-            print("rotate 요청")
+            print("SIM : rotate 요청")
+            is_Correct = 0
+            self._position_sensor.RequestRotate()
+            return is_Correct
             
+        elif _type == "compensate":
+            print("SIM: compensate 요청")
+            self._position_sensor.RequestCompensate()
         
         
 

@@ -18,3 +18,4 @@ class SensorInterface:
     
     #def DetectHazard(self):
         
+

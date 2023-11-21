@@ -18,7 +18,7 @@ class PositionSensor:
     
     def RequestMove(self):
         i = randint(1, 100)
-        if i<11:
+        if i<71:
             print("possensor : 정상 운행")
             dPos = [(0,1), (1,0), (0,-1), (-1,0)]
             moving = dPos[self._direction]
@@ -28,7 +28,7 @@ class PositionSensor:
             print(self.get_position())
             return 0
             
-        elif i<21:
+#        elif i<91:
             print("possensor : 움직이지 않은 오류")
             print(self.get_position())
             return 1
@@ -44,13 +44,24 @@ class PositionSensor:
                 print("pos sensor 2칸 이동하려햇으나 경계에 걸려 정지")
                 print(self.get_position())
                 return 1
-            self._RobotPosition = tempPos
-            
+            self._RobotPosition = tempPos            
             print(self.get_position())
             return 2
         
+    def RequestRotate(self):
+        print("positionsensor : request Rotate호출")
+        self._direction = (self._direction+1) % 4
+        print(self.get_direction())
     
-    
+    def RequestCompensate(self):
+        print("possensor : 보상 운행")
+        dPos = [(0,1), (1,0), (0,-1), (-1,0)]
+        moving = dPos[self._direction]
+        [realX, realY] = self._RobotPosition
+        self._RobotPosition = [realX+moving[0], realY + moving[1]]
+        print("이동후 여기로 갔습니다.")
+        print(self.get_position())
+        return 0
     
 #temp = PositionSensor()
 #temp.boundaryPos = {(4, 5), (7, 6), (7, 7), (5, 6), (3, 2)}
