@@ -75,7 +75,7 @@ def home():
     return render_template('index.html', main_js_file_name=main_js_file_name,
                                          main_css_file_name=main_css_file_name)
 
-@app.route('/temp', methods=['POST'])
+@app.route('/data-initialize', methods=['POST'])
 def process_data():
     if request.method == 'POST':
         data = request.get_json()
@@ -125,7 +125,7 @@ def process_data():
             }
         return jsonify(response)
     
-@app.route('/temp2', methods=['POST'])
+@app.route('/stt-handle', methods=['POST'])
 def updatedata():
     if request.method == 'POST':
         data = request.get_json()
@@ -143,7 +143,7 @@ def updatedata():
     
     return jsonify({'success': True}), 200
 
-@app.route('/temp3', methods=['POST'])
+@app.route('/robot-action', methods=['POST'])
 def requestmove():
     if request.method == 'POST':
         print("나 움직여요!")
