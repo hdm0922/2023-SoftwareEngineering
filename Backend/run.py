@@ -141,13 +141,13 @@ def updatedata():
         postype = data.get('target', "string type")
         x = data.get('x', 0)
         y = data.get('y', 0)
-        if postype == 'haz':
+        if postype == '위험지역':
             hazardSensor._hazardList.add((x,y))
             positionSensor.boundaryPos.add((x,y))
             print(type(positionSensor.boundaryPos))
             print(hazardSensor._hazardList)
             print(positionSensor.boundaryPos)
-        elif postype == 'color':
+        elif postype == '중요지점':
             colorBlobSensor._colorBlobList.add((x,y))
             positionSensor.boundaryPos.add((x,y))
             print(colorBlobSensor._colorBlobList)
