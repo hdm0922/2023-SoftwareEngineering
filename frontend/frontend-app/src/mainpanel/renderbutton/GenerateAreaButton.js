@@ -22,6 +22,8 @@ const GenerateAreaButton = function(props) {
             hazardPositions     : Parser.parseOnlyNumbers( "" + props.userInputData.hazardPositionsUserInput ),
         };
 
+        // check input valid
+
         const isValidInput =
             ( initialData.areaSize.length               === 2 ) &&
             ( initialData.robotPosition.length          === 2 ) &&
@@ -44,16 +46,34 @@ const GenerateAreaButton = function(props) {
         }
 
  
+        // make data to send
+        const dataToSend = {};
+        dataToSend.areaSize                 = Parser.parseInputToExpectedString(initialData.areaSize);
+        dataToSend.robotPosition            = Parser.parseInputToExpectedString(initialData.robotPosition);
+        if (initialData.importantPositions !== "") {
+            dataToSend.importantPositions   = Parser.parseInputToExpectedString(initialData.importantPositions);
+        }
+        if (initialData.colorBlobPositions !== "") {
+            dataToSend.colorBlobPositions   = Parser.parseInputToExpectedString(initialData.colorBlobPositions);
+        }
+        if (initialData.hazardPositions !== "") {
+            dataToSend.hazardPositions      = Parser.parseInputToExpectedString(initialData.hazardPositions);
+        }
 
-        const robotPath = APIRequestHandler.fetchRobotPathViaInitialization(initialData);
-        initialData.robotPath = robotPath.robotPath;
+        const fetchedRobotPath = APIRequestHandler.fetchRobotPathViaInitialization(dataToSend);
+        // initialData.robotPath = fetchedRobotPath.robotPath;
 
-        console.log( initialData );
+        fetchedRobotPath.then(fetchedData => {
+            initialData.robotPath = fetchedData.robotPath;
+        });
 
-        props.setInitialData(initialData);
+        console.log(initialData);
 
-        props.setRenderPanelState("SimulatePanel");
-        props.setRenderButtonState("ResumeButton");
+        // console.log(fetchedRobotPath.then);
+        // props.setInitialData(initialData);
+
+        // props.setRenderPanelState("SimulatePanel");
+        // props.setRenderButtonState("ResumeButton");
     };
 
     return (

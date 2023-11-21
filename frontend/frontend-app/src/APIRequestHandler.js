@@ -26,44 +26,37 @@ class APIRequestHandler {
 
 
 
-    // 웹서버에게 사용자의 입력을 전달하고, 시스템의 초기값을 수신한다.
-    static fetchRobotPathViaInitialization(userInputData) {
-        // areaSize: "45",
-        // robotPosition: "12",
-        // importantPositions: "42",
-        // hazardPositions: "103215",
-        // colorBlobPositions: "2244",
-        return {
-            robotPath: "122223242515"
-        };
+    // 웹서버에게 사용자의 입력을 전달하고, 로봇의 경로를 수신한다.
+    static async fetchRobotPathViaInitialization(userInputData) {
 
-        // try {
-        //     const response = await fetch('/get_fake_path', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(userInputData)
-        //     });
-    
-        //     if (!response.ok) { throw new Error("Server Response Error"); }
-    
-        //     const responseData = await response.json();
-        //     return responseData;
-        // }   catch (error) {
-        //     console.error(error);
-        // }
+        console.log(userInputData);
 
+        const response = await fetch('/data-initialize', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userInputData)
+        });
+
+        if (!response.ok) {
+            throw new Error('Response was not ok.');
+        }
+
+        const data = await response.json();
+        return data;
     }
 
     static async testWithWeb() {
 
+
+
         const inputData = {
-            areaSize: "45",
-            robotPosition: "12",
-            importantPositions: "4215",
-            colorBlobPositions: "2244",
-            hazardPositions: "1032"
+            areaSize: "(8 8)",
+            robotPosition: "(4 4)",
+            importantPositions: "(1 2)",
+            colorBlobPositions: "((7 6)(7 7))",
+            hazardPositions: "((4 5)(5 6))"
         };
 
 
@@ -80,6 +73,12 @@ class APIRequestHandler {
         }
 
         const data = await response.json();
+
+
+
+
+
+
 
         console.log( data );
 
