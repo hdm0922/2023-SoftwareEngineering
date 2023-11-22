@@ -184,7 +184,7 @@ def requestmove():
         rerobotAction_isCorrectMove = False
         rerobotAction_moveDistance = 1
         rerobotAction_robotMovement = motion
-        reunknownObjects = ""
+        reunknownObjects = None
         if is_correctMove == 0: rerobotAction_isCorrectMove = True
         
         if is_correctMove == 2: rerobotAction_moveDistance=2
@@ -197,6 +197,7 @@ def requestmove():
             newPos.append(newHaz)
         print(len(newPos))
         if newPos:
+            reunknownObjects = ""
             for i in newPos:
                 reunknownObjects += i[0]
                 reunknownObjects += str(i[1][0])
@@ -206,8 +207,8 @@ def requestmove():
                 elif i[1] == 'H':
                     areaInterface.add_to_hazard_positions(i[i])
                 rereoute_list = tlts(areaInterface.RequestToGenerate())
-                
-                    
+            print(reunknownObjects)    
+        print(reunknownObjects)            
                            
         
         

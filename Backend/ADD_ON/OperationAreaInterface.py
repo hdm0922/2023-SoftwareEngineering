@@ -37,8 +37,8 @@ class OperationAreaInterface:
     def RequestToGenerate(self):
         # Update the operation_area_instance field of path_generator_instance
         print("request 실행전")
-        self.path_generator_instance._operation_area_instance = self._operation_area_instance
-        temp = self.path_generator_instance.GeneratePath()
+        self._path_generator_instance._operation_area_instance = self._operation_area_instance
+        temp = self._path_generator_instance.GeneratePath()
         print("request 실행후")
         return temp
 
