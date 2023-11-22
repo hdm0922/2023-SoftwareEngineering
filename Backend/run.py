@@ -85,6 +85,7 @@ def process_data():
         area_size = getPosition(data.get('areaSize', "0,0"))
         [tx, ty] = area_size
         area_size = [tx+1,ty+1]
+        print(area_size)
         importantPositions = getPositionData(data.get('importantPositions', []))
         hazardPositions = getPositionData(data.get('hazardPositions', []))
         robot_position = getPosition(data.get('robotPosition', []))
