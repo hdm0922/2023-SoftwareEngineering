@@ -72,6 +72,22 @@ const GenerateAreaButton = function(props) {
         props.setRenderButtonState("ResumeButton");
     };
 
+    // const test = function() {
+
+    //     const initialData = {
+    //         areaSize: "33",
+    //         robotPosition: "11",
+    //         robotPath: "112122",
+    //         colorBlobPositions: "22",
+    //         importantPositions: "",
+    //         hazardPositions: ""
+    //     };
+
+    //     props.setInitialData(initialData);
+    //     props.setRenderPanelState("SimulatePanel");
+    //     props.setRenderButtonState("ResumeButton");
+    // };
+
     return (
 
         <button className="generateAreaButton"

@@ -13,6 +13,11 @@ class Helper {
         return arr;    
     }
 
+    static getPixelPosition(panel, areaSizeX, areaSizeY, _x, _y) {
+        return { x: ( panel.panelWidth  *  (    _x/(areaSizeX-1)) ),
+                 y: ( panel.panelHeight *  (1 - _y/(areaSizeY-1)) )};
+    }
+
 
     static getDirectionDegree(source, destination) {
 
