@@ -23,6 +23,10 @@ class SensorInterface:
         (dx,dy) = dPos[realDir]
         (DetectX, DetectY) = (realX+dx, realY+dy)
         if (DetectX, DetectY) in self._hazardSensor._hazardList:
+            try:
+                self._hazardSensor._hazardList.remove((DetectX, DetectY))
+            except KeyError:
+                pass
             return tuple(("H", (DetectX, DetectY)))
         else:
             return
@@ -35,6 +39,10 @@ class SensorInterface:
             (dx,dy) = i
             (DetectX, DetectY) = (realX+dx, realY+dy)
             if (DetectX, DetectY) in self._colorBlobSensor._colorBlobList:
+                try:
+                    self._colorBlobSensor._colorBlobList.remove((DetectX, DetectY))
+                except KeyError:
+                    pass
                 relist.append(("C", (DetectX, DetectY)))               
         return relist
     

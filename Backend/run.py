@@ -207,8 +207,7 @@ def requestmove():
                 elif i[1] == 'H':
                     areaInterface.add_to_hazard_positions(i[i])
                 rereoute_list = tlts(areaInterface.RequestToGenerate())
-            print(reunknownObjects)    
-        print(reunknownObjects)            
+                    
                            
         
         
