@@ -34,8 +34,8 @@ def getShortestDistance(operationAreaSize, hazardPositions, initialPosition, fin
 
         
     # Array2D initialized with INF
-    distanceFromInitial = [[INF for _ in range(operationAreaSize[1] + 1)]
-                                for _ in range(operationAreaSize[0] + 1)]
+    distanceFromInitial = [[INF for _ in range(operationAreaSize[0] + 1)]
+                                for _ in range(operationAreaSize[1] + 1)]
         
     searchQueue = deque( [{ "position": initialPosition, "distance": 0 }] )
     distanceFromInitial[ initialPosition[1] ][ initialPosition[0] ] = 0
@@ -139,6 +139,8 @@ hazardPos = [(1, 1), (2, 2), (3, 3),(4,4), (5,5), (6,6), (7,7)]
 importPos = [(1, 2), (2, 1), (3, 4), (7,9), (8,1), (1,8)]
 opsize = (9, 9)
 startPos = (0, 0)
+
+# print( getTraversalOrder(opsize, opsize, hazardPos, importPos) )
 
 
 def find_path(opsize, startPos, hazardPos, desPos):
