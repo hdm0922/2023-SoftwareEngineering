@@ -76,19 +76,12 @@ def home():
                                          main_css_file_name=main_css_file_name)
 
 
-@app.route('/temp', methods=['POST'])
-def temp():  
-    if request.method == 'POST':
-        temp = None
-        response = {
-                "test" : temp
-                }
-        return jsonify(response)
 
 @app.route('/data-initialize', methods=['POST'])
 def process_data():
     if request.method == 'POST':
         data = request.get_json()
+        
         area_size = getPosition(data.get('areaSize', "0,0"))
         [tx, ty] = area_size
         area_size = [tx+1,ty+1]
@@ -106,7 +99,13 @@ def process_data():
         areaInterface.initialize_hazard_positions(hazardPositions)
         areaInterface.initialize_colorblob_positions(colorblob_positions)
         robotMovementInterface._sim_instance._position_sensor._RobotPosition=robot_position
+        robotMovementInterface._sim_instance._position_sensor._direction =0
         robotMovementInterface._expected_destination = robot_position
+        robotMovementInterface._sim_instance._hazard_sensor._hazardList = set()
+        robotMovementInterface._sim_instance._color_blob_sensor._colorBlobList = set()
+        robotMovementInterface._sim_instance._position_sensor.boundaryPos =set()
+        
+        
         print("테스트 할 부분")
         print(sensorInterpace._positionSensor.get_position())
         print("테스트 할 부분")
