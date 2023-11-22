@@ -122,7 +122,7 @@ def getTraversalOrder(operationAreaSize, robotPosition,
     traversalOrder = deque()
     
     traversalOrderByIndex = getTraversalOrderFromDistanceArray2D( shortestDistanceArray2D, 0 )
-    for iter in range (len(traversalOrderByIndex)) :
+    for iter in range (1, len(traversalOrderByIndex)) :
         idx = traversalOrderByIndex[iter]
         traversalOrder.append( importantPositionsIndexMappedArray[idx] )
     
