@@ -82,7 +82,7 @@ const SimulatePanel = function(props) {
                                                             }} />;
 
                 case "Hazard"       : return <MdOutlineDangerous className="hazardIcon"/>;
-                case "Color"        : return <GiBurstBlob className="colorBlobIcon"/>
+                case "ColorBlob"    : return <GiBurstBlob className="colorBlobIcon"/>
                 case "Important"    : return <FaStar className="importantIcon" />;
                 default             : return null;
             }
@@ -190,17 +190,17 @@ const SimulatePanel = function(props) {
 
         props.updateFunctions.setColorBlobSensorNorth(
             isInBoundary(northPosition, props.areaSize) &&
-            (itemsToRender[ northPosition.y ][ northPosition.x ] === "Color")            
+            (itemsToRender[ northPosition.y ][ northPosition.x ] === "ColorBlob")            
         );
 
         props.updateFunctions.setColorBlobSensorEast(
             isInBoundary(eastPosition, props.areaSize) &&
-            (itemsToRender[ eastPosition.y ][ eastPosition.x ] === "Color")               
+            (itemsToRender[ eastPosition.y ][ eastPosition.x ] === "ColorBlob")               
         );
 
         props.updateFunctions.setColorBlobSensorWest(
             isInBoundary(westPosition, props.areaSize) &&
-            (itemsToRender[ westPosition.y ][ westPosition.x ] === "Color")                 
+            (itemsToRender[ westPosition.y ][ westPosition.x ] === "ColorBlob")                 
         );
 
         return (
