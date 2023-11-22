@@ -196,7 +196,7 @@ def requestmove():
         newHaz = sensorInterpace.detectHazrd()
         if newHaz:
             newPos.append(newHaz)
-        print(len(newPos))
+        print(newPos)
         if newPos:
             reunknownObjects = ""
             for i in newPos:
@@ -205,9 +205,10 @@ def requestmove():
                 reunknownObjects += str(i[1][1])
                 if i[0] == 'C':
                     areaInterface.add_to_colorblob_positions(i[1])
-                elif i[1] == 'H':
-                    areaInterface.add_to_hazard_positions(i[i])
-                rereoute_list = tlts(areaInterface.RequestToGenerate())
+                    #print(areaInterface.get_colorblob_positions())
+                elif i[0] == 'H':
+                    areaInterface.add_to_hazard_positions(i[1])
+            rereoute_list = tlts(areaInterface.RequestToGenerate())
                     
                            
         
