@@ -3,7 +3,7 @@ sys.path.append('.')
 from Backend.Robot.ColorBlobSensor import ColorBlobSensor
 from Backend.Robot.HazardSensor import HazardSensor
 from Backend.Robot.PostionSensor import PositionSensor
-
+#from Backend.ADD_ON.OperationAreaInterface import OperationAreaInterface
 
 class SensorInterface:
     def __init__(self, _hazard_sensor = HazardSensor(), _color_blob_sensor = ColorBlobSensor(), _position_sensor= PositionSensor()):
@@ -46,14 +46,29 @@ class SensorInterface:
                 relist.append(("C", (DetectX, DetectY)))               
         return relist
     
+    def detectNnotify(self, operationareainterface, newPos = []):
+        operationareainterface.testfunction()
+        if newPos:
+            for i in newPos:
+                if i[0] == 'C':
+                    operationareainterface.add_to_colorblob_positions(i[1])
+                    #print(areaInterface.get_colorblob_positions())
+                elif i[0] == 'H':
+                    operationareainterface.add_to_hazard_positions(i[1])
+            return operationareainterface.RequestToGenerate()
+        return
+        
+    
+    
     
 
 temp = SensorInterface()
-temp._hazardSensor._hazardList = set([])
+temp._hazardSensor._hazardList = set([0,1])
 temp._colorBlobSensor._colorBlobList = set([])
 h = temp.detectHazrd()
 c =temp.detectColor()
 c.append(h)
+print(type(c[0]))
 
 #if h:
  #   print("asdf")

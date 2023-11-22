@@ -41,7 +41,9 @@ class OperationAreaInterface:
         temp = self._path_generator_instance.GeneratePath()
         print("request 실행후")
         return temp
-
+ 
+    def testfunction(self):
+        print("테스트 함수")
 
 
 #print(temp.path_generator_instance._robot_position)

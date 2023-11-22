@@ -209,17 +209,13 @@ def requestmove():
         
         
         if newPos:
+            rereoute_list = tlts(sensorInterpace.detectNnotify(areaInterface,newPos))
             reunknownObjects = ""
             for i in newPos:
                 reunknownObjects += i[0]
                 reunknownObjects += str(i[1][0])
                 reunknownObjects += str(i[1][1])
-                if i[0] == 'C':
-                    areaInterface.add_to_colorblob_positions(i[1])
-                    #print(areaInterface.get_colorblob_positions())
-                elif i[0] == 'H':
-                    areaInterface.add_to_hazard_positions(i[1])
-            rereoute_list = tlts(areaInterface.RequestToGenerate())
+                
                     
                            
         
