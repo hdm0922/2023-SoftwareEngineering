@@ -7,40 +7,138 @@ def is_valid2(x, y, opsize, hazardPos, visited):
     opwidth, opheight = opsize
     return 0 <= x < opwidth and 0 <= y < opheight and (x, y) not in hazardPos and (x, y) not in visited
 
-def bfs(opsize, startPos, hazardPos, importPos):
-    visited = set()
-    queue = deque([startPos])  # current_pos만 큐에 저장
-    import_queue = deque()  # importPos 방문 순서를 저장하는 큐
+# Code Edited -----------------------------------------
 
-    while queue:
-        current_pos = queue.popleft()
+INF = int(1e9)
 
-        if current_pos not in visited:
-            visited.add(current_pos)
 
-            if current_pos in importPos:
-                importPos.remove(current_pos)
-                import_queue.append(current_pos)
-                #print(f"Visited importPos at {current_pos}")
+# returns shortest distance between initialPosition, finalPosition.
+def getShortestDistance(operationAreaSize, hazardPositions, initialPosition, finalPosition) :
+    
+    def getNextPosition(currentPosition, direction) :
+        
+        nextPositionX = currentPosition[0]
+        nextPositionY = currentPosition[1]
+        
+        if   (direction == 0) : nextPositionX += 1
+        elif (direction == 1) : nextPositionX -= 1
+        elif (direction == 2) : nextPositionY += 1
+        elif (direction == 3) : nextPositionY -= 1
+        
+        return (nextPositionX, nextPositionY)
+    
+    def isInBoundary(operationAreaSize, position) :
+        isInBoundaryX = (0 <= position[0]) and (position[0] <= operationAreaSize[0])
+        isInBoundaryY = (0 <= position[1]) and (position[1] <= operationAreaSize[1])
+        return isInBoundaryX and isInBoundaryY
 
-            x, y = current_pos
+        
+    # Array2D initialized with INF
+    distanceFromInitial = [[INF for _ in range(operationAreaSize[1] + 1)]
+                                for _ in range(operationAreaSize[0] + 1)]
+        
+    searchQueue = deque( [{ "position": initialPosition, "distance": 0 }] )
+    distanceFromInitial[ initialPosition[1] ][ initialPosition[0] ] = 0
 
-            for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
-                next_pos = (x + dx, y + dy)
+    
+    while searchQueue :
+        
+        currentState = searchQueue.popleft()
+        
+        if ((currentState["position"][0] == finalPosition[0])
+        and (currentState["position"][1] == finalPosition[1])) : break
+        
+        for direction in range (4):
+            
+            nextPosition = getNextPosition(currentState["position"], direction)
+            nextDistance = currentState["distance"] + 1
+            
+            nextState = { "position": nextPosition, "distance": nextDistance }
+            
+            if (not isInBoundary(operationAreaSize, nextState["position"])) : continue
+            if (nextState["position"] in hazardPositions) : continue
+            if (distanceFromInitial[nextState["position"][1]][nextState["position"][0]] <= nextState["distance"]) : continue
+            
+            distanceFromInitial[nextState["position"][1]][nextState["position"][0]] = nextState["distance"]
+            searchQueue.append( nextState )
+            
+    return distanceFromInitial[ finalPosition[1] ][ finalPosition[0] ]
 
-                if is_valid(*next_pos, opsize) and next_pos not in hazardPos and next_pos not in visited:
-                    queue.append(next_pos)
+# returns traversal order starting from robotPosition - mapped by index.
+def getTraversalOrderFromDistanceArray2D(givenDistance, robotPositionIndex) :
+    
+    traversalOrderByIndex = [ int(robotPositionIndex) ]
+    
+    ALL_VISITED = (1 << len(givenDistance)) - 1
+    bitWrittenVisit = (1 << robotPositionIndex)
+    
+    while ( bitWrittenVisit != ALL_VISITED ) :
+        
+        currentNode = traversalOrderByIndex[-1]
+        
+        nextNode = currentNode
+        for testNode in range ( len(givenDistance) ) :
+            if ( (bitWrittenVisit & (1 << testNode)) ) : continue
+            
+            nextNode = ( nextNode
+                        if ( givenDistance[currentNode][nextNode] <
+                             givenDistance[currentNode][testNode])
+                        else testNode )
+    
+        bitWrittenVisit |= (1 << nextNode)
+        traversalOrderByIndex.append( nextNode )
+    
+    return traversalOrderByIndex
 
-    #print("All importPos visited.")
-    return import_queue
+
+# returns traversal orders
+def getTraversalOrder(operationAreaSize, robotPosition,
+                      hazardPositions, importantPositions) :
+    
+    # Create an index-mapped array with important positions
+    importantPositionsIndexMappedArray = [ robotPosition ]
+    for position in importantPositions :
+        importantPositionsIndexMappedArray.append( position )
+    
+    # Create an Array2D with shortest distance :
+    # Array2D[ iter ][ jter ] denotes "the shortest distance between positions iter, jter"
+    IMPORTANT_POSITIONS_LENGTH = len( importantPositionsIndexMappedArray )
+    shortestDistanceArray2D = [[0 for _ in range( IMPORTANT_POSITIONS_LENGTH )]
+                                  for _ in range( IMPORTANT_POSITIONS_LENGTH )]
+    
+    for iter in range ( IMPORTANT_POSITIONS_LENGTH ) :   
+         
+        for jter in range ( IMPORTANT_POSITIONS_LENGTH ) :
+            
+            shortestDistanceArray2D[iter][jter] = getShortestDistance(
+                operationAreaSize, hazardPositions,
+                importantPositionsIndexMappedArray[iter],
+                importantPositionsIndexMappedArray[jter])
+        
+        shortestDistanceArray2D[iter][iter] = INF
+
+
+
+    traversalOrder = deque()
+    
+    traversalOrderByIndex = getTraversalOrderFromDistanceArray2D( shortestDistanceArray2D, 0 )
+    for iter in range (len(traversalOrderByIndex)) :
+        idx = traversalOrderByIndex[iter]
+        traversalOrder.append( importantPositionsIndexMappedArray[idx] )
+    
+    return traversalOrder
+
+
+# Code Edited -----------------------------------------
+
+def bfs(operationAreaSize, robotPosition, hazardPositions, importantPositions):
+    return getTraversalOrder(operationAreaSize, robotPosition, hazardPositions, importantPositions)
 
 # Example usage:
 hazardPos = [(1, 1), (2, 2), (3, 3),(4,4), (5,5), (6,6), (7,7)]
 importPos = [(1, 2), (2, 1), (3, 4), (7,9), (8,1), (1,8)]
 opsize = (9, 9)
 startPos = (0, 0)
-
-
 
 
 def find_path(opsize, startPos, hazardPos, desPos):
