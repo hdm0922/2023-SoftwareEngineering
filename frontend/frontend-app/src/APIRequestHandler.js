@@ -64,63 +64,6 @@ class APIRequestHandler {
     }
 
 
-
-    static async testWithWeb(testCounter) {
-
-        const ret = {
-            robotAction_robotMovement: undefined,
-            robotAction_moveDistance: undefined,
-            robotAction_isCorrectMove: true,
-            unknownObjects: null,
-            robotPath: undefined
-        };
-
-        switch (testCounter) {
-
-            case 0:
-                ret.robotAction_robotMovement = "Rotate";
-                ret.robotAction_moveDistance = 0;
-                ret.robotPath = "112122";
-                break;
-
-            case 1:
-                ret.robotAction_robotMovement = "Move";
-                ret.robotAction_moveDistance = 1;
-                ret.robotPath = "2122";
-                break;
-
-            case 2:
-                ret.robotAction_robotMovement = "Rotate";
-                ret.robotAction_moveDistance = 0;
-                ret.robotPath = "2122";
-                break;
-                
-            case 3:
-                ret.robotAction_robotMovement = "Rotate";
-                ret.robotAction_moveDistance = 0;
-                ret.robotPath = "2122";
-                break;
-
-            case 4:
-                ret.robotAction_robotMovement = "Rotate";
-                ret.robotAction_moveDistance = 0;
-                ret.robotPath = "2122";
-                break;        
-
-            case 5:
-                ret.robotAction_robotMovement = "Move";
-                ret.robotAction_moveDistance = 1;
-                ret.robotPath = "22";
-                break;
-
-            default:
-                break;
-        }
-
-        return ret;
-
-    }
-
 }
 
 
