@@ -128,7 +128,7 @@ const MainPanel = function({ setSTTButtonState }) {
 
         initializeRenderItems(initHazardPositions, "Hazard");
         initializeRenderItems(initImportantPositions, "Important");
-        initializeRenderItems(initColorBlobPositions, "Color");
+        initializeRenderItems(initColorBlobPositions, "ColorBlob");
         initializeRenderItems(initRobotPosition, "Robot");
 
 
@@ -189,7 +189,6 @@ const MainPanel = function({ setSTTButtonState }) {
         const moveRobot = function(moveDistance) {
 
             const latestRobotRotationDegree = robotRotationDegreeReference.current;
-            console.log( "current robot rotation: ", latestRobotRotationDegree );
 
             updateItemsToRender("",
                 robotPosition.x,
@@ -219,7 +218,7 @@ const MainPanel = function({ setSTTButtonState }) {
             for (let iter=0; iter<unknownObjects.length; iter++) {
 
                 const itemType = unknownObjects[iter].item === 'H' ? "Hazard"    :
-                                 unknownObjects[iter].item === 'C' ? "Color"     :
+                                 unknownObjects[iter].item === 'C' ? "ColorBlob" :
                                  unknownObjects[iter].item === 'I' ? "Important" : null;
 
                 updateItemsToRender(
@@ -241,30 +240,22 @@ const MainPanel = function({ setSTTButtonState }) {
 
             switch (robotAction.robotAction_robotMovement) {
 
-                case "Stop"     :
-                    break;
-
                 case "Rotate"   :
                     rotateRobot();
                     break;
 
                 case "Move"     :
                     moveRobot(robotAction.robotAction_moveDistance);
-                    break;
-
-                case "Compensate"     : 
-                    moveRobot(robotAction.robotAction_moveDistance);
-                    break;      
+                    break;    
 
                 default  :
                     break;
             }
 
+    
             if (robotAction.unknownObjects) {
-
                 const unknownObjects = Parser.parseUnknownObjects(robotAction.unknownObjects);
                 handleUnknownObjects(unknownObjects);
-    
             }
     
             if (robotAction.robotPath) {
