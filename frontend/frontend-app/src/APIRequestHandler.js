@@ -27,9 +27,7 @@ class APIRequestHandler {
     // 웹서버에게 사용자의 STT명령을 전달한다.
     static async notifyUserUpdateViaSTT(userOrder) {
 
-        console.log(userOrder);
-
-        const response = await fetch('/handle-stt', {
+        const response = await fetch('/stt-handle', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -65,63 +63,6 @@ class APIRequestHandler {
         return data;
     }
 
-
-
-    static async testWithWeb(testCounter) {
-
-        const ret = {
-            robotAction_robotMovement: undefined,
-            robotAction_moveDistance: undefined,
-            robotAction_isCorrectMove: true,
-            unknownObjects: null,
-            robotPath: undefined
-        };
-
-        switch (testCounter) {
-
-            case 0:
-                ret.robotAction_robotMovement = "Rotate";
-                ret.robotAction_moveDistance = 0;
-                ret.robotPath = "112122";
-                break;
-
-            case 1:
-                ret.robotAction_robotMovement = "Move";
-                ret.robotAction_moveDistance = 1;
-                ret.robotPath = "2122";
-                break;
-
-            case 2:
-                ret.robotAction_robotMovement = "Rotate";
-                ret.robotAction_moveDistance = 0;
-                ret.robotPath = "2122";
-                break;
-                
-            case 3:
-                ret.robotAction_robotMovement = "Rotate";
-                ret.robotAction_moveDistance = 0;
-                ret.robotPath = "2122";
-                break;
-
-            case 4:
-                ret.robotAction_robotMovement = "Rotate";
-                ret.robotAction_moveDistance = 0;
-                ret.robotPath = "2122";
-                break;        
-
-            case 5:
-                ret.robotAction_robotMovement = "Move";
-                ret.robotAction_moveDistance = 1;
-                ret.robotPath = "22";
-                break;
-
-            default:
-                break;
-        }
-
-        return ret;
-
-    }
 
 }
 
