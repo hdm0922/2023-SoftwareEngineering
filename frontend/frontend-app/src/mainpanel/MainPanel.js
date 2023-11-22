@@ -24,7 +24,7 @@ robot = { robotPosition: Object, robotRotationDegree: Number,
           sensors: Object }
 
 updateFunctions = { setInitialData: Function, updateItemsToRender: Function,
-                    setrobotRotationDegree: Function, setRobotPosition: Function,
+                    setRobotRotationDegree: Function, setRobotPosition: Function,
                     setRobotPath : Function, setRobotGoingCorrect: Function }
 */
 const MainPanel = function(props) {
@@ -79,16 +79,19 @@ const MainPanel = function(props) {
         }
     };
 
+    let testCounter = 0;
 
-    const simulateRobotMovement = function() {
+    const simulateRobotMovement = async function() {
 
         const rotateRobot = function() {
-            props.simulationData.updateFunctions.setrobotRotationDegree(
+            props.simulationData.updateFunctions.setRobotRotationDegree(
                 prevRotationDeg => ((prevRotationDeg + 90) % 360)
             );
         };
 
         const moveRobot = function(moveDistance) {
+
+            console.log( "current robot rotation: ", props.simulationData.robot.robotRotationDegree );
 
             props.simulationData.updateFunctions.updateItemsToRender("",
                 props.simulationData.robot.robotPosition.x,
@@ -129,51 +132,91 @@ const MainPanel = function(props) {
             return;
         };
 
-        const robotAction = APIRequestHandler.fetchRobotAction();
+        const handleRobotAction = async function(robotAction) {
 
-        props.simulationData.updateFunctions.setRobotGoingCorrect(
-            robotAction.robotAction_isCorrectMove
-        );
+            props.simulationData.updateFunctions.setRobotGoingCorrect(
+                robotAction.robotAction_isCorrectMove
+            );
 
-        switch (robotAction.robotAction_robotMovement) {
-            case "Stop"     :                                                      break;
-            case "Rotate"   : rotateRobot();                                       break;
-            case "Move"     : moveRobot(robotAction.robotAction_moveDistance);     break;
-            default         :                                                      break;
-        }
+            switch (robotAction.robotAction_robotMovement) {
 
+                case "Stop"     :
+                    break;
 
-        if (robotAction.unknownObjects) {
+                case "Rotate"   :
+                    rotateRobot();
+                    break;
 
-            const unknownObjects = Parser.parseUnknownObjects(robotAction.unknownObjects);
-            handleUnknownObjects(unknownObjects);
+                case "Move"     :
+                    moveRobot(robotAction.robotAction_moveDistance);
+                    break;
 
-        }
+                case "Compensate"     : 
+                    moveRobot(robotAction.robotAction_moveDistance);
+                    break;      
 
-        if (robotAction.robotPath) {
+                default  :
+                    break;
+            }
 
-            const parsedRobotPath = Parser.parseStringToPairsArray( robotAction.robotPath );
-            props.simulationData.updateFunctions.setRobotPath( parsedRobotPath );
+            if (robotAction.unknownObjects) {
 
-        }   else { setRenderButtonState( "RetryButton" ); }
+                const unknownObjects = Parser.parseUnknownObjects(robotAction.unknownObjects);
+                handleUnknownObjects(unknownObjects);
+    
+            }
+    
+            if (robotAction.robotPath) {
+    
+                const parsedRobotPath = Parser.parseStringToPairsArray( robotAction.robotPath );
+                props.simulationData.updateFunctions.setRobotPath( parsedRobotPath );
+    
+            }   else { setRenderButtonState( "RetryButton" ); }    
 
+        };
+
+        // const fetchedRobotAction = APIRequestHandler.fetchRobotAction();
+
+        const fetchedRobotAction = await APIRequestHandler.testWithWeb(testCounter);
+        await handleRobotAction(fetchedRobotAction);
+        testCounter++;
+        // fetchedRobotAction.then(robotAction => {
+        //     await handleRobotAction(robotAction);
+        // });
+
+        return;
     };
 
 
     const resumeSimulation = function() {
-        const running = setInterval(() => { simulateRobotMovement(); }, 1000);
+        const running = setInterval(async () => { await simulateRobotMovement(); }, 1000);
         setSimulationRunning(running);
-    }
+    };
 
     const pauseSimulation = function() {
         clearInterval(simulationRunning);
         setSimulationRunning(null);
-    }
+    };
 
+    const resetSystemState = function() {
+
+        setAreaSizeUserInput("");
+        setRobotPositionUserInput("");
+        setImportantPositionsUserInput("");
+        setColorBlobPositionsUserInput("");
+        setHazardPositionsUserInput("");
+
+        props.simulationData.updateFunctions.setrobotRotationDegree(0);
+
+        return;
+    };
 
     useEffect(  () => { if (simulationRunning) {
         return  () => { clearInterval(simulationRunning); };
         }}, [simulationRunning]);
+
+    useEffect( () => {console.log("Changed Rotation", props.simulationData.robot.robotRotationDegree)},
+    [props.simulationData.robot.robotRotationDegree] );
 
     return (
 
@@ -218,7 +261,8 @@ const MainPanel = function(props) {
 
                 {(renderButton === "RetryButton") &&
                     <RetryButton setRenderPanelState={setRenderPanelState}
-                                 setRenderButtonState={setRenderButtonState} />}
+                                 setRenderButtonState={setRenderButtonState}
+                                 resetSystemState={resetSystemState}/>}
 
             </div>
 

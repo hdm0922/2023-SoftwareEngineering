@@ -21,7 +21,7 @@ const App = () => {
     const [areaSize,            setAreaSize] = useState({});
     const [robotPath,           setRobotPath] = useState([]);
     const [robotPosition,       setRobotPosition] = useState({});
-    const [robotRotationDegree, setrobotRotationDegree] = useState(0);
+    const [robotRotationDegree, setRobotRotationDegree] = useState(0);
     const [robotGoingCorrect,   setRobotGoingCorrect] = useState(true);
     const [itemsToRender,       setItemsToRender] = useState(Helper.Array2D(0, 0, null));
 
@@ -119,7 +119,7 @@ const App = () => {
                                 setInitialData: setInitialData,
                                 updateItemsToRender: updateItemsToRender,
 
-                                setrobotRotationDegree: setrobotRotationDegree,
+                                setRobotRotationDegree: setRobotRotationDegree,
                                 setRobotPosition: setRobotPosition,
                                 setRobotPath: setRobotPath,
                                 setRobotGoingCorrect: setRobotGoingCorrect,

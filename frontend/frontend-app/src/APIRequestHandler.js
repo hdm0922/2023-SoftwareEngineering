@@ -4,15 +4,22 @@ class APIRequestHandler {
 
 
     // 로봇의 다음 동작을 수신한다.
-    static fetchRobotAction() {
-        return {
-            robotAction_robotMovement: "Move",
-            robotAction_moveDistance: 1,
-            robotAction_isCorrectMove: true,
+    static async fetchRobotAction() {
 
-            unknownObjects: "H33I00",
-            robotPath: "1112222324"
-        };
+        const response = await fetch('/robot-action', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({})
+        });
+
+        if (!response.ok) {
+            throw new Error('Response was not ok.');
+        }
+
+        const data = await response.json();
+        return data;
     }
 
 
@@ -59,42 +66,46 @@ class APIRequestHandler {
         return data;
     }
 
-    static async testWithWeb() {
 
 
+    static async testWithWeb(testCounter) {
 
-        const inputData = {
-            areaSize: "(8 8)",
-            robotPosition: "(4 4)",
-            importantPositions: "(1 2)",
-            colorBlobPositions: "((7 6)(7 7))",
-            hazardPositions: "((4 5)(5 6))"
+        const ret = {
+            robotAction_robotMovement: undefined,
+            robotAction_moveDistance: undefined,
+            robotAction_isCorrectMove: true,
+            unknownObjects: null,
+            robotPath: undefined
         };
 
+        switch (testCounter) {
 
-        const response = await fetch('/data-initialize', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(inputData)
-        });
+            case 0:
+                ret.robotAction_robotMovement = "Rotate";
+                ret.robotAction_moveDistance = 0;
+                ret.robotPath = "112122";
+                break;
 
-        if (!response.ok) {
-            throw new Error('Response was not ok.');
+            case 1:
+                ret.robotAction_robotMovement = "Move";
+                ret.robotAction_moveDistance = 1;
+                ret.robotPath = "2122";
+                break;
+
+            case 2,3,4:
+                ret.robotAction_robotMovement = "Rotate";
+                ret.robotAction_moveDistance = 0;
+                ret.robotPath = "2122";
+                break;
+                
+            case 5:
+                ret.robotAction_robotMovement = "Move";
+                ret.robotAction_moveDistance = 1;
+                ret.robotPath = "22";
+                break;
         }
 
-        const data = await response.json();
-
-
-
-
-
-
-
-        console.log( data );
-
-        return data;
+        return ret;
 
     }
 
