@@ -4,13 +4,65 @@ import './App.css';
 import MainPanel from './mainpanel/MainPanel';
 import BottomPanel from './bottompanel/BottomPanel';
 
-import Helper from './Helper';
-import Parser from './Parser';
-
 import { BiSolidJoystickButton } from "react-icons/bi";
 import { TbCircleLetterA } from "react-icons/tb";
 import { TbCircleLetterB } from "react-icons/tb";
 import { FaCircle } from "react-icons/fa";
+
+
+
+
+// const App = function() {
+
+//     const [rotationDegree, setRotationDegree] = useState(0);
+//     const rotationDegreeReference = useRef(rotationDegree);
+
+//     // rotationDegree 를 90 증가시킵니다.
+//     const rotate = function() {
+//         setRotationDegree(prev => (prev + 90) % 360);
+//         console.log( "Rotate Should Be = ", rotationDegree );
+//     };
+
+
+//     let iter = 0;
+//     const simulate = function() {
+
+
+//         switch(iter % 2) {
+//             case 0: rotate(); break;
+//             case 1: console.log("Moving in direction : ", rotationDegreeReference.current); break;
+//             default: break;
+//         }
+//         iter++;
+//         return;
+//     };
+
+//     // // Resume버튼을 누르면 1초마다 simulate를 호출합니다.
+//     const play = function() {
+//         // setInterval(() => { simulate(); }, 1000);
+//     }
+
+
+//     useEffect(() => {
+//         rotationDegreeReference.current = rotationDegree;
+//     }, [rotationDegree]);
+
+//     useEffect(() => {
+//         const intervalId = setInterval(simulate, 1000);
+
+//         return () => {
+//         clearInterval(intervalId);
+//         };
+//     }, []); // [] ensures this effect runs only once
+
+
+//     return (
+//         <div >
+//             <button onClick={play}> {rotationDegree} </button>
+//         </div>
+//     );
+// }
+
 
 
 const App = () => {
@@ -18,17 +70,6 @@ const App = () => {
     const [stateMessage, setStateMessage] = useState("음성 입력이 비활성화 되었습니다.");
     const [enableSTTButton, setEnableSTTButton] = useState(false);
 
-    const [areaSize,            setAreaSize] = useState({});
-    const [robotPath,           setRobotPath] = useState([]);
-    const [robotPosition,       setRobotPosition] = useState({});
-    const [robotRotationDegree, setRobotRotationDegree] = useState(0);
-    const [robotGoingCorrect,   setRobotGoingCorrect] = useState(true);
-    const [itemsToRender,       setItemsToRender] = useState(Helper.Array2D(0, 0, null));
-
-    const [hazardSensorNorth,       setHazardSensorNorth]       = useState(false);
-    const [colorBlobSensorNorth,    setColorBlobSensorNorth]    = useState(false);
-    const [colorBlobSensorEast,     setColorBlobSensorEast]     = useState(false);
-    const [colorBlobSensorWest,     setColorBlobSensorWest]     = useState(false);
 
     const setSTTButtonState = function(newState) {
         
@@ -54,84 +95,13 @@ const App = () => {
     };
 
 
-    const setInitialData = function(initialData) {
 
-        const inputAreaSize             = Parser.parseStringToPairsArray(initialData.areaSize);
-        const initRobotPosition         = Parser.parseStringToPairsArray(initialData.robotPosition);
-        const initRobotPath             = Parser.parseStringToPairsArray(initialData.robotPath);
-        const initHazardPositions       = Parser.parseStringToPairsArray(initialData.hazardPositions);
-        const initImportantPositions    = Parser.parseStringToPairsArray(initialData.importantPositions);
-        const initColorBlobPositions    = Parser.parseStringToPairsArray(initialData.colorBlobPositions);
-
-        const initializedAreaSize       = { x: (inputAreaSize[0].x + 1), y: (inputAreaSize[0].y + 1) };
-        const initItemsToRender         = Helper.Array2D(initializedAreaSize.x, initializedAreaSize.y, '');
-
-        const initializeRenderItems = (dataArray, renderType) => {
-            for (let iter=0; iter<dataArray.length; iter++) {
-                initItemsToRender[dataArray[iter].y]
-                                 [dataArray[iter].x] = renderType;
-            }
-        }
-
-        initializeRenderItems(initHazardPositions, "Hazard");
-        initializeRenderItems(initImportantPositions, "Important");
-        initializeRenderItems(initColorBlobPositions, "Color");
-        initializeRenderItems(initRobotPosition, "Robot");
-
-
-        setAreaSize( initializedAreaSize );
-        setRobotPosition( initRobotPosition[0] );
-        setRobotPath( initRobotPath );
-        setItemsToRender( initItemsToRender );
-    };
-
-    const updateItemsToRender = function(itemType, x, y) {
-        const newItemsToRender = [...itemsToRender];
-        newItemsToRender[y][x] = itemType;
-        setItemsToRender(newItemsToRender);
-    }
 
     return (
 
         <div className='gameBoyPanel'>
 
-            <MainPanel setSTTButtonState        =   {setSTTButtonState}
-                       simulationData           =   {{
-
-                            areaSize: areaSize,
-                            itemsToRender: itemsToRender,
-
-                            robot: {
-                                robotPosition: robotPosition,
-                                robotRotationDegree: robotRotationDegree,
-                                robotPath: robotPath,
-                                robotGoingCorrect: robotGoingCorrect,
-
-                                sensors: {
-                                    hazardSensorNorth: hazardSensorNorth,
-                                    colorBlobSensorNorth: colorBlobSensorNorth,
-                                    colorBlobSensorEast: colorBlobSensorEast,
-                                    colorBlobSensorWest: colorBlobSensorWest
-                                }
-                            },
-
-                            updateFunctions: {
-                                setInitialData: setInitialData,
-                                updateItemsToRender: updateItemsToRender,
-
-                                setRobotRotationDegree: setRobotRotationDegree,
-                                setRobotPosition: setRobotPosition,
-                                setRobotPath: setRobotPath,
-                                setRobotGoingCorrect: setRobotGoingCorrect,
-
-                                setHazardSensorNorth: setHazardSensorNorth,
-                                setColorBlobSensorNorth: setColorBlobSensorNorth,
-                                setColorBlobSensorEast: setColorBlobSensorEast,
-                                setColorBlobSensorWest: setColorBlobSensorWest
-                            }
-
-                       }}
-            />
+            <MainPanel setSTTButtonState =   {setSTTButtonState}/>
 
 
 

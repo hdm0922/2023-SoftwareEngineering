@@ -92,16 +92,31 @@ class APIRequestHandler {
                 ret.robotPath = "2122";
                 break;
 
-            case 2,3,4:
+            case 2:
                 ret.robotAction_robotMovement = "Rotate";
                 ret.robotAction_moveDistance = 0;
                 ret.robotPath = "2122";
                 break;
                 
+            case 3:
+                ret.robotAction_robotMovement = "Rotate";
+                ret.robotAction_moveDistance = 0;
+                ret.robotPath = "2122";
+                break;
+
+            case 4:
+                ret.robotAction_robotMovement = "Rotate";
+                ret.robotAction_moveDistance = 0;
+                ret.robotPath = "2122";
+                break;        
+
             case 5:
                 ret.robotAction_robotMovement = "Move";
                 ret.robotAction_moveDistance = 1;
                 ret.robotPath = "22";
+                break;
+
+            default:
                 break;
         }
 

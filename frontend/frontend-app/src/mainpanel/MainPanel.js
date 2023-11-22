@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import './MainPanel.css'
 
 import UserInputPanel from "./renderpanel/UserInputPanel";
@@ -11,7 +11,47 @@ import RetryButton from "./renderbutton/RetryButton";
 
 import APIRequestHandler from "../APIRequestHandler";
 import Parser from "../Parser";
+import Helper from "../Helper";
 
+
+
+/*
+                       simulationData           =   {{
+
+                            areaSize: areaSize,
+                            itemsToRender: itemsToRender,
+
+                            robot: {
+                                robotPosition: robotPosition,
+                                robotRotationDegree: robotRotationDegree,
+                                robotPath: robotPath,
+                                robotGoingCorrect: robotGoingCorrect,
+
+                                sensors: {
+                                    hazardSensorNorth: hazardSensorNorth,
+                                    colorBlobSensorNorth: colorBlobSensorNorth,
+                                    colorBlobSensorEast: colorBlobSensorEast,
+                                    colorBlobSensorWest: colorBlobSensorWest
+                                }
+                            },
+
+                            updateFunctions: {
+                                setInitialData: setInitialData,
+                                updateItemsToRender: updateItemsToRender,
+
+                                setRobotRotationDegree: setRobotRotationDegree,
+                                setRobotPosition: setRobotPosition,
+                                setRobotPath: setRobotPath,
+                                setRobotGoingCorrect: setRobotGoingCorrect,
+
+                                setHazardSensorNorth: setHazardSensorNorth,
+                                setColorBlobSensorNorth: setColorBlobSensorNorth,
+                                setColorBlobSensorEast: setColorBlobSensorEast,
+                                setColorBlobSensorWest: setColorBlobSensorWest
+                            }
+
+                       }}
+ */
 
 /*
 props = { setSTTButtonState: Function, simulationData: Object }
@@ -27,7 +67,7 @@ updateFunctions = { setInitialData: Function, updateItemsToRender: Function,
                     setRobotRotationDegree: Function, setRobotPosition: Function,
                     setRobotPath : Function, setRobotGoingCorrect: Function }
 */
-const MainPanel = function(props) {
+const MainPanel = function({ setSTTButtonState }) {
 
     const [renderPanel, setRenderPanel] = useState("UserInputPanel");
     const [renderButton, setRenderButton] = useState("GenerateAreaButton");
@@ -46,6 +86,63 @@ const MainPanel = function(props) {
 
 
 
+
+    const [areaSize,            setAreaSize] = useState({});
+    const [robotPath,           setRobotPath] = useState([]);
+    const [robotPosition,       setRobotPosition] = useState({});
+    const [robotRotationDegree, setRobotRotationDegree] = useState(0);
+    const [robotGoingCorrect,   setRobotGoingCorrect] = useState(true);
+    const [itemsToRender,       setItemsToRender] = useState(Helper.Array2D(0, 0, null));
+
+    const [hazardSensorNorth,       setHazardSensorNorth]       = useState(false);
+    const [colorBlobSensorNorth,    setColorBlobSensorNorth]    = useState(false);
+    const [colorBlobSensorEast,     setColorBlobSensorEast]     = useState(false);
+    const [colorBlobSensorWest,     setColorBlobSensorWest]     = useState(false);
+
+
+    const robotRotationDegreeReference = useRef(robotRotationDegree);
+    useEffect(() => {
+        robotRotationDegreeReference.current = robotRotationDegree; },
+        [robotRotationDegree]);
+
+
+
+    const setInitialData = function(initialData) {
+
+        const inputAreaSize             = Parser.parseStringToPairsArray(initialData.areaSize);
+        const initRobotPosition         = Parser.parseStringToPairsArray(initialData.robotPosition);
+        const initRobotPath             = Parser.parseStringToPairsArray(initialData.robotPath);
+        const initHazardPositions       = Parser.parseStringToPairsArray(initialData.hazardPositions);
+        const initImportantPositions    = Parser.parseStringToPairsArray(initialData.importantPositions);
+        const initColorBlobPositions    = Parser.parseStringToPairsArray(initialData.colorBlobPositions);
+
+        const initializedAreaSize       = { x: (inputAreaSize[0].x + 1), y: (inputAreaSize[0].y + 1) };
+        const initItemsToRender         = Helper.Array2D(initializedAreaSize.x, initializedAreaSize.y, '');
+
+        const initializeRenderItems = (dataArray, renderType) => {
+            for (let iter=0; iter<dataArray.length; iter++) {
+                initItemsToRender[dataArray[iter].y]
+                                 [dataArray[iter].x] = renderType;
+            }
+        }
+
+        initializeRenderItems(initHazardPositions, "Hazard");
+        initializeRenderItems(initImportantPositions, "Important");
+        initializeRenderItems(initColorBlobPositions, "Color");
+        initializeRenderItems(initRobotPosition, "Robot");
+
+
+        setAreaSize( initializedAreaSize );
+        setRobotPosition( initRobotPosition[0] );
+        setRobotPath( initRobotPath );
+        setItemsToRender( initItemsToRender );
+    };
+
+    const updateItemsToRender = function(itemType, x, y) {
+        const newItemsToRender = [...itemsToRender];
+        newItemsToRender[y][x] = itemType;
+        setItemsToRender(newItemsToRender);
+    }
     
 
 
@@ -61,17 +158,17 @@ const MainPanel = function(props) {
 
             case "ResumeButton":
                 pauseSimulation();
-                props.setSTTButtonState("Running");
+                setSTTButtonState("Running");
                 break;
 
             case "PauseButton":
                 resumeSimulation();
-                props.setSTTButtonState("Disabled");
+                setSTTButtonState("Disabled");
                 break;
 
             case "RetryButton":
                 pauseSimulation();
-                props.setSTTButtonState("Disabled");
+                setSTTButtonState("Disabled");
                 break;
 
             default :
@@ -79,28 +176,29 @@ const MainPanel = function(props) {
         }
     };
 
-    let testCounter = 0;
 
-    const simulateRobotMovement = async function() {
+
+
+    const simulateRobotMovement = function() {
 
         const rotateRobot = function() {
-            props.simulationData.updateFunctions.setRobotRotationDegree(
-                prevRotationDeg => ((prevRotationDeg + 90) % 360)
-            );
+            setRobotRotationDegree( prevRotationDeg => ((prevRotationDeg + 90) % 360) )
         };
+
 
         const moveRobot = function(moveDistance) {
 
-            console.log( "current robot rotation: ", props.simulationData.robot.robotRotationDegree );
+            const latestRobotRotationDegree = robotRotationDegreeReference.current;
+            console.log( "current robot rotation: ", latestRobotRotationDegree );
 
-            props.simulationData.updateFunctions.updateItemsToRender("",
-                props.simulationData.robot.robotPosition.x,
-                props.simulationData.robot.robotPosition.y
+            updateItemsToRender("",
+                robotPosition.x,
+                robotPosition.y
             );
 
-            const newRobotPosition = props.simulationData.robot.robotPosition;
+            const newRobotPosition = robotPosition;
 
-            switch (props.simulationData.robot.robotRotationDegree) {
+            switch (latestRobotRotationDegree) {
                 case 0      : newRobotPosition.y += moveDistance; break;
                 case 90     : newRobotPosition.x += moveDistance; break;
                 case 180    : newRobotPosition.y -= moveDistance; break;
@@ -108,13 +206,13 @@ const MainPanel = function(props) {
                 default     :                                     break;
             }
 
-            props.simulationData.updateFunctions.updateItemsToRender(
+            updateItemsToRender(
                 "Robot", newRobotPosition.x, newRobotPosition.y
             );
 
-            props.simulationData.updateFunctions.setRobotPosition(newRobotPosition);
-
+            setRobotPosition(newRobotPosition);
         };
+
 
         const handleUnknownObjects = function(unknownObjects) {
 
@@ -124,7 +222,7 @@ const MainPanel = function(props) {
                                  unknownObjects[iter].item === 'C' ? "Color"     :
                                  unknownObjects[iter].item === 'I' ? "Important" : null;
 
-                props.simulationData.updateFunctions.updateItemsToRender(
+                updateItemsToRender(
                     itemType, unknownObjects[iter].x, unknownObjects[iter].y
                 );
             }
@@ -132,11 +230,14 @@ const MainPanel = function(props) {
             return;
         };
 
+
+
+
+
+
         const handleRobotAction = async function(robotAction) {
 
-            props.simulationData.updateFunctions.setRobotGoingCorrect(
-                robotAction.robotAction_isCorrectMove
-            );
+            setRobotGoingCorrect( robotAction.robotAction_isCorrectMove );
 
             switch (robotAction.robotAction_robotMovement) {
 
@@ -169,27 +270,23 @@ const MainPanel = function(props) {
             if (robotAction.robotPath) {
     
                 const parsedRobotPath = Parser.parseStringToPairsArray( robotAction.robotPath );
-                props.simulationData.updateFunctions.setRobotPath( parsedRobotPath );
+                setRobotPath( parsedRobotPath );
     
             }   else { setRenderButtonState( "RetryButton" ); }    
 
         };
 
-        // const fetchedRobotAction = APIRequestHandler.fetchRobotAction();
-
-        const fetchedRobotAction = await APIRequestHandler.testWithWeb(testCounter);
-        await handleRobotAction(fetchedRobotAction);
-        testCounter++;
-        // fetchedRobotAction.then(robotAction => {
-        //     await handleRobotAction(robotAction);
-        // });
+        const fetchedRobotAction = APIRequestHandler.fetchRobotAction();
+        fetchedRobotAction.then(robotAction => {
+            handleRobotAction(robotAction);
+        });
 
         return;
     };
 
 
     const resumeSimulation = function() {
-        const running = setInterval(async () => { await simulateRobotMovement(); }, 1000);
+        const running = setInterval(async () => { simulateRobotMovement(); }, 1000);
         setSimulationRunning(running);
     };
 
@@ -206,7 +303,7 @@ const MainPanel = function(props) {
         setColorBlobPositionsUserInput("");
         setHazardPositionsUserInput("");
 
-        props.simulationData.updateFunctions.setrobotRotationDegree(0);
+        setRobotRotationDegree(0);
 
         return;
     };
@@ -214,9 +311,6 @@ const MainPanel = function(props) {
     useEffect(  () => { if (simulationRunning) {
         return  () => { clearInterval(simulationRunning); };
         }}, [simulationRunning]);
-
-    useEffect( () => {console.log("Changed Rotation", props.simulationData.robot.robotRotationDegree)},
-    [props.simulationData.robot.robotRotationDegree] );
 
     return (
 
@@ -231,10 +325,27 @@ const MainPanel = function(props) {
             />}
 
             {(renderPanel === "SimulatePanel") &&
-             <SimulatePanel areaSize={props.simulationData.areaSize}
-                            itemsToRender={props.simulationData.itemsToRender}
-                            robot={props.simulationData.robot}
-                            updateFunctions={props.simulationData.updateFunctions}
+             <SimulatePanel areaSize={areaSize}
+                            itemsToRender={itemsToRender}
+                            robot={{
+                                robotPosition: robotPosition,
+                                robotRotationDegree: robotRotationDegree,
+                                robotPath: robotPath,
+                                robotGoingCorrect: robotGoingCorrect,
+
+                                sensors: {
+                                    hazardSensorNorth: hazardSensorNorth,
+                                    colorBlobSensorNorth: colorBlobSensorNorth,
+                                    colorBlobSensorEast: colorBlobSensorEast,
+                                    colorBlobSensorWest: colorBlobSensorWest
+                                }
+                            }}
+                            updateFunctions={{
+                                setHazardSensorNorth: setHazardSensorNorth,
+                                setColorBlobSensorNorth: setColorBlobSensorNorth,
+                                setColorBlobSensorEast: setColorBlobSensorEast,
+                                setColorBlobSensorWest: setColorBlobSensorWest
+                            }}
 
             /> }
 
@@ -244,7 +355,7 @@ const MainPanel = function(props) {
                 {(renderButton === "GenerateAreaButton") &&
                     <GenerateAreaButton setRenderPanelState={setRenderPanelState}
                                         setRenderButtonState={setRenderButtonState}
-                                        setInitialData={props.simulationData.updateFunctions.setInitialData}
+                                        setInitialData={setInitialData}
                                         userInputData = {{areaSizeUserInput,
                                                           robotPositionUserInput,
                                                           importantPositionsUserInput,
@@ -275,3 +386,5 @@ const MainPanel = function(props) {
 
 
 export default MainPanel;
+
+
