@@ -19,8 +19,12 @@ const STTButton = function(props) {
     const convertedText = await SpeechHandler.GetConvertedText();
     props.setSTTResult(convertedText);
 
-    const userOrder  = Parser.parseUserSTT(convertedText);
-    APIRequestHandler.notifyUserUpdateViaSTT(userOrder);
+    const userOrder = Parser.parseUserSTT(convertedText);
+
+    if (userOrder) {
+      APIRequestHandler.notifyUserUpdateViaSTT(userOrder);
+    } else { alert("STT invalid. Please try again."); }
+    
 
     props.setSTTButtonState("Running");
   }
