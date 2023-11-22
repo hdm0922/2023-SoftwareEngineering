@@ -21,7 +21,8 @@ class RobotMovementInterface:
     
     def decision_Move_of_Type(self):
         if len(self._route_list) == 1:
-            return print("큐가 비었습니다")
+            print("큐가 비었습니다")
+            return (4, None, None)
         (ex_x, ex_y) = self._route_list[0]
         (re_x, re_y) = self.RequestRobotPosition()
         if ex_x == re_x and ex_y == re_y:

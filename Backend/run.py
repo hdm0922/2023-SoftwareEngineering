@@ -75,6 +75,16 @@ def home():
     return render_template('index.html', main_js_file_name=main_js_file_name,
                                          main_css_file_name=main_css_file_name)
 
+
+@app.route('/temp', methods=['POST'])
+def temp():  
+    if request.method == 'POST':
+        temp = None
+        response = {
+                "test" : temp
+                }
+        return jsonify(response)
+
 @app.route('/data-initialize', methods=['POST'])
 def process_data():
     if request.method == 'POST':
@@ -163,17 +173,24 @@ def requestmove():
 #        print(is_correctMove)
 #        print(motion)
 #        print(route_list)
+        if is_correctMove == 4:
+            return jsonify({'robotAction_robotMovement' : None,
+                    'robotAction_moveDistance' : None,
+                    'robotAction_isCorrectMove' : None,
+                    'robotPath' : None,
+                    'unknownObjects' : None})
+
         rereoute_list = tlts(route_list)
         rerobotAction_isCorrectMove = False
         rerobotAction_moveDistance = 1
         rerobotAction_robotMovement = motion
-        reunknownObjects = ""
+        reunknownObjects = None
         if is_correctMove == 0: rerobotAction_isCorrectMove = True
         
         if is_correctMove == 2: rerobotAction_moveDistance=2
         elif is_correctMove ==1: 
             rerobotAction_moveDistance=0
-        
+
         newPos = sensorInterpace.detectColor()
         newHaz = sensorInterpace.detectHazrd()
         if newHaz:
