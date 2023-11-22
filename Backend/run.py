@@ -184,7 +184,7 @@ def requestmove():
         rerobotAction_isCorrectMove = False
         rerobotAction_moveDistance = 1
         rerobotAction_robotMovement = motion
-        reunknownObjects = None
+        reunknownObjects = ""
         if is_correctMove == 0: rerobotAction_isCorrectMove = True
         
         if is_correctMove == 2: rerobotAction_moveDistance=2
