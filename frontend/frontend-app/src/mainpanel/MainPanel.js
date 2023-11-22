@@ -295,6 +295,7 @@ const MainPanel = function({ setSTTButtonState }) {
         setHazardPositionsUserInput("");
 
         setRobotRotationDegree(0);
+        setRobotGoingCorrect(true);
 
         return;
     };
