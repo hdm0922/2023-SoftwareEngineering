@@ -252,10 +252,13 @@ const MainPanel = function({ setSTTButtonState }) {
                     break;
             }
 
-            const unknownObjects = Parser.parseUnknownObjects(robotAction.unknownObjects);
-            handleUnknownObjects(unknownObjects);
     
-            if (robotAction.robotPath === "") {
+            if (robotAction.unknownObjects) {
+                const unknownObjects = Parser.parseUnknownObjects(robotAction.unknownObjects);
+                handleUnknownObjects(unknownObjects);
+            }
+    
+            if (robotAction.robotPath) {
     
                 const parsedRobotPath = Parser.parseStringToPairsArray( robotAction.robotPath );
                 setRobotPath( parsedRobotPath );
