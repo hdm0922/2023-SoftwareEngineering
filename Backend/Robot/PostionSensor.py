@@ -18,7 +18,7 @@ class PositionSensor:
     
     def RequestMove(self):
         i = randint(1, 100)
-        if i<81:
+        if i<61:
             print("possensor : 정상 운행")
             dPos = [(0,1), (1,0), (0,-1), (-1,0)]
             moving = dPos[self._direction]
@@ -28,7 +28,7 @@ class PositionSensor:
             print(self.get_position())
             return 0
             
-        elif i<91:
+        elif i<71:
             print("possensor : 움직이지 않은 오류")
             print(self.get_position())
             return 1

@@ -185,8 +185,10 @@ def requestmove():
         rerobotAction_moveDistance = 1
         rerobotAction_robotMovement = motion
         reunknownObjects = None
-        if is_correctMove == 0: rerobotAction_isCorrectMove = True
-        
+        if is_correctMove == 0: 
+            rerobotAction_isCorrectMove = True
+            if motion == "Rotate":
+                rerobotAction_moveDistance=0
         if is_correctMove == 2: rerobotAction_moveDistance=2
         elif is_correctMove ==1: 
             rerobotAction_moveDistance=0

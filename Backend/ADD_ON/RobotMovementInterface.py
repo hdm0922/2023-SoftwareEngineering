@@ -80,11 +80,11 @@ class RobotMovementInterface:
         print(realDirect)
         if realDirect != ddir:
             self._sim_instance.nextmotion("rotate")
-            return(3,"Rotate")
+            return(0,"Rotate")
         
         else:
             self._sim_instance.nextmotion("compensate")
-            return(3,"Compensate")
+            return(0,"Move")
         
 
 
