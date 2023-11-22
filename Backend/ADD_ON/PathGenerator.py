@@ -3,7 +3,7 @@ sys.path.append('.')
 from Backend.OperationArea.OperationArea import OperationArea
 from collections import deque
 from Backend.ADD_ON.RobotMovementInterface import RobotMovementInterface
-from Backend.test1.test1 import *
+from Backend.pathalgorithm.pathalgorithm import *
 
 class PathGenerator:
     def __init__(self,_robot_Movement_Interface = RobotMovementInterface() , _initial_robot_position=[0,0]
