@@ -27,9 +27,7 @@ class APIRequestHandler {
     // 웹서버에게 사용자의 STT명령을 전달한다.
     static async notifyUserUpdateViaSTT(userOrder) {
 
-        console.log(userOrder);
-
-        const response = await fetch('/handle-stt', {
+        const response = await fetch('/stt-handle', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
