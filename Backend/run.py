@@ -186,6 +186,15 @@ def requestmove():
         reunknownObjects = None
         if is_correctMove == 0: 
             rerobotAction_isCorrectMove = True
+            (nowX, nowY) = SIM_Instance._position_sensor.get_position()
+            if (nowX, nowY) in areaInterface._operation_area_instance._colorblob_positions:
+                areaInterface._operation_area_instance._colorblob_positions.remove((nowX,nowY))
+                print("방문 해서 맵에서 삭제", nowX, nowY)
+                print(areaInterface._operation_area_instance._colorblob_positions)
+            elif (nowX, nowY) in areaInterface._operation_area_instance._important_positions:
+                areaInterface._operation_area_instance._important_positions.remove((nowX,nowY))
+                print("방문 해서 맵에서 삭제", nowX, nowY)
+                print(areaInterface._operation_area_instance._important_positions)
             if motion == "Rotate":
                 rerobotAction_moveDistance=0
         if is_correctMove == 2: rerobotAction_moveDistance=2
@@ -197,6 +206,8 @@ def requestmove():
         if newHaz:
             newPos.append(newHaz)
         print(newPos)
+        
+        
         if newPos:
             reunknownObjects = ""
             for i in newPos:
