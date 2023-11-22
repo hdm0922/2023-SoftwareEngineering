@@ -33,10 +33,10 @@ class Parser {
         
         return isValidSTT ?
         {
-            order   :   inputString.slice(0, -2),
-            x       :   x,
-            y       :   y
-        }           :   null
+            target   :   inputString.slice(0, -2),
+            x        :   x,
+            y        :   y
+        }            :   null;
 
     }
 
