@@ -135,9 +135,9 @@ def bfs(operationAreaSize, robotPosition, hazardPositions, importantPositions):
     return getTraversalOrder(operationAreaSize, robotPosition, hazardPositions, importantPositions)
 
 # Example usage:
-hazardPos = [(1, 1), (2, 2), (3, 3),(4,4), (5,5), (6,6), (7,7)]
-importPos = [(1, 2), (2, 1), (3, 4), (7,9), (8,1), (1,8)]
-opsize = (9, 9)
+#hazardPos = [(1, 1), (2, 2), (3, 3),(4,4), (5,5), (6,6), (7,7)]
+#importPos = [(1, 2), (2, 1), (3, 4), (7,9), (8,1), (1,8)]
+##opsize = (9, 9)
 startPos = (0, 0)
 
 # print( getTraversalOrder(opsize, opsize, hazardPos, importPos) )
