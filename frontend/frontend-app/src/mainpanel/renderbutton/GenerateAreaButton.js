@@ -61,7 +61,6 @@ const GenerateAreaButton = function(props) {
         const fetchedRobotPath = APIRequestHandler.fetchRobotPathViaInitialization(dataToSend);
 
         fetchedRobotPath.then(fetchedData => {
-            console.log(fetchedData.robotPath);
             initialData.robotPath = fetchedData.robotPath;
         }).then(() => {
             props.setInitialData(initialData);

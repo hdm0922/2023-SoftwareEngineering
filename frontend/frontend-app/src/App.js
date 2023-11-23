@@ -11,59 +11,17 @@ import { FaCircle } from "react-icons/fa";
 
 
 
-
+// import Parser from './Parser';
 // const App = function() {
 
-//     const [rotationDegree, setRotationDegree] = useState(0);
-//     const rotationDegreeReference = useRef(rotationDegree);
-
-//     // rotationDegree 를 90 증가시킵니다.
-//     const rotate = function() {
-//         setRotationDegree(prev => (prev + 90) % 360);
-//         console.log( "Rotate Should Be = ", rotationDegree );
+//     const click = function() {
+//         const Message = "위험지역 둘 하나"
+//         console.log( Parser.parseUserSTT(Message) );
 //     };
 
+//     return <button onClick={click}>CLICK</button>
 
-//     let iter = 0;
-//     const simulate = function() {
-
-
-//         switch(iter % 2) {
-//             case 0: rotate(); break;
-//             case 1: console.log("Moving in direction : ", rotationDegreeReference.current); break;
-//             default: break;
-//         }
-//         iter++;
-//         return;
-//     };
-
-//     // // Resume버튼을 누르면 1초마다 simulate를 호출합니다.
-//     const play = function() {
-//         // setInterval(() => { simulate(); }, 1000);
-//     }
-
-
-//     useEffect(() => {
-//         rotationDegreeReference.current = rotationDegree;
-//     }, [rotationDegree]);
-
-//     useEffect(() => {
-//         const intervalId = setInterval(simulate, 1000);
-
-//         return () => {
-//         clearInterval(intervalId);
-//         };
-//     }, []); // [] ensures this effect runs only once
-
-
-//     return (
-//         <div >
-//             <button onClick={play}> {rotationDegree} </button>
-//         </div>
-//     );
-// }
-
-
+// };
 
 const App = () => {
 

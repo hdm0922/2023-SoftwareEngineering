@@ -7,7 +7,7 @@ import Parser from '../Parser';
 
 /*
 props = { setSTTResult: Function, setSTTButtonState: Function,
-          buttonDisabled: Boolean, XupdateSimulationDataViaSTT: Function };
+          buttonDisabled: Boolean };
 */
 const STTButton = function(props) {
 
@@ -21,6 +21,7 @@ const STTButton = function(props) {
 
     const userOrder = Parser.parseUserSTT(convertedText);
 
+    console.log( userOrder );
     if (userOrder) {
       APIRequestHandler.notifyUserUpdateViaSTT(userOrder);
     } else { alert("STT invalid. Please try again."); }
