@@ -60,9 +60,9 @@ class Parser {
         if ( !parts ) return null;
 
         const parsedResult = {
-            type    :   null,
-            x       :   -1,
-            y       :   -1
+            target    :   null,
+            x         :   -1,
+            y         :   -1
         };
 
 
@@ -89,12 +89,12 @@ class Parser {
 
 
         if ( checkMatch(parts[0], importantPositionExpectations) ) {
-            parsedResult.type = "중요지점";
+            parsedResult.target = "중요지점";
         }
 
 
         if ( checkMatch(parts[0], hazardExpectations) ) {
-            parsedResult.type = "위험지역";
+            parsedResult.target = "위험지역";
         }
     
     
@@ -103,7 +103,7 @@ class Parser {
             if ( checkMatch(parts[2], numberExpectations[iter]) ) { parsedResult.y = iter; }
         }
 
-        return ( parsedResult.type       &&
+        return ( parsedResult.target       &&
                ( parsedResult.x !== -1 ) && 
                ( parsedResult.y !== -1 )) ?
                  parsedResult : null;
