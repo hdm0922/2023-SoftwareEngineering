@@ -12,6 +12,8 @@ const GenerateAreaButton = function(props) {
 
     const onEventButtonClicked = function() {
 
+
+
         const initialData = {
             areaSize            : Parser.parseOnlyNumbers( "" + props.userInputData.areaSizeUserInput ),
             robotPosition       : Parser.parseOnlyNumbers( "" + props.userInputData.robotPositionUserInput ),
@@ -19,6 +21,9 @@ const GenerateAreaButton = function(props) {
             colorBlobPositions  : Parser.parseOnlyNumbers( "" + props.userInputData.colorBlobPositionsUserInput ),
             hazardPositions     : Parser.parseOnlyNumbers( "" + props.userInputData.hazardPositionsUserInput ),
         };
+
+
+
 
         // check input valid
 
@@ -43,28 +48,87 @@ const GenerateAreaButton = function(props) {
             return;
         }
 
- 
-        // make data to send
-        const dataToSend = {};
-        dataToSend.areaSize                 = Parser.parseInputToExpectedString(initialData.areaSize);
-        dataToSend.robotPosition            = Parser.parseInputToExpectedString(initialData.robotPosition);
-        if (initialData.importantPositions !== "") {
-            dataToSend.importantPositions   = Parser.parseInputToExpectedString(initialData.importantPositions);
-        }
-        if (initialData.colorBlobPositions !== "") {
-            dataToSend.colorBlobPositions   = Parser.parseInputToExpectedString(initialData.colorBlobPositions);
-        }
-        if (initialData.hazardPositions !== "") {
-            dataToSend.hazardPositions      = Parser.parseInputToExpectedString(initialData.hazardPositions);
+
+
+
+
+
+        // check index error
+
+        const isInBoundary = function(areaSize, position) {
+            return (0 <= position.x) && (position.x <= areaSize.x)
+            &&     (0 <= position.y) && (position.y <= areaSize.y);
+        };
+
+        const initialDataParsed = {
+            areaSize            :   Parser.parseStringToPairsArray(initialData.areaSize)[0],
+            robotPosition       :   Parser.parseStringToPairsArray(initialData.robotPosition)[0],
+            importantPositions  :   Parser.parseStringToPairsArray(initialData.importantPositions),
+            colorBlobPositions  :   Parser.parseStringToPairsArray(initialData.colorBlobPositions),
+            hazardPositions     :   Parser.parseStringToPairsArray(initialData.hazardPositions)
+        };
+
+        let allPositionsValid = true;
+        if ( !isInBoundary(initialDataParsed.areaSize,
+                           initialDataParsed.robotPosition) ) { allPositionsValid = false; }
+
+        for (let iter=0; iter<initialDataParsed.importantPositions.length; iter++) {
+            if ( isInBoundary(initialDataParsed.areaSize,
+                              initialDataParsed.importantPositions[iter]) ) continue;
+            allPositionsValid = false;
         }
 
+        for (let iter=0; iter<initialDataParsed.colorBlobPositions.length; iter++) {
+            if ( isInBoundary(initialDataParsed.areaSize,
+                              initialDataParsed.colorBlobPositions[iter]) ) continue;
+            allPositionsValid = false;
+        }
+
+        for (let iter=0; iter<initialDataParsed.hazardPositions.length; iter++) {
+            if ( isInBoundary(initialDataParsed.areaSize,
+                              initialDataParsed.hazardPositions[iter]) ) continue;
+            allPositionsValid = false;
+        }
+
+        if ( !allPositionsValid ) {
+            alert("Invalid Position Detected. Try Again.");
+            return;
+        }
+
+
+        // make data to send
+        const dataToSend = {};
+        dataToSend.areaSize = Parser.parseInputToExpectedString(initialData.areaSize);
+        dataToSend.robotPosition = Parser.parseInputToExpectedString(initialData.robotPosition);
+
+        if (initialData.importantPositions !== "") {
+            dataToSend.importantPositions = Parser.parseInputToExpectedString(initialData.importantPositions);
+        }
+
+        if (initialData.colorBlobPositions !== "") {
+            dataToSend.colorBlobPositions = Parser.parseInputToExpectedString(initialData.colorBlobPositions);
+        }
+
+        if (initialData.hazardPositions !== "") {
+            dataToSend.hazardPositions = Parser.parseInputToExpectedString(initialData.hazardPositions);
+        }
+
+
+
+        // communicate with server
         const fetchedRobotPath = APIRequestHandler.fetchRobotPathViaInitialization(dataToSend);
 
         fetchedRobotPath.then(fetchedData => {
-            initialData.robotPath = fetchedData.robotPath;
+
+            initialDataParsed.robotPath =
+                Parser.parseStringToPairsArray(fetchedData.robotPath);
+
         }).then(() => {
-            props.setInitialData(initialData);
+            props.setInitialData(initialDataParsed);
         });
+
+
+
 
 
         props.setRenderPanelState("SimulatePanel");
