@@ -18,26 +18,95 @@ class Parser {
         return resultString;
     }
 
+
     static parseUserSTT(userSTT) {
 
-        let inputString = "";
-        for (let iter=0; iter<userSTT.length; iter++) {
-            if ( userSTT[iter] === ' ' ) continue;
-            inputString += userSTT[iter];
+        const checkMatch = function(inputString, searchArray) {
+
+            for (let iter=0; iter<searchArray.length; iter++) {
+                if (searchArray[iter] === inputString) return true;
+            }
+    
+            return false;
+        };
+
+        const parseWords = function(inputString) {
+
+            const typeFixedString = ( inputString[2] === ' ' ) ?
+                ( userSTT.slice(0, 2) + userSTT.slice(3, undefined) ) : inputString
+
+
+            const parsedParts = typeFixedString.trim().split(/\s+/);
+            const parsedWords = [ parsedParts[0] ];
+
+            if ( parsedParts.length < 2 ) return null;
+
+            if ( (parsedParts.length === 2) && ( parsedParts[1].length === 2 ) ) {
+                parsedWords.push( parsedParts[1][0] );
+                parsedWords.push( parsedParts[1][1] );
+            }
+
+            if ( parsedParts.length === 3 ) {
+                parsedWords.push( parsedParts[1] );
+                parsedWords.push( parsedParts[2] );
+            }
+
+            return parsedWords;
+        };
+
+        
+        const parts = parseWords(userSTT);
+
+        if ( !parts ) return null;
+
+        const parsedResult = {
+            type    :   null,
+            x       :   -1,
+            y       :   -1
+        };
+
+
+
+        const hazardExpectations =
+            ["위험지역", "위험지점", "위명지역", "위명지점", "위염지역", "위염지점",
+             "위암지역", "위암지점", "귀염지역", "귀염지점", "위암제어", "위염제어"];
+
+        const importantPositionExpectations =
+            ["중요지역", "중요지점", "중요시설", "중국지점"];
+
+        const numberExpectations = [
+            ['0', "영", "공", "녕", "령", "명", "염", "경", "연", "용"],
+            ['1', "일", "하나"],
+            ['2', "이", "둘", "리", "미"],
+            ['3', "삼", "셋", "산", "색"],
+            ['4', "사", "넷", "냇"],
+            ['5', "오", "다섯", "다섭", "호", "어"],
+            ['6', "육", "여섯", "여섭", "역", "룹"],
+            ['7', "칠", "일곱"],
+            ['8', "팔", "여덟", "여덜", "빨"],
+            ['9', "구", "아홉", "그"]
+        ];
+
+
+        if ( checkMatch(parts[0], importantPositionExpectations) ) {
+            parsedResult.type = "중요지점";
         }
 
-        const x = Number( inputString[inputString.length - 2] );
-        const y = Number( inputString[inputString.length - 1] );
 
-        const  isValidSTT = (!isNaN(x)) && (!isNaN(y));
-        
-        return isValidSTT ?
-        {
-            target   :   inputString.slice(0, -2),
-            x        :   x,
-            y        :   y
-        }            :   null;
+        if ( checkMatch(parts[0], hazardExpectations) ) {
+            parsedResult.type = "위험지역";
+        }
+    
+    
+        for (let iter=0; iter<10; iter++) {
+            if ( checkMatch(parts[1], numberExpectations[iter]) ) { parsedResult.x = iter; }
+            if ( checkMatch(parts[2], numberExpectations[iter]) ) { parsedResult.y = iter; }
+        }
 
+        return ( parsedResult.type       &&
+               ( parsedResult.x !== -1 ) && 
+               ( parsedResult.y !== -1 )) ?
+                 parsedResult : null;
     }
 
 
