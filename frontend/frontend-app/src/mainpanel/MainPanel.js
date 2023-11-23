@@ -16,44 +16,6 @@ import Helper from "../Helper";
 
 
 /*
-                       simulationData           =   {{
-
-                            areaSize: areaSize,
-                            itemsToRender: itemsToRender,
-
-                            robot: {
-                                robotPosition: robotPosition,
-                                robotRotationDegree: robotRotationDegree,
-                                robotPath: robotPath,
-                                robotGoingCorrect: robotGoingCorrect,
-
-                                sensors: {
-                                    hazardSensorNorth: hazardSensorNorth,
-                                    colorBlobSensorNorth: colorBlobSensorNorth,
-                                    colorBlobSensorEast: colorBlobSensorEast,
-                                    colorBlobSensorWest: colorBlobSensorWest
-                                }
-                            },
-
-                            updateFunctions: {
-                                setInitialData: setInitialData,
-                                updateItemsToRender: updateItemsToRender,
-
-                                setRobotRotationDegree: setRobotRotationDegree,
-                                setRobotPosition: setRobotPosition,
-                                setRobotPath: setRobotPath,
-                                setRobotGoingCorrect: setRobotGoingCorrect,
-
-                                setHazardSensorNorth: setHazardSensorNorth,
-                                setColorBlobSensorNorth: setColorBlobSensorNorth,
-                                setColorBlobSensorEast: setColorBlobSensorEast,
-                                setColorBlobSensorWest: setColorBlobSensorWest
-                            }
-
-                       }}
- */
-
-/*
 props = { setSTTButtonState: Function, simulationData: Object }
 
 simulationData = { areaSize: Object, robot: Object, itemsToRender: Array2D<Object>,
@@ -109,15 +71,9 @@ const MainPanel = function({ setSTTButtonState }) {
 
     const setInitialData = function(initialData) {
 
-        const inputAreaSize             = Parser.parseStringToPairsArray(initialData.areaSize);
-        const initRobotPosition         = Parser.parseStringToPairsArray(initialData.robotPosition);
-        const initRobotPath             = Parser.parseStringToPairsArray(initialData.robotPath);
-        const initHazardPositions       = Parser.parseStringToPairsArray(initialData.hazardPositions);
-        const initImportantPositions    = Parser.parseStringToPairsArray(initialData.importantPositions);
-        const initColorBlobPositions    = Parser.parseStringToPairsArray(initialData.colorBlobPositions);
-
-        const initializedAreaSize       = { x: (inputAreaSize[0].x + 1), y: (inputAreaSize[0].y + 1) };
-        const initItemsToRender         = Helper.Array2D(initializedAreaSize.x, initializedAreaSize.y, '');
+        const initializedAreaSize  = { x: (initialData.areaSize.x + 1),
+                                       y: (initialData.areaSize.y + 1) };
+        const initItemsToRender    = Helper.Array2D(initializedAreaSize.x, initializedAreaSize.y, '');
 
         const initializeRenderItems = (dataArray, renderType) => {
             for (let iter=0; iter<dataArray.length; iter++) {
@@ -126,15 +82,15 @@ const MainPanel = function({ setSTTButtonState }) {
             }
         }
 
-        initializeRenderItems(initHazardPositions, "Hazard");
-        initializeRenderItems(initImportantPositions, "Important");
-        initializeRenderItems(initColorBlobPositions, "ColorBlob");
-        initializeRenderItems(initRobotPosition, "Robot");
+        initializeRenderItems(initialData.importantPositions, "Important");
+        initializeRenderItems(initialData.colorBlobPositions, "ColorBlob");
+        initializeRenderItems(initialData.hazardPositions, "Hazard");
+        initializeRenderItems([initialData.robotPosition], "Robot");
 
 
         setAreaSize( initializedAreaSize );
-        setRobotPosition( initRobotPosition[0] );
-        setRobotPath( initRobotPath );
+        setRobotPosition( initialData.robotPosition );
+        setRobotPath( initialData.robotPath );
         setItemsToRender( initItemsToRender );
     };
 
