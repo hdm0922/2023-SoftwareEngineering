@@ -32,9 +32,7 @@ class PathGenerator:
     def RequestRobotPosition(self):
         self.robot_position = self._robotMovementInterface.RequestRobotPosition()
         return self.robot_position
-        
-    def GetNextPosition(self):
-        print("GetNextPostion test")
+
         
 
 

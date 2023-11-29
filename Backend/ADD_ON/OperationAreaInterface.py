@@ -31,8 +31,8 @@ class OperationAreaInterface:
         self._operation_area_instance.add_to_important_positions(new_position)
     def add_to_hazard_positions(self, new_position):
         self._operation_area_instance.add_to_hazard_positions(new_position)
-    def add_to_colorblob_positions(self, new_colorblob_positions):
-        self._operation_area_instance.add_to_colorblob_positions(new_colorblob_positions)    
+    def add_to_colorblob_positions(self, new_positions):
+        self._operation_area_instance.add_to_colorblob_positions(new_positions)    
         
     def RequestToGenerate(self):
         # Update the operation_area_instance field of path_generator_instance
