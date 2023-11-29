@@ -1,7 +1,7 @@
 from collections import deque
 
-def is_valid(x, y, opsize):
-    return 0 <= x < opsize[0] and 0 <= y < opsize[1]
+#def is_valid(x, y, opsize):
+#    return 0 <= x < opsize[0] and 0 <= y < opsize[1]
 
 def is_valid2(x, y, opsize, hazardPos, visited):
     opwidth, opheight = opsize
