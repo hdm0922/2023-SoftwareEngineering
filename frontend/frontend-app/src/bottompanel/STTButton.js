@@ -7,7 +7,7 @@ import Parser from '../Parser';
 
 /*
 props = { setSTTResult: Function, setSTTButtonState: Function,
-          buttonDisabled: Boolean };
+          buttonDisabled: Boolean, updateItemsToRender: Function };
 */
 const STTButton = function(props) {
 
@@ -24,6 +24,12 @@ const STTButton = function(props) {
     console.log( userOrder );
     if (userOrder) {
       APIRequestHandler.notifyUserUpdateViaSTT(userOrder);
+
+      let item = '';
+        if ( userOrder.target === "중요지점" ) { item = "ColorBlob"; }
+        if ( userOrder.target === "위험지역" ) { item = "Hazard"; }
+
+      props.updateItemsToRender(item, userOrder.x, userOrder.y, false);
     } else { alert("STT invalid. Please try again."); }
     
 
