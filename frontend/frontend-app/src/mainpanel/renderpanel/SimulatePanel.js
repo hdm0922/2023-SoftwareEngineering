@@ -185,17 +185,17 @@ const SimulatePanel = function(props) {
 
         props.updateFunctions.setHazardSensorNorth(
             isInBoundary(northPosition, props.areaSize) &&
-            (itemsToRender[ northPosition.y ][ northPosition.x ] === "Hazard")
+            (itemsToRender[ northPosition.y ][ northPosition.x ].item === "Hazard")
         );
 
         props.updateFunctions.setColorBlobSensorNorth(
             isInBoundary(northPosition, props.areaSize) &&
-            (itemsToRender[ northPosition.y ][ northPosition.x ] === "ColorBlob")            
+            (itemsToRender[ northPosition.y ][ northPosition.x ].item === "ColorBlob")            
         );
 
         props.updateFunctions.setColorBlobSensorEast(
             isInBoundary(eastPosition, props.areaSize) &&
-            (itemsToRender[ eastPosition.y ][ eastPosition.x ] === "ColorBlob")               
+            (itemsToRender[ eastPosition.y ][ eastPosition.x ].item === "ColorBlob")               
         );
 
         props.updateFunctions.setColorBlobSensorWest(
