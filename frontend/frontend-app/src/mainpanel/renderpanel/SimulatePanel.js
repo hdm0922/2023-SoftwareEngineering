@@ -72,17 +72,17 @@ const SimulatePanel = function(props) {
 
     const renderItems = function(itemsToRender, robotRotationDegree, robotGoingCorrect) {
 
-        const renderIcon = function(itemString) {
+        const renderIcon = function(renderObject) {
 
-            switch (itemString) {
+            switch (renderObject.item) {
 
                 case "Robot"        : return <RiRobot2Line style={{
                                                                 transform: "rotate(" + robotRotationDegree + "deg)",
                                                                 color: (robotGoingCorrect ? "black" : "purple")
                                                             }} />;
 
-                case "Hazard"       : return <MdOutlineDangerous className="hazardIcon"/>;
-                case "ColorBlob"    : return <GiBurstBlob className="colorBlobIcon"/>
+                case "Hazard"       : return <MdOutlineDangerous className="hazardIcon" style={{ color: (renderObject.visible ? "black" : "gray" )}}/>;
+                case "ColorBlob"    : return <GiBurstBlob className="colorBlobIcon" style={{ color: (renderObject.visible ? "purple" : "gray" )}}/>
                 case "Important"    : return <FaStar className="importantIcon" />;
                 default             : return null;
             }

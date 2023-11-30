@@ -104,7 +104,7 @@ class Parser {
             if ( checkMatch(parts[2], numberExpectations[iter]) ) { parsedResult.y = iter; }
         }
 
-        return ( parsedResult.target       &&
+        return ( parsedResult.target     &&
                ( parsedResult.x !== -1 ) && 
                ( parsedResult.y !== -1 )) ?
                  parsedResult : null;
@@ -130,15 +130,15 @@ class Parser {
 
         const SIZE = Number( dataString.length/3 );
 
-        const pairsArray = [];
+        const objectsArray = [];
         for (let iter=0; iter<SIZE; iter++) {
             const itemType      = String( dataString[ (iter * 3)    ] );
             const destinationX  = Number( dataString[ (iter * 3) + 1] );
             const destinationY  = Number( dataString[ (iter * 3) + 2] );
-            pairsArray.push({ item: itemType, x: destinationX, y: destinationY});
+            objectsArray.push({ item: itemType, x: destinationX, y: destinationY});
         }
 
-        return pairsArray;
+        return objectsArray;
     }
 
     static parseInputToExpectedString(dataString) {
