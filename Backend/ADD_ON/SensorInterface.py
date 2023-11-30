@@ -47,7 +47,6 @@ class SensorInterface:
         return relist
     
     def detectNnotify(self, operationareainterface, newPos = []):
-        operationareainterface.testfunction()
         if newPos:
             for i in newPos:
                 if i[0] == 'C':
